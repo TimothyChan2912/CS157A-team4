@@ -1,0 +1,118 @@
+body {
+  background: linear-gradient(135deg, #f8f9fa 0%, #fff5f0 100%);
+  min-height: 100vh;
+}
+
+.form-container {
+  padding-top: 80px;
+}
+
+form {
+  max-width: 420px;
+  margin: 5px auto;
+  padding: 30px;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 60, 56, 0.1);
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+form input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box; 
+  margin-bottom: 10px;
+  padding: 10px 16px;
+  border: 2px solid #e8ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  color: #2c3e50;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #FF3C38;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 60, 56, 0.08);
+  transform: translateY(-1px);
+}
+
+form input[type="submit"] {
+  background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+  color: #ffffff;
+  border: none;
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+}
+
+form input[type="submit"]:hover {
+  background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+  color: #2c3e50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+}
+
+.header-container h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.password-wrapper input {
+  width: 100%;
+  margin-bottom: 0;
+  padding-right: 40px; 
+}
+
+#togglePassword {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #777;
+}
+
+#passwordRequirements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  max-width: 100%;
+}
+
+#passwordRequirements div {
+  color: #dc3545; 
+  transition: color 0.3s ease;
+}
