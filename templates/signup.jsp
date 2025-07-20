@@ -7,7 +7,7 @@
 <%
     String db = "team4";
     String user = "root"; //assumes database name is the same as username
-    String password = "PASSWORD"; //Replace with your MySQL password
+    String password = "GymShare"; //Replace with your MySQL password
 %>
 
 <head>
@@ -40,35 +40,35 @@
             <h1>Signup</h1>
         </div>
         <form action="signup.jsp" method="post">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
 
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
 
-            <label for ="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+                <label for ="username">Username:</label>
+                <input type="text" id="username" name="username" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
 
-            <label for="password">Password:</label>
-            <div class="password-wrapper">
-                <input type="password" id="password" name="password" required oninput="checkPasswordStrength()">
-                <button type="button" id="togglePassword" onclick="togglePasswordVisibility()">
-                    <i class="fas fa-eye" id="eyeIcon"></i>
-                </button>
-            </div>
+                <label for="password">Password:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" required oninput="checkPasswordStrength()">
+                    <button type="button" id="togglePassword" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
 
-            <div id="passwordRequirements">
-                <div id="lengthReq">At least 8 characters</div>
-                <div id="uppercaseReq">One uppercase letter (A-Z)</div>
-                <div id="lowercaseReq">One lowercase letter (a-z)</div>
-                <div id="numberReq">One number (0-9)</div>
-                <div id="specialReq">One special character (!@#$%^&*)</div>
-            </div>
+                <div id="passwordRequirements">
+                    <div id="lengthReq">At least 8 characters</div>
+                    <div id="uppercaseReq">One uppercase letter (A-Z)</div>
+                    <div id="lowercaseReq">One lowercase letter (a-z)</div>
+                    <div id="numberReq">One number (0-9)</div>
+                    <div id="specialReq">One special character (!@#$%^&*)</div>
+                </div>
 
-            <input type="submit" value="Signup">
+                <input type="submit" value="Signup">
         </form>
     </div>
 
@@ -128,7 +128,7 @@
                 stmt.close();
                 con.close();
                                 
-                response.sendRedirect("dashboard.jsp"); 
+                response.sendRedirect("guest_dashboard.jsp"); 
                 return; 
                 
             }

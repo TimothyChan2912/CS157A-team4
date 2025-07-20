@@ -6,7 +6,7 @@
 <%
     String db = "team4";
     String user = "root"; //assumes database name is the same as username
-    String password = "PASSWORD"; //Replace with your MySQL password
+    String password = "GymShare"; //Replace with your MySQL password
 %>
 
 <head>
@@ -66,15 +66,22 @@
                 String pass = request.getParameter("password");
 
                 java.sql.Statement stmt = con.createStatement();
-                String sql = "SELECT * FROM users WHERE email = '" + email + "' AND password = '" + pass + "'";
+                String sql = "SELECT User_ID, First_Name, Last_Name, Username, Email FROM Users WHERE Email = '" + email + "' AND Password = '" + pass + "'";
 
                 java.sql.ResultSet rs = stmt.executeQuery(sql);
-                if(rs.next()) {    
+                if(rs.next()) {
+                    session.setAttribute("userID", rs.getInt("User_ID"));
+                    session.setAttribute("firstName", rs.getString("First_Name"));
+                    session.setAttribute("lastName", rs.getString("Last_Name"));
+                    session.setAttribute("username", rs.getString("Username"));
+                    session.setAttribute("email", rs.getString("Email"));
+                    session.setAttribute("isLoggedIn", true);
+                    
                     rs.close();
                     stmt.close();
                     con.close();
                     
-                    response.sendRedirect("dashboard.jsp");
+                    response.sendRedirect("host_dashboard.jsp");
                     return;
                 } 
                 else {
