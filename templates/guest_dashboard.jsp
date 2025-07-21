@@ -23,7 +23,6 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
     <link rel="stylesheet" type="text/css" href="../static/dashboard.css">
     <title>Dashboard - Gym Share</title>
@@ -32,7 +31,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.html">Gym Share</a>
+            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -49,7 +48,7 @@
             <h1>Dashboard</h1>
         </div>
     </div>
-    
+
     <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
 
 

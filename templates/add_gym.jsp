@@ -25,14 +25,14 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../static/listings.css">
+    <link rel="stylesheet" type="text/css" href="../static/add_gym.css">
     <title>Dashboard - Gym Share</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.html">Gym Share</a>
+            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -46,12 +46,12 @@
 
     <div style="padding-top: 80px;">
         <div class="header-container">
-            <button class="back-button" onclick="window.location.href='host_dashboard.jsp'">Back</button>
-            <h1>Add Listing</h1>
+            <button class="back-button" onclick="location.href='my_gyms.jsp'">Back</button>
+            <h1>Add Gym</h1>
         </div>
 
-    
-        <form action="add_gyms.jsp" method="post">
+
+        <form action="add_gym.jsp" method="post">
             <label for="gymName">Gym Name:</label>
             <input type="text" id="gymName" name="gymName" required>
 
@@ -64,9 +64,7 @@
             <label for="price">Price:</label>
             <input type="number" id="price" name="price" required>
 
-            <input type="hidden" name="userID" value="<%= userID %>">
-
-            <input type="submit" value="Add Listing">
+            <input type="submit" value="Add Gym">
         </form>
     </div>
 
@@ -96,7 +94,7 @@
                 stmt.close();
                 con.close();
 
-                response.sendRedirect("host_dashboard.jsp");
+                response.sendRedirect("my_gyms.jsp");
                 return;
             }
             catch (SQLException e) {

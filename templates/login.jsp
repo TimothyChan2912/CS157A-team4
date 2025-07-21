@@ -23,7 +23,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.html">Gym Share</a>
+            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -66,9 +66,9 @@
                 String pass = request.getParameter("password");
 
                 java.sql.Statement stmt = con.createStatement();
-                String sql = "SELECT User_ID, First_Name, Last_Name, Username, Email FROM Users WHERE Email = '" + email + "' AND Password = '" + pass + "'";
+                String getUser = "SELECT User_ID, First_Name, Last_Name, Username, Email FROM Users WHERE Email = '" + email + "' AND Password = '" + pass + "'";
 
-                java.sql.ResultSet rs = stmt.executeQuery(sql);
+                java.sql.ResultSet rs = stmt.executeQuery(getUser);
                 if(rs.next()) {
                     session.setAttribute("userID", rs.getInt("User_ID"));
                     session.setAttribute("firstName", rs.getString("First_Name"));
@@ -76,13 +76,23 @@
                     session.setAttribute("username", rs.getString("Username"));
                     session.setAttribute("email", rs.getString("Email"));
                     session.setAttribute("isLoggedIn", true);
+
+                    String isGuest = "SELECT User_ID FROM Guests WHERE User_ID = " + rs.getInt("User_ID");
+                    java.sql.ResultSet guestCheck = stmt.executeQuery(isGuest);
+
+                    if(guestCheck.next()) {
+                        response.sendRedirect("guest_dashboard.jsp");
+                    } 
+                    else {
+                        response.sendRedirect("host_dashboard.jsp");
+                    }
+
                     
                     rs.close();
                     stmt.close();
                     con.close();
                     
-                    response.sendRedirect("host_dashboard.jsp");
-                    return;
+                
                 } 
                 else {
                     rs.close();
@@ -91,10 +101,6 @@
                     
                     out.println("<script>var loginError = true;</script>");
                 }
-
-                rs.close();
-                stmt.close();
-                con.close();
             }
             catch (SQLException e) {
                 out.println("SQLException: " + e.getMessage());
