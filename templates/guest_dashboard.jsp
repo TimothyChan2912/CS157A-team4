@@ -51,6 +51,7 @@
     </div>
 
     <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
+    <button class="guest-listings-button" onclick="location.href='guest_listings.jsp'">My Listings</button>
 
 
 </body>

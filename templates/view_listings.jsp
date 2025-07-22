@@ -72,7 +72,7 @@
                     String address = rs.getString("Address");
                     Double price = rs.getDouble("Price");
         %>
-                    <div class="gym-container" onclick="viewGymDetails(<%= gymID %>)" style="cursor: pointer;">
+                    <div class="gym-container" onclick="viewGymDetails(<%= gymID %>)" style="cursor: pointer; border-color: #FF3C38;">
                         <div class="gym-header">
                             <h2><%= gymName %></h2>
                         </div>

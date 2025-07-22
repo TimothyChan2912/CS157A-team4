@@ -161,6 +161,14 @@
                                         + "VALUES ('Pending', '" + requestDate + "', " + priceOffered + ", '" + paymentMethod + "', '" + bookingDate + "', '" + startTime + "', '" + endTime + "')";
                 stmt.executeUpdate(insertBooking);
 
+                String insertMakes = "INSERT INTO Makes (User_ID, Booking_ID) "
+                                        + "VALUES (" + userID + ", LAST_INSERT_ID())";
+                stmt.executeUpdate(insertMakes);
+
+                String insertHas = "INSERT INTO Has (Gym_ID, Booking_ID) "
+                                        + "VALUES (" + gymID + ", LAST_INSERT_ID())";
+                stmt.executeUpdate(insertHas);
+
                 stmt.close();
                 con.close();
 
