@@ -86,7 +86,7 @@
                         <div class="gym-details">
                             <p><strong>Description:</strong> <%= description %></p>
                             <p><strong>Address:</strong> <%= address %></p>
-                            <p><strong>Price:</strong> $<%= price %></p>
+                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) q%></p>
                         </div>
                     </div>
         <%  

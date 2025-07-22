@@ -1,0 +1,73 @@
+
+.header-container {
+    margin-bottom: 10px;
+}
+
+.gym-details-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.detail-section {
+    margin-bottom: 15px;
+}
+
+.detail-text {
+    margin: 3px 0;
+}
+
+.price-text {
+    margin: 3px 0;
+    color: #28a745;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.equipment-container {
+    margin-top: 5px;
+}
+
+.equipment-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.equipment-status {
+    font-weight: bold;
+}
+
+.amenities-container {
+    margin-top: 5px;
+}
+
+.amenity-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.booking-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.booking-button {
+    background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.booking-button:hover {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}

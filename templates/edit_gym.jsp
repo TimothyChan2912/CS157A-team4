@@ -258,7 +258,7 @@
 
                         Statement stmt = con.createStatement();
                         String retrieveFeatures = "SELECT Feature_Name" +
-                                                    " FROM Features JOIN Possesses USING (Feature_ID) " +
+                                                    "FROM Features JOIN Possesses USING (Feature_ID) " +
                                                     "WHERE Gym_ID = " + gymID;
                         ResultSet rsFeatures = stmt.executeQuery(retrieveFeatures);
 

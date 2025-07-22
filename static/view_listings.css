@@ -224,7 +224,6 @@ form input:focus, form textarea:focus {
   font-size: 1.2rem;
 }
 
-/* Responsive design for gym containers */
 @media (max-width: 1300px) {
   .gyms-container {
     max-width: 850px;

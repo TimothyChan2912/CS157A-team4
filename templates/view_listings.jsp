@@ -72,7 +72,7 @@
                     String address = rs.getString("Address");
                     Double price = rs.getDouble("Price");
         %>
-                    <div class="gym-container">
+                    <div class="gym-container" onclick="viewGymDetails(<%= gymID %>)" style="cursor: pointer;">
                         <div class="gym-header">
                             <h2><%= gymName %></h2>
                         </div>
@@ -96,4 +96,10 @@
         %>
         </div>
     </div>
+
+    <script>
+        function viewGymDetails(gymID) {
+            window.location.href = 'gym_details.jsp?gymID=' + gymID;
+        }
+    </script>
 </body>
