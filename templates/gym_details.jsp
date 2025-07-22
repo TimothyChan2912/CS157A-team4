@@ -101,7 +101,7 @@
                                 </div>
                                 
                                 <div class="detail-section">
-                                    <strong>Price for session:</strong>
+                                    <strong>Hourly Rate:</strong>
                                     <p class="price-text">$<%= String.format("%.2f", price) %></p>
                                 </div>
 
@@ -171,7 +171,7 @@
 
     <script>
         function requestBooking(gymID) {
-            alert('Booking request for Gym ID: ' + gymID + '\nThis feature will be implemented soon!');
+            window.location.href = 'request_booking.jsp?gymID=' + gymID;
         }
     </script>
 </body>
