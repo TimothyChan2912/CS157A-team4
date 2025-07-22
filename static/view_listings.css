@@ -1,0 +1,253 @@
+body {
+  background: linear-gradient(135deg, #f8f9fa 0%, #fff5f0 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.main-content {
+  padding-top: 100px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.gyms-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.back-button {
+  position: absolute;
+  top: 110px;
+  left: 20px;
+  background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+  z-index: 1000;
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+  color: #2c3e50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.header-container h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 20px 0;
+  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-container .add-button {
+  margin: 0;
+}
+
+form {
+  max-width: 500px;
+  margin: 0px auto;
+  padding: 20px;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 60, 56, 0.1);
+}
+
+form label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+form label:first-of-type {
+  margin-top: 0;
+}
+
+form input, form textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  padding: 12px 16px;
+  border: 2px solid #e8ecef;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  color: #2c3e50;
+  font-family: inherit;
+}
+
+form textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+form input:focus, form textarea:focus {
+  outline: none;
+  border-color: #FF3C38;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 60, 56, 0.08);
+  transform: translateY(-1px);
+}
+
+.save-button {
+  background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+}
+
+.save-button:hover {
+  background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+  color: #2c3e50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+}
+
+.gym-container {
+  width: 400px;
+  flex: 0 0 400px;
+  margin: 0;
+  padding: 25px;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 60, 56, 0.1);
+}
+
+.gym-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.gym-header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.gym-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.add-button, .edit-button, .delete-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.gym-details {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-item strong {
+  color: #2c3e50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.detail-item p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.detail-item .price {
+  color: #FF3C38;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* Responsive design for gym containers */
+@media (max-width: 1300px) {
+  .gyms-container {
+    max-width: 850px;
+  }
+}
+
+@media (max-width: 900px) {
+  .gyms-container {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 500px) {
+  .gym-container {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+  
+  .gyms-container {
+    padding: 0 10px;
+  }
+  
+  .back-button {
+    left: 10px;
+  }
+}
