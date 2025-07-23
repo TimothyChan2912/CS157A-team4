@@ -50,4 +50,4 @@
     </div>
 
     <button class="my-gyms-button" onclick="location.href='my_gyms.jsp'">My Gyms</button>
-    <button class="bookings-button" onclick="location.href='view_requested_bookings.jsp'">View Requested Bookings</button>
+    <button class="bookings-button" onclick="location.href='view_requested_bookings.jsp'">View Booking Requests</button>
