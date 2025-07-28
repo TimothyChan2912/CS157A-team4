@@ -1,0 +1,1 @@
+SELECT * FROM team4.Gyms;
