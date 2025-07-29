@@ -33,6 +33,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
             <a class="navbar-brand" href="home.jsp">Gym Share</a>
+            <div class="navbar-title">
+                <h1>Dashboard</h1>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -43,15 +46,12 @@
         </div>
     </nav>
 
-    <div style="padding-top: 80px;">
-        <div class="header-container">
-            <div></div>
-            <h1>Dashboard</h1>
-        </div>
-    </div>
+    <div style="padding-top: 80px;"></div>
 
-    <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
-    <button class="guest-listings-button" onclick="location.href='guest_listings.jsp'">My Listings</button>
+    <div class="guest-buttons">
+        <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
+        <button class="guest-listings-button" onclick="location.href='guest_bookings.jsp'">My Bookings</button>
+    </div>
 
 
 </body>

@@ -29,6 +29,9 @@
         String deleteOwns = "DELETE FROM Owns WHERE Gym_ID = " + gymID + " AND User_ID = " + userID;
         stmt.execute(deleteOwns);
 
+        String deleteHas = "DELETE FROM Has WHERE Gym_ID = " + gymID;
+        stmt.execute(deleteHas);
+
         stmt.close();
         con.close();
 

@@ -37,6 +37,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
             <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <div class="navbar-title">
+                <h1>My Gyms</h1>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -50,7 +53,6 @@
     <div class="main-content">
         <button class="back-button" onclick="location.href='host_dashboard.jsp'">Back to Dashboard</button>
         <div class="header-container">
-            <h1>My Gyms</h1>
             <button class="add-button" onclick="location.href='add_gym.jsp'">Add New Gym</button>
         </div>
 
@@ -86,7 +88,7 @@
                         <div class="gym-details">
                             <p><strong>Description:</strong> <%= description %></p>
                             <p><strong>Address:</strong> <%= address %></p>
-                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) q%></p>
+                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) %></p>
                         </div>
                     </div>
         <%  

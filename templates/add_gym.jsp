@@ -33,6 +33,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
             <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <div class="navbar-title">
+                <h1>Add Gym</h1>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -47,7 +50,6 @@
     <div style="padding-top: 80px;">
         <div class="header-container">
             <button class="back-button" onclick="location.href='my_gyms.jsp'">Back</button>
-            <h1>Add Gym</h1>
         </div>
 
 
