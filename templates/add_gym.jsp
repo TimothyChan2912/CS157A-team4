@@ -47,11 +47,10 @@
     </nav>
 
 
-    <div style="padding-top: 80px;">
+    <div style="padding-top: 90px; max-width: 800px; margin: 0 auto; padding-left: 20px; padding-right: 20px;">
         <div class="header-container">
             <button class="back-button" onclick="location.href='my_gyms.jsp'">Back</button>
         </div>
-
 
         <form action="add_gym.jsp" method="post">
             <label for="gymName">Gym Name:</label>

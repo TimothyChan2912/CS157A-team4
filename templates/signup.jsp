@@ -1,12 +1,20 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.security.spec.KeySpec" %>
+<%@ page import="java.util.Base64" %>
+<%@ page import="javax.crypto.SecretKeyFactory" %>
+<%@ page import="javax.crypto.spec.PBEKeySpec" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<% String db="team4";
-String user="root"; //assumes database name is the same as username
-String password="GymShare"; //Replace with your MySQL password 
+<% 
+    String db="team4";
+    String user="root"; //assumes database name is the same as username
+    String password="GymShare"; //Replace with your MySQL password
+    int ITERATIONS = 100000;
+    int KEY_LENGTH = 256;
+    byte[] salt = "hello".getBytes(); 
 %>
 
 <head>
@@ -142,6 +150,13 @@ String password="GymShare"; //Replace with your MySQL password
                 return;
             }
 
+           
+
+            KeySpec spec = new PBEKeySpec(pass.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            byte[] hash = factory.generateSecret(spec).getEncoded();
+            pass = Base64.getEncoder().encodeToString(hash);
+            
             java.util.Date now = new java.util.Date();
             java.sql.Date sqlDate = new java.sql.Date(now.getTime());
 
@@ -150,13 +165,13 @@ String password="GymShare"; //Replace with your MySQL password
                                 + "VALUES ('" + firstName + "', '" + lastName + "', '" + email + "', '" + username + "', '" + pass + "', '" + sqlDate + "')";
             stmt.execute(insertUser);
 
-            if(request.getParameter("role").equals("host")) {
+            if (request.getParameter("role").equals("host")) {
                 String insertHost = "INSERT INTO Hosts (User_ID) "
                                     + "VALUES (LAST_INSERT_ID())";
                 stmt.execute(insertHost);
             }
                                 
-            if(request.getParameter("role").equals("guest")) {
+            if (request.getParameter("role").equals("guest")) {
                 String insertGuest = "INSERT INTO Guests (User_ID) "
                                     + "VALUES (LAST_INSERT_ID())";
                 stmt.execute(insertGuest);
