@@ -1,8 +1,9 @@
 .header-container {
   position: relative;
-  text-align: center;
-  margin-bottom: 30px;
+  text-align: left;
+  margin-bottom: 15px;
   width: 100%;
+  padding: 10px 0;
 }
 
 .header-container h1 {
@@ -26,38 +27,33 @@ button.back-button,
   background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
   color: #ffffff;
   border: none;
-  padding: 12px 24px;
-  font-size: 0.95rem;
+  padding: 10px 20px;
+  font-size: 0.9rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin: 0;
-  display: block;
+  margin: 0 0 0 0;
+  display: inline-block;
   width: auto;
-  max-width: 150px;
+  max-width: 120px;
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
   text-decoration: none;
   outline: none;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
 }
 
 button.back-button:hover,
 .back-button:hover {
   background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
-  transform: translateY(-50%) translateY(-2px);
+  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
 }
 
 button.back-button:active,
 .back-button:active {
-  transform: translateY(-50%);
+  transform: translateY(0);
 }
 
 form {

@@ -159,15 +159,15 @@
                 Statement stmt = con.createStatement();
                 String insertBooking = "INSERT INTO Bookings (Status, Request_Date, Price_Offered, Payment_Method, Booking_Date, Start_Time, End_Time) "
                                         + "VALUES ('Pending', '" + requestDate + "', " + priceOffered + ", '" + paymentMethod + "', '" + bookingDate + "', '" + startTime + "', '" + endTime + "')";
-                stmt.executeUpdate(insertBooking);
+                stmt.execute(insertBooking);
 
                 String insertMakes = "INSERT INTO Makes (User_ID, Booking_ID) "
                                         + "VALUES (" + userID + ", LAST_INSERT_ID())";
-                stmt.executeUpdate(insertMakes);
+                stmt.execute(insertMakes);
 
                 String insertHas = "INSERT INTO Has (Gym_ID, Booking_ID) "
                                         + "VALUES (" + gymID + ", LAST_INSERT_ID())";
-                stmt.executeUpdate(insertHas);
+                stmt.execute(insertHas);
 
                 stmt.close();
                 con.close();

@@ -1,4 +1,8 @@
 <%@ page import="java.sql.*"%>
+<%@ page import="java.security.spec.KeySpec" %>
+<%@ page import="java.util.Base64" %>
+<%@ page import="javax.crypto.SecretKeyFactory" %>
+<%@ page import="javax.crypto.spec.PBEKeySpec" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +11,10 @@
     String db = "team4";
     String user = "root"; //assumes database name is the same as username
     String password = "GymShare"; //Replace with your MySQL password
+
+    int ITERATIONS = 100000;
+    int KEY_LENGTH = 256;
+    byte[] salt = "hello".getBytes(); 
 %>
 
 <head>
@@ -64,6 +72,18 @@
 
                 String email = request.getParameter("email");
                 String pass = request.getParameter("password");
+
+                KeySpec spec = new PBEKeySpec(pass.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
+                SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+                byte[] hash = factory.generateSecret(spec).getEncoded();
+                pass = Base64.getEncoder().encodeToString(hash);
+            
+
+                %>
+                    <script>
+                        console.log("<%= pass %>");
+                    </script>
+                <%
 
                 java.sql.Statement stmt = con.createStatement();
                 String getUser = "SELECT User_ID, First_Name, Last_Name, Username, Email FROM Users WHERE Email = '" + email + "' AND Password = '" + pass + "'";

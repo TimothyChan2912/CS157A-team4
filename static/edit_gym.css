@@ -3,37 +3,42 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Catamaran', sans-serif;
 }
 
 .main-content {
-  padding-top: 100px;
+  padding: 80px 20px 40px 20px;
   position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .back-button {
-  position: absolute;
-  top: 110px;
-  left: 20px;
   background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 14px 25px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 60, 56, 0.3);
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 1000;
+  display: inline-block;
+  font-family: 'Catamaran', sans-serif;
 }
 
 .back-button:hover {
   background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
   color: #2c3e50;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 209, 0, 0.4);
 }
 
 .header-container {
@@ -62,39 +67,43 @@ form {
 
 form label {
   display: block;
-  font-weight: 600;
+  font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 8px;
-  margin-top: 15px;
-  font-size: 0.95rem;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  font-size: 1rem;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Catamaran', sans-serif;
 }
 
 form label:first-of-type {
   margin-top: 0;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 10px;
-  padding: 12px 16px;
+  margin-bottom: 15px;
+  padding: 16px 20px;
   border: 2px solid #e8ecef;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 12px;
+  font-size: 1rem;
   transition: all 0.3s ease;
   background-color: #ffffff;
   color: #2c3e50;
-  font-family: inherit;
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 500;
 }
 
 form textarea {
-  min-height: 70px;
+  min-height: 120px;
   resize: vertical;
+  line-height: 1.5;
 }
 
-form input:focus, form textarea:focus {
+form input:focus, form textarea:focus, form select:focus {
   outline: none;
   border-color: #FF3C38;
   background-color: #fff;
@@ -106,17 +115,18 @@ form input:focus, form textarea:focus {
   background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
   color: #ffffff;
   border: none;
-  padding: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 8px;
+  padding: 18px 40px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px;
+  margin-top: 30px;
   width: 100%;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+  letter-spacing: 1.5px;
+  box-shadow: 0 8px 25px rgba(255, 60, 56, 0.35);
+  font-family: 'Catamaran', sans-serif;
 }
 
 .save-button:hover {
@@ -239,23 +249,25 @@ form input:focus, form textarea:focus {
 
 .tab-container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 10px auto 20px auto;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   text-align: center;
-  padding: 20px 0;
+  padding: 25px 20px;
+  border: 1px solid rgba(255, 138, 0, 0.2);
 }
 
 .tab-content-container {
   max-width: 1000px;
   margin: 0 auto;
   background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12), 0 5px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 60, 56, 0.1);
-  padding: 30px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
 }
 
 .tab-content-container form {
@@ -269,30 +281,36 @@ form input:focus, form textarea:focus {
 
 .tab-button {
   display: inline-block;
-  padding: 15px 25px;
-  margin: 0 10px;
+  padding: 18px 30px;
+  margin: 0 12px;
   background: transparent;
   border: 2px solid #e9ecef;
-  border-radius: 8px;
+  border-radius: 15px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   color: #6c757d;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-family: 'Catamaran', sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button:hover {
-  background: rgba(255, 60, 56, 0.1);
+  background: linear-gradient(135deg, rgba(255, 60, 56, 0.1) 0%, rgba(255, 209, 0, 0.1) 100%);
   color: #FF3C38;
   border-color: #FF3C38;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 60, 56, 0.15);
 }
 
 .tab-button.active {
   background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
   color: white;
   border-color: #FF3C38;
+  box-shadow: 0 8px 25px rgba(255, 60, 56, 0.3);
+  transform: translateY(-2px);
 }
 
 .tabs {
@@ -337,11 +355,26 @@ form input:focus, form textarea:focus {
 
 .tab-content h2 {
   color: #2c3e50;
-  font-size: 2rem;
-  font-weight: 600;
-  margin: 0 0 30px 0;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 35px 0;
+  font-family: "Catamaran", sans-serif;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.tab-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, #FF3C38 0%, #FFD100 100%);
+  border-radius: 2px;
 }
 
 .tab-form {
@@ -530,7 +563,7 @@ form input:focus, form textarea:focus {
 
 .status-dropdown {
   width: 100%;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border: 2px solid #e9ecef;
   border-radius: 6px;
   background: white;
@@ -574,14 +607,32 @@ form input:focus, form textarea:focus {
   transform: translateY(-1px);
 }
 
-.delete-machine-btn {
+.delete-machine-btn,
+.delete-feature-btn {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
   color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+  font-family: 'Catamaran', sans-serif;
 }
 
-.delete-machine-btn:hover {
+.delete-machine-btn:hover,
+.delete-feature-btn:hover {
   background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 35, 51, 0.4);
 }
 
 .machines-footer {
@@ -620,11 +671,24 @@ form input:focus, form textarea:focus {
   transform: translateY(-2px);
 }
 
-.machine-input-row {
+.machine-input-row,
+.feature-input-row {
   display: flex;
   gap: 20px;
   align-items: flex-end;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 15px;
+  border: 2px solid #e9ecef;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.machine-input-row:hover,
+.feature-input-row:hover {
+  border-color: #FF8A00;
+  box-shadow: 0 8px 25px rgba(255, 138, 0, 0.1);
 }
 
 .input-group {
@@ -642,24 +706,28 @@ form input:focus, form textarea:focus {
 }
 
 .input-group label {
-  font-weight: 600;
+  font-weight: 700;
   color: #2c3e50;
-  margin-bottom: 8px;
-  font-size: 0.95rem;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
   display: flex;
   align-items: flex-end;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Catamaran', sans-serif;
 }
 
 .input-group input,
 .input-group select {
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: 2px solid #e8ecef;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 10px;
+  font-size: 1rem;
   transition: all 0.3s ease;
   background-color: #ffffff;
   color: #2c3e50;
-  font-family: inherit;
+  font-family: 'Catamaran', sans-serif;
+  font-weight: 500;
 }
 
 .input-group input:focus,
@@ -670,41 +738,113 @@ form input:focus, form textarea:focus {
   transform: translateY(-1px);
 }
 
-.add-machine-btn {
-  padding: 12px 25px;
+.add-machine-btn,
+.add-feature-btn {
+  padding: 16px 30px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
   white-space: nowrap;
-  width: 200px;
+  width: auto;
+  min-width: 180px;
+  font-family: 'Catamaran', sans-serif;
 }
 
-.add-machine-btn:hover {
+.add-machine-btn:hover,
+.add-feature-btn:hover {
   background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(32, 201, 151, 0.4);
+  box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
 }
 
 @media (max-width: 768px) {
-  .machine-input-row {
+  .main-content {
+    padding: 80px 15px 30px 15px;
+  }
+  
+  .back-button {
+    top: 75px;
+    left: 15px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .machine-input-row,
+  .feature-input-row {
     flex-direction: column;
     gap: 15px;
     align-items: stretch;
+    padding: 15px;
   }
   
-  .add-machine-btn {
+  .add-machine-btn,
+  .add-feature-btn {
     align-self: center;
     width: fit-content;
+    min-width: 150px;
   }
+  
+  .tab-button {
+    padding: 14px 20px;
+    margin: 0 8px;
+    font-size: 0.95rem;
+  }
+  
+  .tab-content-container {
+    padding: 25px 20px;
+  }
+  
+  .tab-content h2 {
+    font-size: 1.8rem;
+  }
+}
+
+.add-machine,
+.add-feature {
+  background: linear-gradient(135deg, #fff8dc 0%, #f0f8ff 100%);
+  border: 2px solid #FF8A00;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(255, 138, 0, 0.1);
+}
+
+.edit-machine,
+.edit-feature {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e9ecef;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.edit-machine:hover,
+.edit-feature:hover {
+  border-color: #FF8A00;
+  box-shadow: 0 8px 25px rgba(255, 138, 0, 0.15);
+}
+
+.machine-input-row .input-group input,
+.feature-input-row .input-group input {
+    margin-bottom: 0;
+}
+
+.machine-input-row .input-group input,
+.machine-input-row .input-group select,
+.feature-input-row .input-group input,
+.feature-input-row .input-group select {
+    margin-bottom: 0;
 }

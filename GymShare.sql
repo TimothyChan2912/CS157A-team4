@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `team4` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `team4`;
 -- MySQL dump 10.13  Distrib 8.0.41, for macos15 (arm64)
 --
 -- Host: 127.0.0.1    Database: team4
@@ -74,13 +76,13 @@ CREATE TABLE `Bookings` (
   `Booking_ID` int NOT NULL AUTO_INCREMENT,
   `Status` varchar(20) NOT NULL,
   `Request_Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Price` decimal(10,2) NOT NULL,
+  `Price_Offered` decimal(10,2) NOT NULL,
   `Payment_Method` varchar(50) DEFAULT NULL,
   `Booking_Date` datetime NOT NULL,
   `Start_Time` datetime NOT NULL,
   `End_Time` datetime NOT NULL,
   PRIMARY KEY (`Booking_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +91,7 @@ CREATE TABLE `Bookings` (
 
 LOCK TABLES `Bookings` WRITE;
 /*!40000 ALTER TABLE `Bookings` DISABLE KEYS */;
-INSERT INTO `Bookings` VALUES (1,'Completed','2024-09-10 21:30:00',25.00,'Credit Card','2024-09-20 09:00:00','2024-09-20 09:00:00','2024-09-20 11:00:00'),(2,'Completed','2024-03-05 18:11:00',18.50,'PayPal','2024-03-12 18:00:00','2024-03-12 18:00:00','2024-03-12 19:30:00'),(3,'Confirmed','2024-07-21 03:05:15',30.00,'Zelle','2024-08-05 07:00:00','2024-08-05 07:00:00','2024-08-05 08:00:00'),(4,'Cancelled','2024-09-15 20:00:00',22.00,'Credit Card','2024-10-01 15:00:00','2024-10-01 15:00:00','2024-10-01 16:00:00'),(5,'Completed','2024-11-02 18:45:00',45.00,'Credit Card','2024-11-10 10:00:00','2024-11-10 10:00:00','2024-11-10 13:00:00'),(6,'Completed','2025-01-18 16:00:49',20.00,'Apple Pay','2025-01-25 19:00:00','2025-01-25 19:00:00','2025-01-25 20:00:00'),(7,'Confirmed','2025-03-02 00:21:30',25.00,'PayPal','2025-03-25 12:00:00','2025-03-25 12:00:00','2025-03-25 13:00:00'),(8,'Confirmed','2025-04-01 16:00:00',15.00,'Credit Card','2025-04-10 14:00:00','2025-04-10 14:00:00','2025-04-10 15:00:00'),(9,'Completed','2025-06-11 01:10:00',20.00,'Zelle','2025-06-15 06:00:00','2025-06-15 06:00:00','2025-06-15 07:30:00'),(10,'Confirmed','2025-07-28 19:34:56',50.00,'Credit Card','2025-08-05 11:00:00','2025-08-05 11:00:00','2025-08-05 12:00:00');
+INSERT INTO `Bookings` VALUES (1,'Completed','2024-09-10 21:30:00',25.00,'Credit Card','2024-09-20 09:00:00','2024-09-20 09:00:00','2024-09-20 11:00:00'),(2,'Completed','2024-03-05 18:11:00',18.50,'PayPal','2024-03-12 18:00:00','2024-03-12 18:00:00','2024-03-12 19:30:00'),(3,'Confirmed','2024-07-21 03:05:15',30.00,'Zelle','2024-08-05 07:00:00','2024-08-05 07:00:00','2024-08-05 08:00:00'),(4,'Cancelled','2024-09-15 20:00:00',22.00,'Credit Card','2024-10-01 15:00:00','2024-10-01 15:00:00','2024-10-01 16:00:00'),(5,'Completed','2024-11-02 18:45:00',45.00,'Credit Card','2024-11-10 10:00:00','2024-11-10 10:00:00','2024-11-10 13:00:00'),(6,'Completed','2025-01-18 16:00:49',20.00,'Apple Pay','2025-01-25 19:00:00','2025-01-25 19:00:00','2025-01-25 20:00:00'),(7,'Confirmed','2025-03-02 00:21:30',25.00,'PayPal','2025-03-25 12:00:00','2025-03-25 12:00:00','2025-03-25 13:00:00'),(8,'Confirmed','2025-04-01 16:00:00',15.00,'Credit Card','2025-04-10 14:00:00','2025-04-10 14:00:00','2025-04-10 15:00:00'),(9,'Completed','2025-06-11 01:10:00',20.00,'Zelle','2025-06-15 06:00:00','2025-06-15 06:00:00','2025-06-15 07:30:00'),(10,'Confirmed','2025-07-28 19:34:56',50.00,'Credit Card','2025-08-05 11:00:00','2025-08-05 11:00:00','2025-08-05 12:00:00'),(11,'Confirmed','2025-07-23 07:00:00',151.50,'Credit Card','2025-07-24 00:00:00','2025-07-24 11:30:00','2025-07-24 13:00:00');
 /*!40000 ALTER TABLE `Bookings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +154,7 @@ CREATE TABLE `Guests` (
   `User_ID` int NOT NULL AUTO_INCREMENT,
   `Current_Location` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`User_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,7 +163,7 @@ CREATE TABLE `Guests` (
 
 LOCK TABLES `Guests` WRITE;
 /*!40000 ALTER TABLE `Guests` DISABLE KEYS */;
-INSERT INTO `Guests` VALUES (1,'San Jose, CA'),(2,'San Francisco, CA'),(3,'Miami, FL'),(4,'Seattle, WA'),(5,'Chicago, IL'),(6,'Toronto, Canada'),(7,'Los Angeles, CA'),(8,'Boston, MA'),(9,'Atlanta, GA'),(10,'Cupertino, CA');
+INSERT INTO `Guests` VALUES (1,'San Jose, CA'),(2,'San Francisco, CA'),(3,'Miami, FL'),(4,'Seattle, WA'),(5,'Chicago, IL'),(6,'Toronto, Canada'),(7,'Los Angeles, CA'),(8,'Boston, MA'),(9,'Atlanta, GA'),(10,'Cupertino, CA'),(21,NULL);
 /*!40000 ALTER TABLE `Guests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,8 +179,9 @@ CREATE TABLE `Gyms` (
   `Gym_Name` varchar(100) NOT NULL,
   `Description` text,
   `Address` varchar(255) NOT NULL,
+  `Price` varchar(45) NOT NULL,
   PRIMARY KEY (`Gym_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +190,7 @@ CREATE TABLE `Gyms` (
 
 LOCK TABLES `Gyms` WRITE;
 /*!40000 ALTER TABLE `Gyms` DISABLE KEYS */;
-INSERT INTO `Gyms` VALUES (1,'Giants Gathering','Old-School Bodybuilding','24 Willie Mays Plaza, San Francisco, CA 94107'),(2,'Dodger District','Luxury Fitness','1000 Vin Scully Avenue, Los Angeles, CA 90012'),(3,'Angel Arms','Specializes in Cross Fit Equipment','2000 Gene Autry Way, Anaheim, CA 92806'),(4,'Rockie Range','Premier Equipment','2001 Blake Street, Denver, CO 80205'),(5,'Padre Porter','Yoga Mats Provided','100 Park Blvd, San Diego, CA 92101'),(6,'Diamondback District','Modern Gym with Exceptional Equipment','401 E. Jefferson St., Phoenix, AZ 85004'),(7,'Marlin Machine','Intended for Heavy Lifters','501 Marlins Way, Miami, FL 33125'),(8,'Yankee Yard','24/7 Gym','161st Street Bronx, NY 10451'),(9,'Mets Meetup','Specializes in Powerlifting','41 Seaver Way, Queens, NY 11368'),(10,'Phillie Porch','Great for all Fitness Levels','One Citizens Bank Way, Philadelphia, PA 19148');
+INSERT INTO `Gyms` VALUES (1,'Giants Gathering','Old-School Bodybuilding','24 Willie Mays Plaza, San Francisco, CA 94107','22.00'),(2,'Dodger District','Luxury Fitness','1000 Vin Scully Avenue, Los Angeles, CA 90012','31.50'),(3,'Angel Arms','Specializes in Cross Fit Equipment','2000 Gene Autry Way, Anaheim, CA 92806','7.99'),(4,'Rockie Range','Premier Equipment','2001 Blake Street, Denver, CO 80205','89.00'),(5,'Padre Porter','Yoga Mats Provided','100 Park Blvd, San Diego, CA 92101','32.00'),(6,'Diamondback District','Modern Gym with Exceptional Equipment','401 E. Jefferson St., Phoenix, AZ 85004','25.00'),(7,'Marlin Machine','Intended for Heavy Lifters','501 Marlins Way, Miami, FL 33125','16.00'),(8,'Yankee Yard','24/7 Gym','161st Street Bronx, NY 10451','11.00'),(9,'Mets Meetup','Specializes in Powerlifting','41 Seaver Way, Queens, NY 11368','19.00'),(10,'Phillie Porch','Great for all Fitness Levels','One Citizens Bank Way, Philadelphia, PA 19148','44.00'),(11,'Tim Gym','The Gym is great','333 Jackson Street','101.00');
 /*!40000 ALTER TABLE `Gyms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +214,7 @@ CREATE TABLE `Has` (
 
 LOCK TABLES `Has` WRITE;
 /*!40000 ALTER TABLE `Has` DISABLE KEYS */;
-INSERT INTO `Has` VALUES (1,2),(2,5),(3,3),(4,7),(5,5),(6,9),(7,1),(8,4),(9,3),(10,8);
+INSERT INTO `Has` VALUES (1,2),(2,5),(3,3),(4,7),(5,5),(6,9),(7,1),(8,4),(9,3),(10,8),(11,11);
 /*!40000 ALTER TABLE `Has` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +229,7 @@ CREATE TABLE `Hosts` (
   `User_ID` int NOT NULL AUTO_INCREMENT,
   `Preferred_Currency` varchar(3) DEFAULT 'USD',
   PRIMARY KEY (`User_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +238,7 @@ CREATE TABLE `Hosts` (
 
 LOCK TABLES `Hosts` WRITE;
 /*!40000 ALTER TABLE `Hosts` DISABLE KEYS */;
-INSERT INTO `Hosts` VALUES (11,'USD'),(12,'USD'),(13,'GBP'),(14,'CAD'),(15,'JPY'),(16,'EUR'),(17,'EUR'),(18,'EUR'),(19,'USD'),(20,'INR');
+INSERT INTO `Hosts` VALUES (11,'USD'),(12,'USD'),(13,'GBP'),(14,'CAD'),(15,'JPY'),(16,'EUR'),(17,'EUR'),(18,'EUR'),(19,'USD'),(20,'USD'),(22,'USD');
 /*!40000 ALTER TABLE `Hosts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,12 +250,12 @@ DROP TABLE IF EXISTS `Machines`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Machines` (
-  `Gym_ID` int NOT NULL AUTO_INCREMENT,
+  `Gym_ID` int NOT NULL,
   `Machine_Number` int NOT NULL,
   `Status` varchar(20) DEFAULT NULL,
   `Type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Gym_ID`,`Machine_Number`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +264,7 @@ CREATE TABLE `Machines` (
 
 LOCK TABLES `Machines` WRITE;
 /*!40000 ALTER TABLE `Machines` DISABLE KEYS */;
-INSERT INTO `Machines` VALUES (1,1,'Available','Hammer Strength ISO-Lateral Row'),(1,2,'Shipping','Leg Press'),(2,3,'Available','Treadmill'),(3,4,'Maintenance','Bench Press'),(5,5,'Available','StairMaster'),(7,6,'Maintenance','Smith Machine'),(7,7,'Available','Hack Squat'),(8,8,'Available','Cables'),(9,9,'Available','Lateral Rows'),(10,10,'Available','Lat Pulldown');
+INSERT INTO `Machines` VALUES (1,1,'Available','Hammer Strength ISO-Lateral Row'),(1,2,'Shipping','Leg Press'),(2,1,'Available','Treadmill'),(3,1,'Maintenance','Bench Press'),(5,1,'Available','StairMaster'),(7,1,'Maintenance','Smith Machine'),(7,2,'Available','Hack Squat'),(8,1,'Available','Cables'),(9,1,'Available','Lateral Rows'),(10,1,'Available','Lat Pulldown'),(11,1,'Available','Yogs'),(11,2,'Available','Treadmill');
 /*!40000 ALTER TABLE `Machines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +288,7 @@ CREATE TABLE `Makes` (
 
 LOCK TABLES `Makes` WRITE;
 /*!40000 ALTER TABLE `Makes` DISABLE KEYS */;
-INSERT INTO `Makes` VALUES (1,7),(2,1),(3,2),(3,5),(4,3),(4,9),(5,4),(6,6),(7,8),(8,10);
+INSERT INTO `Makes` VALUES (1,7),(1,11),(2,1),(3,2),(3,5),(4,3),(4,9),(5,4),(6,6),(7,8),(8,10);
 /*!40000 ALTER TABLE `Makes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +336,7 @@ CREATE TABLE `Owns` (
 
 LOCK TABLES `Owns` WRITE;
 /*!40000 ALTER TABLE `Owns` DISABLE KEYS */;
-INSERT INTO `Owns` VALUES (11,1),(12,2),(13,3),(14,4),(14,6),(15,8),(16,5),(16,9),(17,10),(18,7);
+INSERT INTO `Owns` VALUES (11,1),(12,2),(13,3),(14,4),(14,6),(15,8),(16,5),(16,9),(17,10),(18,7),(20,11);
 /*!40000 ALTER TABLE `Owns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -454,7 +457,7 @@ CREATE TABLE `Users` (
   PRIMARY KEY (`User_ID`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,7 +466,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','hashpass1','2024-04-05 17:20:00'),(2,'David','Chen','chen.david@gmail.com','davechen','hashpass2','2024-02-15 19:00:00'),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','hashpass3','2024-01-26 02:30:00'),(4,'Liam','Patel','liam.patel@outlook.com','liamp','hashpass4','2024-06-11 19:00:00'),(5,'Aisha','Khan','a.khan@icloud.com','aishak','hashpass5','2024-08-01 16:00:00'),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','hashpass6','2024-12-10 22:45:00'),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','hashpass7','2025-02-21 00:00:00'),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hashpass8','2025-05-16 03:10:00'),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','hashpass9','2025-07-01 17:00:00'),(10,'Olga','Porta','olga.p@gmail.com','olgap','hashpass10','2025-07-20 20:00:00'),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','hashpass11','2024-01-15 17:30:00'),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','hashpass12','2024-01-20 19:00:00'),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','hashpass13','2024-02-01 22:15:00'),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','hashpass14','2024-02-06 02:00:00'),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','hashpass15','2024-03-10 17:45:00'),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','hashpass16','2024-04-22 20:00:00'),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','hashpass17','2024-05-19 00:30:00'),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','hashpass18','2024-06-03 15:00:00'),(19,'Alex','Inky','a.inky@gmail.com','inky12','hashpass19','2024-07-12 02:00:00'),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','hashpass20','2024-08-30 19:00:00');
+INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','hashpass1','2024-04-05 17:20:00'),(2,'David','Chen','chen.david@gmail.com','davechen','hashpass2','2024-02-15 19:00:00'),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','hashpass3','2024-01-26 02:30:00'),(4,'Liam','Patel','liam.patel@outlook.com','liamp','hashpass4','2024-06-11 19:00:00'),(5,'Aisha','Khan','a.khan@icloud.com','aishak','hashpass5','2024-08-01 16:00:00'),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','hashpass6','2024-12-10 22:45:00'),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','hashpass7','2025-02-21 00:00:00'),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hashpass8','2025-05-16 03:10:00'),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','hashpass9','2025-07-01 17:00:00'),(10,'Olga','Porta','olga.p@gmail.com','olgap','hashpass10','2025-07-20 20:00:00'),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','hashpass11','2024-01-15 17:30:00'),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','hashpass12','2024-01-20 19:00:00'),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','hashpass13','2024-02-01 22:15:00'),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','hashpass14','2024-02-06 02:00:00'),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','hashpass15','2024-03-10 17:45:00'),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','hashpass16','2024-04-22 20:00:00'),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','hashpass17','2024-05-19 00:30:00'),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','hashpass18','2024-06-03 15:00:00'),(19,'Alex','Inky','a.inky@gmail.com','inky12','hashpass19','2024-07-12 02:00:00'),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','hashpass20','2024-08-30 19:00:00'),(22,'Timothy','Chan','tc@gmail.com','tc','Password123#','2025-07-20 07:00:00');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -476,4 +479,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-09 15:32:54
+-- Dump completed on 2025-07-28 14:07:44

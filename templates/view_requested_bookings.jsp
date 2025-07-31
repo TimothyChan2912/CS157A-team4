@@ -145,7 +145,7 @@
                 if (request.getParameter("action").equals("accept")) {
                     String acceptBooking = "UPDATE Bookings SET Status = 'Confirmed' WHERE Booking_ID = " + request.getParameter("bookingID");
                     Statement stmtAccept = con.createStatement();
-                    stmtAccept.executeUpdate(acceptBooking);
+                    stmtAccept.execute(acceptBooking);
 
                     stmtAccept.close();
                     con.close();
@@ -153,7 +153,7 @@
                 else if (request.getParameter("action").equals("decline")) {
                     String declineBooking = "UPDATE Bookings SET Status = 'Rejected' WHERE Booking_ID = " + request.getParameter("bookingID");
                     Statement stmtDecline = con.createStatement();
-                    stmtDecline.executeUpdate(declineBooking);
+                    stmtDecline.execute(declineBooking);
 
                     stmtDecline.close();
                     con.close();
