@@ -420,13 +420,19 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `Reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `Reviews` (
-  `Review_ID` int NOT NULL AUTO_INCREMENT,
-  `Stars` int NOT NULL,
-  `Description` text,
+  `Review_ID` INT NOT NULL AUTO_INCREMENT,
+  `User_ID` INT NOT NULL,
+  `Gym_ID` INT NOT NULL,
+  `Rating` DECIMAL(2,1) NOT NULL CHECK (Rating >= 0.5 AND Rating <= 5.0),
+  `Comment` TEXT,
+  `Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Review_ID`),
-  CONSTRAINT `reviews_chk_1` CHECK (((`Stars` >= 1) and (`Stars` <= 5)))
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE (`User_ID`, `Gym_ID`),
+  FOREIGN KEY (`User_ID`) REFERENCES Users(User_ID),
+  FOREIGN KEY (`Gym_ID`) REFERENCES Gyms(Gym_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +441,16 @@ CREATE TABLE `Reviews` (
 
 LOCK TABLES `Reviews` WRITE;
 /*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
-INSERT INTO `Reviews` VALUES (1,5,'Incredible atmosphere. The equipment is top-tier.'),(2,3,'It was fine, but way too compact.'),(3,5,'The best drop-in. I\'ll be back!'),(4,1,'Cancelled my booking but was still charged'),(5,5,'Excellent equipment which was exactly what I needed for a good workout.'),(6,4,'Great gym, awesome vibe. '),(7,5,'I loved the extra amenities.'),(8,4,'Clean, has everything you need. A bit small.'),(9,5,'This place is a powerlifter\'s dream.'),(10,2,'The gym was dirty.');
+INSERT INTO `Reviews` (User_ID, Gym_ID, Rating, Comment) VALUES 
+(2, 2, 5.0,'Incredible atmosphere. The equipment is top-tier.'),
+(2, 3, 5.0,'It was fine, but way too compact.'),
+(4, 3, 5.0,'The best drop-in. I will be back!'),
+(4, 7, 1.0,'Cancelled my booking but was still charged'),
+(3, 5, 5.0,'Excellent equipment which was exactly what I needed for a good workout.'),
+(6, 9, 4.0,'Great gym, awesome vibe. '),
+(7, 4, 5.0,'I loved the extra amenities.'),
+(8, 8, 4.0,'Clean, has everything you need. A bit small.'),
+(1, 1, 2.0,'The gym was dirty.');
 /*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
 UNLOCK TABLES;
 
