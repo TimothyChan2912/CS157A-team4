@@ -232,7 +232,47 @@
 
             <div id="photos" class="tab-content">
                 <h2>Photos</h2>
-                <p>Upload and manage gym photos here.</p>
+                <form action="edit_gym.jsp" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="gymID" value="<%= gymID %>">
+                    <input type="hidden" name="action" value="uploadPhotos">
+                    <input type="file" name="photo" accept="image/*" required>
+                    <button type="submit" class="upload-button" onclick="uploadPhotos()">Upload Photos</button>
+                </form>
+
+                <div class="uploaded-photos">
+                    <h3>Uploaded Photos:</h3>
+                    <div>
+                        <%
+                            try {
+                                java.sql.Connection con;
+                                Class.forName("com.mysql.cj.jdbc.Driver");
+                                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+
+                                Statement stmt = con.createStatement();
+                                String retrievePhotos = "SELECT Photo_Path " +
+                                                            "FROM Photos JOIN Displays USING (Photo_ID) JOIN Gyms USING (Gym_ID) " +
+                                                            "WHERE Gym_ID = " + gymID;
+                                ResultSet rsPhotos = stmt.executeQuery(retrievePhotos);
+
+                                while(rsPhotos.next()) {
+                                    String photoPath = rsPhotos.getString("Photo_Path");
+                        %>
+                        <img src="../<%= photoPath %>" alt="Gym Photo" class="gym-photo">
+                            <%
+                                }
+                                if (rsPhotos.isClosed()) {
+                                    out.println("No photos found");
+                                }
+                                rsPhotos.close();
+                                stmt.close();
+                                con.close();
+                            } 
+                            catch (SQLException e) {
+                                out.println("SQLException: " + e.getMessage());
+                            }
+                            %>
+                    </div>
+                </div>
             </div>
 
             <div id="features" class="tab-content">
@@ -331,7 +371,7 @@
 
                     stmt.execute(updateGym);
 
-                    response.sendRedirect("my_gyms.jsp");
+                    response.sendRedirect("edit_gym.jsp?gymID=" + postGymID + "&tab=details");
                     return;
                 } else if (action.equals("addMachine")) {
                     String machineType = request.getParameter("machineType");
@@ -397,6 +437,30 @@
                     rsFeatureID.close();
 
                     response.sendRedirect("edit_gym.jsp?gymID=" + postGymID + "&tab=features");
+                    return;
+                } else if (action.equals("uploadPhotos")) {
+                    String photoPath = request.getParameter("photos");
+
+                    String retrievePriority = "SELECT Priority FROM Photos WHERE Gym_ID = " + postGymID;
+                    ResultSet rsPriority = stmt.executeQuery(retrievePriority);
+
+                    int nextPriority = 1;
+                    while (rsPriority.next()) {
+                        int priority = rsPriority.getInt("Priority");
+                        if (priority >= nextPriority) {
+                            nextPriority = priority + 1;
+                        }
+                    }
+
+                    rsPriority.close();
+
+                    String uploadPhoto = "INSERT INTO Photos (Priority, Photo_Path) VALUES (" + nextPriority + ", '" + photoPath + "')";
+                    stmt.execute(uploadPhoto);
+
+                    String uploadDisplays = "INSERT INTO Displays (Gym_ID, Photo_ID) VALUES (" + postGymID + ", LAST_INSERT_ID())";
+                    stmt.execute(uploadDisplays);
+
+                    response.sendRedirect("edit_gym.jsp?gymID=" + postGymID + "&tab=photos");
                     return;
                 }
 
@@ -488,6 +552,20 @@
         } else {
             alert("Please fill in the feature name.");
         }
+    }
+
+    function uploadPhotos() {
+        const form = document.querySelector('form[enctype="multipart/form-data"]');
+        const formData = new FormData(form);
+
+        fetch('upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(text => console.log(text))
+        .catch(error => console.error(error));
+        alert("Photos uploaded successfully.");
     }
 
     function initializeTabFromURL() {

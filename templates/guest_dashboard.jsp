@@ -46,11 +46,23 @@
         </div>
     </nav>
 
-    <div style="padding-top: 80px;"></div>
-
-    <div class="guest-buttons">
-        <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
-        <button class="guest-listings-button" onclick="location.href='guest_bookings.jsp'">My Bookings</button>
+    <div style="padding-top: 80px;">
+        <div class="main-content">
+            <div class="guest-actions-container">
+                <h2>Guest's Actions</h2>
+                <div class="actions-buttons-container vertical">                    
+                    <button class="listings-button" onclick="location.href='view_listings.jsp'">
+                        <i class="fas fa-list"></i>
+                        View Listings
+                    </button>
+                    
+                    <button class="bookings-button" onclick="location.href='guest_bookings.jsp'">
+                        <i class="fas fa-calendar-check"></i>
+                        My Bookings
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
