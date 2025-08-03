@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
     <link rel="stylesheet" type="text/css" href="../static/view_listings.css">
     <link rel="stylesheet" type="text/css" href="../static/gym_details.css">
+    <%@ page import="java.text.SimpleDateFormat" %>
     <title>Gym Details - Gym Share</title>
 </head>
 
@@ -87,7 +88,8 @@
                         <h1><%= gymName %></h1>
                     </div>
 
-                    <div class="gyms-container">
+                    <div class="gym-details-wrapper">
+                    	<!-- Left: Details -->
                         <div class="gym-container gym-details-container">
                             <div class="gym-details">
                                 <div class="detail-section">
@@ -156,6 +158,63 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Right: Reviews -->
+    					<div class="gym-container recent-reviews-container">
+        					<h2>Recent Reviews</h2>
+        					<%
+            					try {
+            						Class.forName("com.mysql.cj.jdbc.Driver");
+                					Connection reviewCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4", "root", "GymShare");
+                					PreparedStatement reviewStmt = con.prepareStatement(
+                    					"SELECT U.First_Name, U.Last_Name, R.Rating, R.Comment, R.Timestamp " +
+                    					"FROM Reviews R JOIN Users U ON R.User_ID = U.User_ID " +
+                    					"WHERE R.Gym_ID = ? ORDER BY R.Timestamp DESC LIMIT 5"
+                					);
+                					reviewStmt.setInt(1, gymID);
+                					ResultSet rs = reviewStmt.executeQuery();
+
+               						SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+
+                					boolean hasReviews = false;
+                					while (rs.next()) {
+                    					hasReviews = true;
+                    					String name = rs.getString("First_Name") + " " + rs.getString("Last_Name");
+                    					int rating = rs.getInt("Rating");
+                    					String comment = rs.getString("Comment");
+                    					String date = sdf.format(rs.getTimestamp("Timestamp"));
+        					%>
+            					<div class="gym-container review-box">
+    								<div class="review-header">
+        							<div class="reviewer-name"><%= name %></div>
+        							<div class="review-stars">
+            							<% for (int i = 1; i <= 5; i++) { %>
+                							<i class="<%= i <= rating ? "fas fa-star" : "far fa-star" %>" style="color: #FFD700;"></i>
+            							<% } %>
+        							</div>
+    							</div>
+    							<div class="review-body">
+        							<p class="review-comment">"<%= comment %>"</p>
+        							<p class="review-date"><%= date %></p>
+    							</div>
+							</div>
+
+        					<%
+                					}
+                					if (!hasReviews) {
+        					%>
+            					<p class="no-reviews-text">No reviews yet for this gym.</p>
+        					<%
+                					}
+
+                					rs.close();
+                					reviewStmt.close();
+                					reviewCon.close();
+            					} catch (Exception e) {
+                					out.println("<p>Error loading reviews: " + e.getMessage() + "</p>");
+            					}
+        					%>
+    					</div>
                     </div>
         <%      
                 }

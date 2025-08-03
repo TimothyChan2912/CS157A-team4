@@ -64,91 +64,109 @@
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                    String gymName = "";
-                    String status = "";
-                    double priceOffered = 0.0;
-                    String paymentMethod = "";
-                    String bookingDateStr = "";
-                    String startTimeStr = "";
-                    String endTimeStr = "";
-                    Date bookingDate = null;
-                    Timestamp startTime = null;
-                    Timestamp endTime = null;
-
-                    ResultSet rsListings = null;
-                    ResultSet rsGym = null;
-
                     Statement stmtListingID = con.createStatement();
-
                     String retrieveListingID = "SELECT Booking_ID FROM Makes WHERE User_ID = " + userID;
                     ResultSet rsListingID = stmtListingID.executeQuery(retrieveListingID);
 
-                    while(rsListingID.next()) {
+                    while (rsListingID.next()) {
                         int bookingID = rsListingID.getInt("Booking_ID");
 
                         Statement stmtGym = con.createStatement();
                         Statement stmtListings = con.createStatement();
+                        Statement stmtReviewCheck = con.createStatement();
 
-                        String retrieveGym = "SELECT Gym_Name" +
-                                                " FROM Gyms JOIN Has USING (Gym_ID)" +
-                                                " WHERE Booking_ID = " + bookingID;
-                        rsGym = stmtGym.executeQuery(retrieveGym);
+                        String retrieveGym = "SELECT Gym_Name FROM Gyms JOIN Has USING (Gym_ID) WHERE Booking_ID = " + bookingID;
+                        ResultSet rsGym = stmtGym.executeQuery(retrieveGym);
 
-                        if(rsGym.next()) {
+                        String gymName = "";
+                        if (rsGym.next()) {
                             gymName = rsGym.getString("Gym_Name");
                         }
 
-                        String retrieveListings = "SELECT Status, Price_Offered, Payment_Method, Booking_Date, Start_Time, End_Time" +
-                                                    " FROM  Bookings" +
-                                                    " WHERE Booking_ID = " + bookingID;
-                        rsListings = stmtListings.executeQuery(retrieveListings);
+                        String retrieveListings = "SELECT Status, Price_Offered, Payment_Method, Booking_Date, Start_Time, End_Time FROM Bookings WHERE Booking_ID = " + bookingID;
+                        ResultSet rsListings = stmtListings.executeQuery(retrieveListings);
 
-                        if(rsListings.next()) {
+                        String status = "";
+                        double priceOffered = 0.0;
+                        String paymentMethod = "";
+                        String bookingDateStr = "", startTimeStr = "", endTimeStr = "";
+                        Date bookingDate = null;
+                        Timestamp startTime = null, endTime = null;
+
+                        if (rsListings.next()) {
                             status = rsListings.getString("Status");
                             priceOffered = rsListings.getDouble("Price_Offered");
                             paymentMethod = rsListings.getString("Payment_Method");
                             bookingDate = rsListings.getDate("Booking_Date");
                             startTime = rsListings.getTimestamp("Start_Time");
                             endTime = rsListings.getTimestamp("End_Time");
+
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+                            bookingDateStr = dateFormat.format(bookingDate);
+                            startTimeStr = timeFormat.format(startTime);
+                            endTimeStr = timeFormat.format(endTime);
                         }
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+                        // Check if review exists for this booking
+                        String checkReview =
+                        	"SELECT 1 " + 
+                        	"FROM Receives AS R " +
+    						"JOIN Reviews AS V ON R.Review_ID = V.Review_ID " +
+    						"WHERE R.Booking_ID = ? AND V.User_ID = ?";
 
-                        bookingDateStr = dateFormat.format(bookingDate);
-                        startTimeStr = timeFormat.format(startTime);
-                        endTimeStr = timeFormat.format(endTime);
+						PreparedStatement reviewCheck = con.prepareStatement(
+							"SELECT 1 " +
+							"FROM Receives AS R " +
+							"JOIN Reviews AS V on R.Review_ID = V.Review_ID " +
+							"WHERE R.Booking_ID = ? AND V.User_ID = ?"
+						);
+						reviewCheck.setInt(1, bookingID);
+						reviewCheck.setInt(2, userID);
+						ResultSet rsReview = reviewCheck.executeQuery();
+						boolean reviewExists = rsReview.next();
 
-                        if (!status.equals("Cancelled")) {      
+                        if (!status.equals("Cancelled")) {
                 %>
-                <div class="listing-container">
-                    <div class="listing-header">
-                        <h2><%= gymName %></h2>
-                    </div>
+                            <div class="listing-container">
+                                <div class="listing-header">
+                                    <h2><%= gymName %></h2>
+                                </div>
 
-                    <div class="listing-details">
-                        <p><strong>Status:</strong> <%= status %></p>
-                        <p><strong>Price Offered:</strong> $<%= String.format("%.2f", priceOffered) %></p>
-                        <p><strong>Payment Method:</strong> <%= paymentMethod %></p>
-                        <p><strong>Booking Date:</strong> <%= bookingDateStr %></p>
-                        <p><strong>Start Time:</strong> <%= startTimeStr %></p>
-                        <p><strong>End Time:</strong> <%= endTimeStr %></p>
-                    </div>
-                </div>
-            <%  
+                                <div class="listing-details">
+                                    <p><strong>Status:</strong> <%= status %></p>
+                                    <p><strong>Price Offered:</strong> $<%= String.format("%.2f", priceOffered) %></p>
+                                    <p><strong>Payment Method:</strong> <%= paymentMethod %></p>
+                                    <p><strong>Booking Date:</strong> <%= bookingDateStr %></p>
+                                    <p><strong>Start Time:</strong> <%= startTimeStr %></p>
+                                    <p><strong>End Time:</strong> <%= endTimeStr %></p>
+                                </div>
+
+                                <% if (reviewExists) { %>
+                                    <button class="save-button" disabled>Review Submitted</button>
+                                <% } else { %>
+                                    <form action="add_review.jsp" method="get">
+                                        <input type="hidden" name="bookingID" value="<%= bookingID %>">
+                                        <input type="hidden" name="gymName" value="<%= gymName %>">
+                                        <button type="submit" class="save-button">Leave Review</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                <%
                         }
+
                         rsListings.close();
                         rsGym.close();
+                        rsReview.close();
                         stmtGym.close();
                         stmtListings.close();
-                }
-                
-                rsListingID.close();
-                stmtListingID.close();
-                con.close();
-            } 
-            catch (SQLException e) {
-                out.println("SQLException: " + e.getMessage());
-            }
-            %>
+                        stmtReviewCheck.close();
+                    }
 
+                    rsListingID.close();
+                    stmtListingID.close();
+                    con.close();
+				} catch (SQLException e) {
+				    out.println("SQLException: " + e.getMessage());
+				}
+                %>

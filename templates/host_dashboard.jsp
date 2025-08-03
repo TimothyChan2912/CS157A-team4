@@ -32,6 +32,8 @@
     <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
     <link rel="stylesheet" type="text/css" href="../static/dashboard.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" crossorigin="anonymous">
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <title>Dashboard - Gym Share</title>
 </head>
 
@@ -55,106 +57,145 @@
     <div style="padding-top: 80px;">
 
     <div class="dashboard-layout">
+    	<!-- Left column -->
         <div class="sidebar">
             <div class="upcoming-bookings">
                 <h2>Upcoming Bookings</h2>
-                <div class="bookings-list">
-                    <%
-                    try {
-                        java.sql.Connection con;
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+                	<div class="bookings-list">
+                    	<%
+                    	try {
+                        	java.sql.Connection con;
+                        	Class.forName("com.mysql.cj.jdbc.Driver");
+                        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                        String gymName = "";
-                        Integer bookingID = 0;
-                        Date bookingDate = null;
-                        Time startTime = null;
-                        Time endTime = null;
-                        String bookingDateStr = "";
-                        String startTimeStr = "";
-                        String endTimeStr = "";
-                        Boolean hasBookings = false;
+                        	String gymName = "";
+                        	Integer bookingID = 0;
+                        	Date bookingDate = null;
+                        	Time startTime = null;
+                        	Time endTime = null;
+                        	String bookingDateStr = "";
+                        	String startTimeStr = "";
+                        	String endTimeStr = "";
+                        	Boolean hasBookings = false;
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+                        	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                        	SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	                        Statement stmtAccepted = con.createStatement();
 
-                        Statement stmtAccepted = con.createStatement();
+                        	String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
+                                                            	" FROM Bookings JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID)" +
+                                                            	" WHERE User_ID = " + userID + " AND status = 'Confirmed' ORDER BY Booking_Date, Start_Time";
+                        	ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
 
-                        String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
-                                                            " FROM Bookings JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID)" +
-                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' ORDER BY Booking_Date, Start_Time";
-                        ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
+                        	while (rsAcceptedBookings.next()) {
+                            	gymName = rsAcceptedBookings.getString("Gym_Name");
+                            	bookingID = rsAcceptedBookings.getInt("Booking_ID");
+                            	bookingDate = rsAcceptedBookings.getDate("Booking_Date");
+                            	startTime = rsAcceptedBookings.getTime("Start_Time");
+                            	endTime = rsAcceptedBookings.getTime("End_Time");
 
-                        while (rsAcceptedBookings.next()) {
-                            gymName = rsAcceptedBookings.getString("Gym_Name");
-                            bookingID = rsAcceptedBookings.getInt("Booking_ID");
-                            bookingDate = rsAcceptedBookings.getDate("Booking_Date");
-                            startTime = rsAcceptedBookings.getTime("Start_Time");
-                            endTime = rsAcceptedBookings.getTime("End_Time");
-
-                            bookingDateStr = dateFormat.format(bookingDate);
-                            startTimeStr = timeFormat.format(startTime);
-                            endTimeStr = timeFormat.format(endTime);
-                            hasBookings = true;
-                    %>
-                            <div class="booking-item">
-                                <div class="booking-gym"><%= gymName %></div>
-                                <div class="booking-date"><%= bookingDateStr %></div>
-                                <div class="booking-time"><%= startTimeStr %> - <%= endTimeStr %></div>
-                                <div class="booking-actions">
-                                    <div class="booking-status confirmed">Confirmed</div>
-                                    <div class="cancel-booking">
-                                        <form method="post" action="host_dashboard.jsp">
-                                            <input type="hidden" name="action" value="cancel">
-                                            <input type="hidden" name="bookingID" value="<%= bookingID %>">
-                                            <button type="submit" class="cancel-button">Cancel</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                    <%  
-                        }
-                        if(hasBookings == false) {
-                    %>
-                            <div class="booking-item no-bookings">No upcoming bookings</div>
-                    <%
-                        }
-                        rsAcceptedBookings.close();
-                        stmtAccepted.close();
-                    }
-                    catch (SQLException e) {
-                        out.println("SQLException: " + e.getMessage());
-                    }
-                    %>
-                </div>
+                            	bookingDateStr = dateFormat.format(bookingDate);
+                            	startTimeStr = timeFormat.format(startTime);
+                            	endTimeStr = timeFormat.format(endTime);
+                            	hasBookings = true;
+                    	%>
+                            	<div class="booking-item">
+                                	<div class="booking-gym"><%= gymName %></div>
+                                	<div class="booking-date"><%= bookingDateStr %></div>
+                                	<div class="booking-time"><%= startTimeStr %> - <%= endTimeStr %></div>
+                                	<div class="booking-actions">
+                                    	<div class="booking-status confirmed">Confirmed</div>
+                                    	<div class="cancel-booking">
+                                        	<form method="post" action="host_dashboard.jsp">
+                                            	<input type="hidden" name="action" value="cancel">
+                                            	<input type="hidden" name="bookingID" value="<%= bookingID %>">
+                                            	<button type="submit" class="cancel-button">Cancel</button>
+                                        	</form>
+                                    	</div>
+                                	</div>
+                            	</div>
+                    	<%  
+                        	}
+                        	if(hasBookings == false) {
+                    	%>
+                            	<div class="booking-item no-bookings">No upcoming bookings</div>
+                    	<%
+                        	}
+                        	rsAcceptedBookings.close();
+                        	stmtAccepted.close();
+                    	}
+                    	catch (SQLException e) {
+                        	out.println("SQLException: " + e.getMessage());
+                    	}
+                    	%>
+                	</div>
+            	</div>
             </div>
-        </div>
 
+		<!-- Center column -->
         <div class="main-content">
-            <div class="top-section">
-                <div class="calendar-container">
-                    <h2>Calendar</h2>
-                    <div class="calendar-content">
-                        <h3 id="month-name"></h3>
-                        <table id="calendar">
-                            <thead>
-                                <tr>
-                                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-                                    <th>Thu</th><th>Fri</th><th>Sat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="calendar-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
             <div class="host-buttons">
                 <button class="my-gyms-button" onclick="location.href='my_gyms.jsp'">My Gyms</button>
                 <button class="bookings-button" onclick="location.href='view_requested_bookings.jsp'">View Booking Requests</button>
             </div>
         </div>
+        
+        <!-- Right column -->
+        <div class="recent-comments">
+        <h2>Recent Reviews</h2>
+        <%
+            try {
+                Connection con;
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+
+                String sql = "SELECT G.Gym_Name, R.Rating, R.Comment, R.Timestamp " +
+                             "FROM Reviews R " +
+                             "JOIN Gyms G ON R.Gym_ID = G.Gym_ID " +
+                             "JOIN Owns O ON G.Gym_ID = O.Gym_ID " +
+                             "WHERE O.User_ID = ? " +
+                             "ORDER BY R.Timestamp DESC LIMIT 10";
+
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, userID);
+                ResultSet rs = ps.executeQuery();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy h:mm a");
+
+                while (rs.next()) {
+                    String gym = rs.getString("Gym_Name");
+                    double rating = rs.getDouble("Rating");
+                    String comment = rs.getString("Comment");
+                    Timestamp ts = rs.getTimestamp("Timestamp");
+                    String date = sdf.format(ts);
+        %>
+            <div class="comment-item">
+                <div class="comment-gym"><%= gym %></div>
+                <div class="comment-stars">
+                	<% for (int i = 1; i <= 5; i++) { %>
+                    	<% if (i <= rating) { %>
+                        	<i class="fas fa-star"></i>
+                    	<% } else { %>
+                        	<i class="far fa-star"></i>
+                    	<% } %>
+                	<% } %>
+                	</div>
+				<div class="comment-text">"<%= comment %>"</div>
+				<div class="comment-date"><%= date %></div>
+			</div>
+		<%
+                }
+                rs.close();
+                ps.close();
+                con.close();
+            } catch (Exception e) {
+                out.println("Error loading reviews: " + e.getMessage());
+            }
+        %>
     </div>
+	</div>
+	</div>
     <%
         try {
             java.sql.Connection con;
@@ -169,7 +210,7 @@
                     String cancelBooking = "UPDATE Bookings SET Status = 'Cancelled' WHERE Booking_ID = " + bookingID;
                     Statement stmtCancel = con.createStatement();
 
-                    stmtCancel.execute(cancelBooking);
+                    stmtCancel.executeUpdate(cancelBooking);
                     stmtCancel.close();
 
                     out.println("<script>alert('Booking cancelled successfully.'); window.location.href='host_dashboard.jsp';</script>");
@@ -182,69 +223,3 @@
     %>
     </div>
     </div>
-
-    <script>
-        function createCalendar(month, year) {
-            const calendarBody = document.getElementById("calendar-body");
-            const monthNameElement = document.getElementById("month-name");
-            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            // Clear and set the month name with debugging
-            const monthText = `${months[month]} ${year}`;
-            console.log("Setting month text:", monthText);
-            
-            if (monthNameElement) {
-                monthNameElement.innerText = monthText;
-                monthNameElement.textContent = monthText;
-                console.log("Month element found and text set");
-            } else {
-                console.error("Month name element not found!");
-            }
-            
-            calendarBody.innerHTML = "";
-
-            const firstDay = new Date(year, month).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date();
-            const isCurrentMonth = (today.getMonth() === month && today.getFullYear() === year);
-            const todayDate = today.getDate();
-
-            let date = 1;
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement("tr");
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement("td");
-                    if (i === 0 && j < firstDay) {
-                        cell.innerText = "";
-                    } else if (date > daysInMonth) {
-                        break;
-                    } else {
-                        cell.innerText = date;
-                        
-                        if (isCurrentMonth && date === todayDate) {
-                            cell.classList.add('today');
-                        }
-                        
-                        cell.addEventListener('click', function() {
-                            if (this.innerText) {
-                                document.querySelectorAll('#calendar td.selected').forEach(td => {
-                                    td.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                            }
-                        });
-                        
-                        date++;
-                    }
-                    row.appendChild(cell);
-                }
-                calendarBody.appendChild(row);
-            }
-        }
-
-        window.onload = () => {
-            const today = new Date();
-            console.log("Page loaded, creating calendar for:", today.getMonth(), today.getFullYear());
-            createCalendar(today.getMonth(), today.getFullYear());
-        };
-    </script>
