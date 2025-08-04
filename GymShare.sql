@@ -351,6 +351,7 @@ CREATE TABLE `Photos` (
   `Photo_ID` int NOT NULL AUTO_INCREMENT,
   `Caption` varchar(255) DEFAULT NULL,
   `Priority` int DEFAULT '0',
+  `Photo_Path` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`Photo_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -361,7 +362,7 @@ CREATE TABLE `Photos` (
 
 LOCK TABLES `Photos` WRITE;
 /*!40000 ALTER TABLE `Photos` DISABLE KEYS */;
-INSERT INTO `Photos` VALUES (1,'The main lifting area with 4 power racks.',1),(2,'View of the dumbbell rack, goes up to 150lbs.',2),(3,'Various cables and attachments.',1),(4,'Dumbells ranging from 5 lbs to 60 lbs.',1),(5,'Medicine balls and other equipment for stretching.',3),(6,'Yoga mats.',5),(7,'Fridge with offered drinks.',4),(8,'Massage chairs for recovery.',2),(9,'Juice bar near the entrance',4),(10,'Dedlift platforms with a range of plates.',2);
+INSERT INTO `Photos` VALUES (1,'The main lifting area with 4 power racks.',1,'gym_photos/img/GymPhotoDefault.png'),(2,'View of the dumbbell rack, goes up to 150lbs.',2,'gym_photos/img/GymPhotoDefault.png'),(3,'Various cables and attachments.',1,'gym_photos/img/GymPhotoDefault.png'),(4,'Dumbells ranging from 5 lbs to 60 lbs.',1,'gym_photos/img/GymPhotoDefault.png'),(5,'Medicine balls and other equipment for stretching.',3,'gym_photos/img/GymPhotoDefault.png'),(6,'Yoga mats.',5,'gym_photos/img/GymPhotoDefault.png'),(7,'Fridge with offered drinks.',4,'gym_photos/img/GymPhotoDefault.png'),(8,'Massage chairs for recovery.',2,'gym_photos/img/GymPhotoDefault.png'),(9,'Juice bar near the entrance',4,'gym_photos/img/GymPhotoDefault.png'),(10,'Dedlift platforms with a range of plates.',2,'gym_photos/img/GymPhotoDefault.png');
 /*!40000 ALTER TABLE `Photos` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -463,6 +463,30 @@ form input:focus, form textarea:focus, form select:focus {
   margin-top: 20px;
 }
 
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.photo-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #dee2e6;
+  background: #f8f9fa;
+  text-align: center;
+  padding: 10px;
+}
+
+.gym-photo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 .photo-item {
   position: relative;
   aspect-ratio: 1;

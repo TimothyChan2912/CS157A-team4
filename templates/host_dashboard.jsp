@@ -38,7 +38,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <a class="navbar-brand" href="home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="navbar-title">
                 <h1>Dashboard</h1>
@@ -82,7 +82,8 @@
 
                         String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
                                                             " FROM Bookings JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID)" +
-                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' ORDER BY Booking_Date, Start_Time";
+                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' AND Booking_Date > CURDATE()" +
+                                                            "ORDER BY Booking_Date, Start_Time";
                         ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
 
                         while (rsAcceptedBookings.next()) {
@@ -131,28 +132,26 @@
         </div>
 
         <div class="main-content">
-            <div class="top-section">
-                <div class="calendar-container">
-                    <h2>Calendar</h2>
-                    <div class="calendar-content">
-                        <h3 id="month-name"></h3>
-                        <table id="calendar">
-                            <thead>
-                                <tr>
-                                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-                                    <th>Thu</th><th>Fri</th><th>Sat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="calendar-body"></tbody>
-                        </table>
-                    </div>
+            <div class="host-actions-container">
+                <h2>Host's Actions</h2>
+                <div class="actions-buttons-container vertical">
+                    <button class="my-gyms-button" onclick="location.href='my_gyms.jsp'">
+                        <i class="fas fa-dumbbell"></i>
+                        My Gyms
+                    </button>
+                    
+                    <button class="bookings-button" onclick="location.href='view_requested_bookings.jsp'">
+                        <i class="fas fa-calendar-check"></i>
+                        View Booking Requests
+                    </button>
+                    
+                    <button class="calendar-button" onclick="location.href='host_calendar.jsp'">
+                        <i class="fas fa-calendar-alt"></i>
+                        Calendar
+                    </button>
                 </div>
             </div>
-            
-            <div class="host-buttons">
-                <button class="my-gyms-button" onclick="location.href='my_gyms.jsp'">My Gyms</button>
-                <button class="bookings-button" onclick="location.href='view_requested_bookings.jsp'">View Booking Requests</button>
-            </div>
+        </div>
         </div>
     </div>
     <%
@@ -183,68 +182,3 @@
     </div>
     </div>
 
-    <script>
-        function createCalendar(month, year) {
-            const calendarBody = document.getElementById("calendar-body");
-            const monthNameElement = document.getElementById("month-name");
-            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            // Clear and set the month name with debugging
-            const monthText = `${months[month]} ${year}`;
-            console.log("Setting month text:", monthText);
-            
-            if (monthNameElement) {
-                monthNameElement.innerText = monthText;
-                monthNameElement.textContent = monthText;
-                console.log("Month element found and text set");
-            } else {
-                console.error("Month name element not found!");
-            }
-            
-            calendarBody.innerHTML = "";
-
-            const firstDay = new Date(year, month).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date();
-            const isCurrentMonth = (today.getMonth() === month && today.getFullYear() === year);
-            const todayDate = today.getDate();
-
-            let date = 1;
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement("tr");
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement("td");
-                    if (i === 0 && j < firstDay) {
-                        cell.innerText = "";
-                    } else if (date > daysInMonth) {
-                        break;
-                    } else {
-                        cell.innerText = date;
-                        
-                        if (isCurrentMonth && date === todayDate) {
-                            cell.classList.add('today');
-                        }
-                        
-                        cell.addEventListener('click', function() {
-                            if (this.innerText) {
-                                document.querySelectorAll('#calendar td.selected').forEach(td => {
-                                    td.classList.remove('selected');
-                                });
-                                this.classList.add('selected');
-                            }
-                        });
-                        
-                        date++;
-                    }
-                    row.appendChild(cell);
-                }
-                calendarBody.appendChild(row);
-            }
-        }
-
-        window.onload = () => {
-            const today = new Date();
-            console.log("Page loaded, creating calendar for:", today.getMonth(), today.getFullYear());
-            createCalendar(today.getMonth(), today.getFullYear());
-        };
-    </script>
