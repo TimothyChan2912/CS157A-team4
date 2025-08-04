@@ -60,6 +60,11 @@
                         <i class="fas fa-calendar-check"></i>
                         My Bookings
                     </button>
+                    
+                    <button class="map-button" onclick="location.href='map_search.jsp'">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Map Search
+                    </button>
                 </div>
             </div>
         </div>

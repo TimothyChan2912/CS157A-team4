@@ -1,0 +1,181 @@
+#map {
+    height: 78vh;
+    width: 100%;
+    margin-top: 5px;
+    background-color: #f0f0f0;
+    border: 2px solid #FF3C38;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #666;
+    box-shadow: 0 4px 15px rgba(255, 60, 56, 0.1);
+}
+
+.main-content {
+    padding-top: 80px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.map-container {
+    padding: 5px 15px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.back-button {
+    background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.back-button:hover {
+    background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+    color: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+}
+
+.gym-info-window {
+    max-width: 320px;
+    padding: 15px;
+    font-family: 'Lato', sans-serif;
+}
+
+.gym-info-window h3 {
+    margin: 0 0 15px 0;
+    color: #FF3C38;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-bottom: 2px solid #FF3C38;
+    padding-bottom: 8px;
+}
+
+.gym-info-window p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2c3e50;
+}
+
+.gym-info-window strong {
+    color: #FF3C38;
+    font-weight: 600;
+}
+
+.gym-details-button {
+    background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 60, 56, 0.3);
+}
+
+.gym-details-button:hover {
+    background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+    color: #2c3e50;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 209, 0, 0.4);
+}
+
+.gym-list-container {
+    padding: 20px;
+    overflow-y: auto;
+    height: 70vh;
+    background: linear-gradient(135deg, rgba(255, 60, 56, 0.05), rgba(255, 209, 0, 0.05));
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.gym-list-container h3 {
+    color: #FF3C38;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #FFD100;
+    padding-bottom: 10px;
+}
+
+.gym-card {
+    border: 2px solid #FF3C38;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(255, 60, 56, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gym-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 60, 56, 0.2);
+    border-color: #FFD100;
+}
+
+.gym-card h4 {
+    margin: 0 0 15px 0;
+    color: #FF3C38;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-bottom: 2px solid #FFD100;
+    padding-bottom: 8px;
+}
+
+.gym-card p {
+    margin: 5px 0;
+    color: #555;
+    line-height: 1.4;
+}
+
+.gym-card strong {
+    color: #FF3C38;
+    font-weight: 600;
+}
+
+.no-gyms-message {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.error-message {
+    padding: 20px;
+    text-align: center;
+    color: red;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin: 20px;
+}
+
+.loading-message {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}

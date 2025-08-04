@@ -38,7 +38,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <a class="navbar-brand" href="home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="navbar-title">
                 <h1>Dashboard</h1>
@@ -82,7 +82,8 @@
 
                         String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
                                                             " FROM Bookings JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID)" +
-                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' ORDER BY Booking_Date, Start_Time";
+                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' AND Booking_Date > CURDATE()" +
+                                                            "ORDER BY Booking_Date, Start_Time";
                         ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
 
                         while (rsAcceptedBookings.next()) {
@@ -181,4 +182,3 @@
     </div>
     </div>
 
-    

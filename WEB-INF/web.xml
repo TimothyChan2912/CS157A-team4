@@ -6,40 +6,6 @@
          version="4.0">
     
     <display-name>Gym Share Application</display-name>
-    
-    <servlet>
-        <servlet-name>default</servlet-name>
-        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
-        <init-param>
-            <param-name>debug</param-name>
-            <param-value>0</param-value>
-        </init-param>
-        <init-param>
-            <param-name>listings</param-name>
-            <param-value>false</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>upload_photo</servlet-name>
-        <jsp-file>/templates/upload_photo.jsp</jsp-file>
-        <multipart-config>
-            <max-file-size>52428800</max-file-size> 
-            <max-request-size>157286400</max-request-size> 
-            <file-size-threshold>1048576</file-size-threshold> 
-        </multipart-config>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>upload_photo</servlet-name>
-        <url-pattern>/templates/upload_photo.jsp</url-pattern>
-    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -47,5 +13,3 @@
         <welcome-file>team4.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
-
-

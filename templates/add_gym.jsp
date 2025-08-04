@@ -32,7 +32,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <a class="navbar-brand" href="home.jsp">Gym Share</a>
             <div class="navbar-title">
                 <h1>Add Gym</h1>
             </div>
