@@ -169,7 +169,7 @@ form input:focus, form textarea:focus {
   gap: 10px;
 }
 
-.add-button, .edit-button, .delete-button {
+.add-button, .edit-button, .delete-button, .review-button {
   padding: 8px 16px;
   border: none;
   border-radius: 6px;
@@ -213,6 +213,27 @@ form input:focus, form textarea:focus {
 }
 
 .delete-button:hover {
+  background: linear-gradient(135deg, #a71e2a 0%, #941a26 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(167, 30, 42, 0.4);
+}
+
+.review-button {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.review-button:hover {
   background: linear-gradient(135deg, #a71e2a 0%, #941a26 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(167, 30, 42, 0.4);

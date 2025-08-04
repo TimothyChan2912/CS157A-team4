@@ -33,6 +33,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Responsive adjustments for navbar title */
 @media (max-width: 768px) {
   .navbar-title h1 {
     font-size: 1.2rem;
@@ -90,6 +91,7 @@
   box-shadow: 0 2px 10px rgba(255, 60, 56, 0.3);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
   .guest-buttons {
     flex-direction: column;
@@ -121,6 +123,7 @@
   }
 }
 
+/* Host Dashboard Buttons */
 .host-buttons {
   position: absolute;
   left: 50%;
@@ -145,135 +148,17 @@
   font-weight: 600;
   font-size: 1.1rem;
   text-transform: uppercase;
-  transition: all 0.3s ease;
   letter-spacing: 0.5px;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
-  min-width: 200px;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-width: 180px;
 }
 
 .host-buttons button:hover {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 60, 56, 0.4);
-}
-
-.host-actions-container {
-  background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 3px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid rgba(255, 60, 56, 0.2);
-  padding: 35px;
-  margin: 20px auto;
-  width: 100%;
-  max-width: 500px;
-  position: absolute;
-  left: 50%;
-  top: 100px;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-.host-actions-container h2 {
-  background-color: #FF8A00;
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 25px;
-  text-align: center;
-  padding: 15px 20px;
-  border-radius: 15px;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
-  margin: 0 0 25px 0;
-}
-
-/* Guest Actions Container */
-.guest-actions-container {
-  background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 3px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid rgba(255, 60, 56, 0.2);
-  padding: 35px;
-  margin: 20px auto;
-  width: 100%;
-  max-width: 500px;
-  position: absolute;
-  left: 50%;
-  top: 100px;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-.guest-actions-container h2 {
-  background-color: #27ae60;
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin-bottom: 25px;
-  text-align: center;
-  padding: 15px 20px;
-  border-radius: 15px;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-  margin: 0 0 25px 0;
-}
-
-
-
-.actions-buttons-container.vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 100%;
-}
-
-.actions-buttons-container.vertical button {
-  background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
-  color: white;
-  border: none;
-  padding: 18px 25px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1.2rem;
-  transition: all 0.3s ease;
-  letter-spacing: 0.8px;
-  box-shadow: 0 6px 20px rgba(255, 60, 56, 0.4);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-transform: uppercase;
-}
-
-.actions-buttons-container.vertical button:hover {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 60, 56, 0.4);
-}
-
-.actions-buttons-container.vertical button.current {
   background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
   color: #2c3e50;
-  box-shadow: 0 4px 15px rgba(255, 209, 0, 0.3);
-}
-
-.actions-buttons-container.vertical button.current:hover {
-  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
-}
-
-.actions-buttons-container.vertical button i {
-  font-size: 1.4rem;
-  min-width: 25px;
 }
 
 .host-buttons button:active {
@@ -323,13 +208,14 @@
 
 .dashboard-layout {
   display: flex;
-  min-height: calc(100vh - 120px);
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 20px;
   padding: 0 20px;
 }
 
 .sidebar {
-  width: 350px;
+  width: 300px;
   background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
@@ -349,6 +235,69 @@
   border-bottom: 2px solid #FF8A00;
   padding-bottom: 10px;
   font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.recent-comments {
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.recent-comments h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #FF3C38;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.comment-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-gym {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 3px;
+}
+
+.comment-stars {
+  color: #FFD700;
+  font-size: 1rem;
+}
+
+.comment-text {
+  font-style: italic;
+  color: #555;
+  margin-top: 5px;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .recent-comments {
+    width: 100%;
+    position: static;
+    margin-top: 20px;
+    max-height: none;
+  }
 }
 
 .bookings-list {
@@ -442,29 +391,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px;
-}
-
-.top-section {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  padding-top: 10px;
 }
 
 @media (max-width: 1024px) {
   .dashboard-layout {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
-  
-  .sidebar {
+
+  .recent-comments,
+  .sidebar,
+  .main-content {
     width: 100%;
     position: static;
-    margin-bottom: 20px;
-  }
-  
-  .main-content {
-    padding-top: 5px;
+    margin: 10px 0;
   }
 }
 
@@ -480,51 +420,4 @@
   .upcoming-bookings h2 {
     font-size: 1.3rem;
   }
-}
-
-/* Guest action buttons */
-.guest-actions-container .btn {
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 1.1rem;
-  padding: 15px 25px;
-  border-radius: 12px;
-  border: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-  width: 100%;
-  text-align: left;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.guest-actions-container .btn i {
-  margin-right: 15px;
-  font-size: 1.3rem;
-  min-width: 25px;
-}
-
-.guest-actions-container .btn-primary {
-  background: linear-gradient(135deg, #27ae60 0%, #2c3e50 100%);
-  color: white;
-}
-
-.guest-actions-container .btn-warning {
-  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-  color: white;
-}
-
-.guest-actions-container .btn-info {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  color: white;
-}
-
-.guest-actions-container .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
