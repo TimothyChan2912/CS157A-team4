@@ -323,13 +323,14 @@
 
 .dashboard-layout {
   display: flex;
-  min-height: calc(100vh - 120px);
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 20px;
   padding: 0 20px;
 }
 
 .sidebar {
-  width: 350px;
+  width: 300px;
   background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
@@ -349,6 +350,69 @@
   border-bottom: 2px solid #FF8A00;
   padding-bottom: 10px;
   font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.recent-comments {
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.recent-comments h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #FF3C38;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.comment-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-gym {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 3px;
+}
+
+.comment-stars {
+  color: #FFD700;
+  font-size: 1rem;
+}
+
+.comment-text {
+  font-style: italic;
+  color: #555;
+  margin-top: 5px;
+}
+
+.comment-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .recent-comments {
+    width: 100%;
+    position: static;
+    margin-top: 20px;
+    max-height: none;
+  }
 }
 
 .bookings-list {
@@ -450,21 +514,20 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 30px;
+  padding-top: 10px;
 }
 
 @media (max-width: 1024px) {
   .dashboard-layout {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
-  
-  .sidebar {
+
+  .recent-comments,
+  .sidebar,
+  .main-content {
     width: 100%;
     position: static;
-    margin-bottom: 20px;
-  }
-  
-  .main-content {
-    padding-top: 5px;
+    margin: 10px 0;
   }
 }
 
@@ -482,7 +545,6 @@
   }
 }
 
-/* Guest action buttons */
 .guest-actions-container .btn {
   font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 700;

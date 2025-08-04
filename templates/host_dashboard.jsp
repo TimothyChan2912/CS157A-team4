@@ -32,6 +32,8 @@
     <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
     <link rel="stylesheet" type="text/css" href="../static/dashboard.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" crossorigin="anonymous">
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <title>Dashboard - Gym Share</title>
 </head>
 
@@ -58,27 +60,27 @@
         <div class="sidebar">
             <div class="upcoming-bookings">
                 <h2>Upcoming Bookings</h2>
-                <div class="bookings-list">
-                    <%
-                    try {
-                        java.sql.Connection con;
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+                	<div class="bookings-list">
+                    	<%
+                    	try {
+                        	java.sql.Connection con;
+                        	Class.forName("com.mysql.cj.jdbc.Driver");
+                        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                        String gymName = "";
-                        Integer bookingID = 0;
-                        Date bookingDate = null;
-                        Time startTime = null;
-                        Time endTime = null;
-                        String bookingDateStr = "";
-                        String startTimeStr = "";
-                        String endTimeStr = "";
-                        Boolean hasBookings = false;
+                        	String gymName = "";
+                        	Integer bookingID = 0;
+                        	Date bookingDate = null;
+                        	Time startTime = null;
+                        	Time endTime = null;
+                        	String bookingDateStr = "";
+                        	String startTimeStr = "";
+                        	String endTimeStr = "";
+                        	Boolean hasBookings = false;
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-
-                        Statement stmtAccepted = con.createStatement();
+                        	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                        	SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	                        Statement stmtAccepted = con.createStatement();
 
                         String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
                                                             " FROM Bookings JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID)" +
@@ -86,50 +88,50 @@
                                                             "ORDER BY Booking_Date, Start_Time";
                         ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
 
-                        while (rsAcceptedBookings.next()) {
-                            gymName = rsAcceptedBookings.getString("Gym_Name");
-                            bookingID = rsAcceptedBookings.getInt("Booking_ID");
-                            bookingDate = rsAcceptedBookings.getDate("Booking_Date");
-                            startTime = rsAcceptedBookings.getTime("Start_Time");
-                            endTime = rsAcceptedBookings.getTime("End_Time");
+                        	while (rsAcceptedBookings.next()) {
+                            	gymName = rsAcceptedBookings.getString("Gym_Name");
+                            	bookingID = rsAcceptedBookings.getInt("Booking_ID");
+                            	bookingDate = rsAcceptedBookings.getDate("Booking_Date");
+                            	startTime = rsAcceptedBookings.getTime("Start_Time");
+                            	endTime = rsAcceptedBookings.getTime("End_Time");
 
-                            bookingDateStr = dateFormat.format(bookingDate);
-                            startTimeStr = timeFormat.format(startTime);
-                            endTimeStr = timeFormat.format(endTime);
-                            hasBookings = true;
-                    %>
-                            <div class="booking-item">
-                                <div class="booking-gym"><%= gymName %></div>
-                                <div class="booking-date"><%= bookingDateStr %></div>
-                                <div class="booking-time"><%= startTimeStr %> - <%= endTimeStr %></div>
-                                <div class="booking-actions">
-                                    <div class="booking-status confirmed">Confirmed</div>
-                                    <div class="cancel-booking">
-                                        <form method="post" action="host_dashboard.jsp">
-                                            <input type="hidden" name="action" value="cancel">
-                                            <input type="hidden" name="bookingID" value="<%= bookingID %>">
-                                            <button type="submit" class="cancel-button">Cancel</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                    <%  
-                        }
-                        if(hasBookings == false) {
-                    %>
-                            <div class="booking-item no-bookings">No upcoming bookings</div>
-                    <%
-                        }
-                        rsAcceptedBookings.close();
-                        stmtAccepted.close();
-                    }
-                    catch (SQLException e) {
-                        out.println("SQLException: " + e.getMessage());
-                    }
-                    %>
-                </div>
+                            	bookingDateStr = dateFormat.format(bookingDate);
+                            	startTimeStr = timeFormat.format(startTime);
+                            	endTimeStr = timeFormat.format(endTime);
+                            	hasBookings = true;
+                    	%>
+                            	<div class="booking-item">
+                                	<div class="booking-gym"><%= gymName %></div>
+                                	<div class="booking-date"><%= bookingDateStr %></div>
+                                	<div class="booking-time"><%= startTimeStr %> - <%= endTimeStr %></div>
+                                	<div class="booking-actions">
+                                    	<div class="booking-status confirmed">Confirmed</div>
+                                    	<div class="cancel-booking">
+                                        	<form method="post" action="host_dashboard.jsp">
+                                            	<input type="hidden" name="action" value="cancel">
+                                            	<input type="hidden" name="bookingID" value="<%= bookingID %>">
+                                            	<button type="submit" class="cancel-button">Cancel</button>
+                                        	</form>
+                                    	</div>
+                                	</div>
+                            	</div>
+                    	<%  
+                        	}
+                        	if(hasBookings == false) {
+                    	%>
+                            	<div class="booking-item no-bookings">No upcoming bookings</div>
+                    	<%
+                        	}
+                        	rsAcceptedBookings.close();
+                        	stmtAccepted.close();
+                    	}
+                    	catch (SQLException e) {
+                        	out.println("SQLException: " + e.getMessage());
+                    	}
+                    	%>
+                	</div>
+            	</div>
             </div>
-        </div>
 
         <div class="main-content">
             <div class="host-actions-container">
@@ -168,7 +170,7 @@
                     String cancelBooking = "UPDATE Bookings SET Status = 'Cancelled' WHERE Booking_ID = " + bookingID;
                     Statement stmtCancel = con.createStatement();
 
-                    stmtCancel.execute(cancelBooking);
+                    stmtCancel.executeUpdate(cancelBooking);
                     stmtCancel.close();
 
                     out.println("<script>alert('Booking cancelled successfully.'); window.location.href='host_dashboard.jsp';</script>");

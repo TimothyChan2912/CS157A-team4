@@ -53,6 +53,7 @@
     <div class="main-content">
         <button class="back-button" onclick="location.href='host_dashboard.jsp'">Back to Dashboard</button>
         <div class="header-container">
+            <h1>My Gyms</h1>
             <button class="add-button" onclick="location.href='add_gym.jsp'">Add New Gym</button>
         </div>
 
@@ -82,6 +83,7 @@
                             <div class="gym-actions">
                                 <button class="edit-button" onclick="location.href='edit_gym.jsp?gymID=<%= gymID %>'">Edit</button>
                                 <button class="delete-button" onclick="if(confirm('Are you sure you want to delete this gym?')) { location.href='delete_gym.jsp?gymID=<%= gymID %>' }">Delete</button>
+                                <button class="delete-button" onclick="location.href='host_reviews.jsp?gymID=<%= gymID %>'">Reviews</button>
                             </div> 
                         </div>
 
