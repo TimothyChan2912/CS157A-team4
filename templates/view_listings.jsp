@@ -160,8 +160,8 @@
 
                     double avgRating = 0.0;
                     boolean hasRating = false;
-                    if (avgRs.next() && avgRs.getDouble("Avg_Stars") > 0) {
-                        avgRating = avgRs.getDouble("Avg_Stars");
+                    if (avgRs.next() && avgRs.getDouble("avg_rating") > 0) {
+                        avgRating = avgRs.getDouble("avg_rating");
                         hasRating = true;
                     }
 

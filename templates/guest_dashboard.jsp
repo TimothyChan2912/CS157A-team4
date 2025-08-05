@@ -40,34 +40,20 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
+                    <li class="nav-item">
+                    	<a class="nav-link" href="guest_settings.jsp"">
+                    		<i class="fas fa-cog"></i> Settings
+                    	</a>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div style="padding-top: 80px;">
-        <div class="main-content">
-            <div class="guest-actions-container">
-                <h2>Guest's Actions</h2>
-                <div class="actions-buttons-container vertical">                    
-                    <button class="listings-button" onclick="location.href='view_listings.jsp'">
-                        <i class="fas fa-list"></i>
-                        View Listings
-                    </button>
-                    
-                    <button class="bookings-button" onclick="location.href='guest_bookings.jsp'">
-                        <i class="fas fa-calendar-check"></i>
-                        My Bookings
-                    </button>
-                    
-                    <button class="map-button" onclick="location.href='map_search.jsp'">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Map Search
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div style="padding-top: 80px;"></div>
+    <div class="guest-buttons">
+        <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
+        <button class="guest-listings-button" onclick="location.href='guest_bookings.jsp'">My Bookings</button>
     </div>
 
 
