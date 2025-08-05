@@ -7,31 +7,22 @@ body {
 }
 
 .main-content {
-  padding-top: 100px;
+  padding-top: 120px;
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-.listings-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  min-height: 100vh;
 }
 
 .back-button {
   position: absolute;
-  top: 110px;
-  left: 20px;
+  top: 100px;
+  left: 30px;
   background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 25px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
@@ -47,29 +38,6 @@ body {
   color: #2c3e50;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
-}
-
-.header-container {
-  text-align: center;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-}
-
-.header-container h1 {
-  color: #2c3e50;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 20px 0;
-  font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.header-container .add-button {
-  margin: 0;
 }
 
 form {
@@ -148,15 +116,29 @@ form input:focus, form textarea:focus {
   box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
 }
 
+.listings-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .listing-container {
   width: 400px;
-  flex: 0 0 400px;
   margin: 0;
-  padding: 25px;
+  padding: 30px;
   background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 60, 56, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listing-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .listing-header {
@@ -182,6 +164,42 @@ form input:focus, form textarea:focus {
   gap: 15px;
 }
 
+.booking-actions {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(255, 60, 56, 0.1);
+  text-align: center;
+}
+
+.review-button {
+  background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-button:hover {
+  background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
+  color: #2c3e50;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
+}
+
+.review-button i {
+  font-size: 0.9rem;
+}
+
 .detail-item {
   display: flex;
   flex-direction: column;
@@ -190,8 +208,10 @@ form input:focus, form textarea:focus {
 
 .detail-item strong {
   color: #2c3e50;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .detail-item p {
@@ -207,25 +227,3 @@ form input:focus, form textarea:focus {
   font-size: 1.2rem;
 }
 
-@media (max-width: 1300px) {
-  .listings-container {
-    max-width: 850px;
-  }
-}
-
-@media (max-width: 900px) {
-  .listings-container {
-    max-width: 450px;
-  }
-}
-
-@media (max-width: 500px) {
-  .listing-container {
-    width: 100%;
-    flex: 1 1 auto;
-  }
-
-  .listings-container {
-    padding: 0 10px;
-  }
-}

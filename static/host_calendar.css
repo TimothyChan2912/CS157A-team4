@@ -120,12 +120,12 @@ body {
   display: inline-block;
 }
 
-.booking-status.available {
+.booking-status.completed {
   background: #d4edda;
   color: #155724;
 }
 
-.booking-status.booked {
+.booking-status .cancelled {
   background: #f8d7da;
   color: #721c24;
 }
@@ -292,63 +292,6 @@ body {
   background: #f8f9fa;
   transform: none;
   box-shadow: none;
-}
-
-@media (max-width: 768px) {
-  .header {
-    font-size: 2rem;
-  }
-  
-  .nav button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-  
-  #calendar th,
-  #calendar td {
-    padding: 15px 10px;
-    font-size: 1rem;
-  }
-  
-  #calendar td {
-    height: 60px;
-    width: auto;
-  }
-  
-  .calendar-container {
-    padding: 20px 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header {
-    font-size: 1.5rem;
-  }
-  
-  .nav {
-    gap: 15px;
-  }
-  
-  .nav button {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-  
-  #calendar th,
-  #calendar td {
-    padding: 10px 5px;
-    font-size: 0.9rem;
-  }
-  
-  #calendar td {
-    height: 50px;
-  }
-  
-  .calendar-container {
-    padding: 15px 5px;
-  }
 }
 
 #calendar {

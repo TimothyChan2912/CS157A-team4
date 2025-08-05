@@ -112,7 +112,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 return;
             }
             
-            if ("uploadPhotos".equals(action)) {
+            if (action.equals("uploadPhotos")) {
                 try {
                     if (photoFile != null && photoFile.getSize() > 0) {
                         String submittedFileName = photoFile.getName();
@@ -182,7 +182,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 if (!redirectURL.contains("uploadError")) {
                     redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=photos&success=true";
                 } 
-            } else if ("updateGymDetails".equals(action)) {
+            } else if (action.equals("updateGymDetails")) {
                 String updatedGymName = request.getParameter("gymName");
                 String updatedDescription = request.getParameter("description");
                 String updatedAddress = request.getParameter("address");
@@ -197,8 +197,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 pstmt.executeUpdate();
                 pstmt.close();
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=details";
-
-            } else if ("addMachine".equals(action)) {
+            } else if (action.equals("addMachine")) {
                 String machineType = request.getParameter("machineType");
                 String machineStatus = request.getParameter("machineStatus");
                 Statement stmt = con.createStatement();
@@ -218,8 +217,28 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 pstmt.close();
                 stmt.close();
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=machines";
+            } else if (action.equals("saveMachines")) {
+                String[] machineNumbers = request.getParameterValues("machineNumber");
 
-            } else if ("deleteMachine".equals(action)) {
+                if (machineNumbers != null) {
+                    for (String num: machineNumbers) {
+                        int machineNumber = Integer.parseInt(num);
+
+                        String type = "machineType_" + machineNumber;
+                        String status = "machineStatus_" + machineNumber;
+
+                        String updatedType = request.getParameter(type);
+                        String updatedStatus = request.getParameter(status);
+
+                        String updateMachines = "UPDATE Machines SET Type = '" + updatedType + "', Status = '" + updatedStatus + "' WHERE Machine_Number = " + machineNumber + " AND Gym_ID = " + gymID;
+                        Statement updateMachineStmt = con.createStatement();
+
+                        updateMachineStmt.execute(updateMachines);
+                        updateMachineStmt.close();
+                    }
+                }
+                redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=machines";
+            } else if (action.equals("deleteMachine")) {
                 int machineNumber = Integer.parseInt(request.getParameter("machineNumber"));
                 String deleteMachine = "DELETE FROM Machines WHERE Machine_Number = ? AND Gym_ID = ?";
                 PreparedStatement pstmt = con.prepareStatement(deleteMachine);
@@ -228,8 +247,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 pstmt.executeUpdate();
                 pstmt.close();
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=machines";
-
-            } else if ("addFeature".equals(action)) {
+            } else if (action.equals("addFeature")) {
                 String featureName = request.getParameter("featureName");
                 String getFeatureID = "SELECT Feature_ID FROM Features WHERE Feature_Name = ?";
                 PreparedStatement pstmt_get = con.prepareStatement(getFeatureID);
@@ -256,21 +274,44 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 pstmt_get.close();
                 pstmt_possess.close();
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=features";
+            } else if (action.equals("saveFeatures")) {
+                String[] originalFeatureNames = request.getParameterValues("originalFeatureName");
 
-            } else if ("deleteFeature".equals(action)) {
+                if (originalFeatureNames != null) {
+                    for (String originalName : originalFeatureNames) {
+                        String safeFeatureName = originalName.replaceAll("[^a-zA-Z0-9]", "_");
+                        String newName = request.getParameter("featureName_" + safeFeatureName);
+
+                        if (newName != null && !newName.equals(originalName)) {
+                            String updateFeature = "UPDATE Features SET Feature_Name = ? WHERE Feature_Name = ?";
+                            PreparedStatement updateFeatureStmt = con.prepareStatement(updateFeature);
+                            updateFeatureStmt.setString(1, newName);
+                            updateFeatureStmt.setString(2, originalName);
+                            updateFeatureStmt.executeUpdate();
+                            updateFeatureStmt.close();
+                        }
+                    }
+                }
+                redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=features";
+            } else if (action.equals("deleteFeature")) {
                 String featureName = request.getParameter("featureName");
+                System.out.println("DEBUG: deleteFeature action called with featureName: " + featureName);
                 String getFeatureID = "SELECT Feature_ID FROM Features WHERE Feature_Name = ?";
                 PreparedStatement pstmt_get = con.prepareStatement(getFeatureID);
                 pstmt_get.setString(1, featureName);
                 ResultSet rsFeatureID = pstmt_get.executeQuery();
                 if (rsFeatureID.next()) {
                     int featureID = rsFeatureID.getInt("Feature_ID");
+                    System.out.println("DEBUG: Found feature ID: " + featureID + " for gym: " + gymID);
                     String deletePossesses = "DELETE FROM Possesses WHERE Gym_ID = ? AND Feature_ID = ?";
                     PreparedStatement pstmt_delete = con.prepareStatement(deletePossesses);
                     pstmt_delete.setInt(1, gymID);
                     pstmt_delete.setInt(2, featureID);
-                    pstmt_delete.executeUpdate();
+                    int rowsDeleted = pstmt_delete.executeUpdate();
+                    System.out.println("DEBUG: Deleted " + rowsDeleted + " rows from Possesses table");
                     pstmt_delete.close();
+                } else {
+                    System.out.println("DEBUG: No feature found with name: " + featureName);
                 }
                 pstmt_get.close();
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=features";
@@ -464,6 +505,10 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                     </div>
                 </form>
 
+                <form action="edit_gym.jsp" method="post">
+                    <input type="hidden" name="gymID" value="<%= gymID %>">
+                    <input type="hidden" name="action" value="saveMachines">
+
                 <%
                     String machineTypeDisplay = "";
                     String machineStatusDisplay = "";
@@ -484,31 +529,27 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                             machineStatusDisplay = rsMachines.getString("Status");
 
                 %>
+                    <input type="hidden" name="machineNumber" value="<%= machineNumber %>">
 
                 <div class="edit-machine">
                     <div class="machine-input-row">
                         <div class="input-group">
-                            <label for="machineType">Type:</label>
-                            <input type="text" id="machineType" name="machineType" value="<%= machineTypeDisplay %>" required>
+                            <label for="machineType_<%= machineNumber %>">Type:</label>
+                            <input type="text" id="machineType_<%= machineNumber %>" name="machineType_<%= machineNumber %>" value="<%= machineTypeDisplay %>" required>
                         </div>
                         
                         <div class="input-group">
-                            <label for="machineStatus">Status:</label>
-                            <select id="machineStatus" name="machineStatus" required>
+                            <label for="machineStatus_<%= machineNumber %>">Status:</label>
+                            <select id="machineStatus_<%= machineNumber %>" name="machineStatus_<%= machineNumber %>" required>
                                 <option value="Available" <%= "Available".equals(machineStatusDisplay) ? "selected" : "" %>>Available</option>
                                 <option value="Unavailable" <%= "Unavailable".equals(machineStatusDisplay) ? "selected" : "" %>>Unavailable</option>
                             </select>
                         </div>
 
                         <div class="input-group">
-                            <form action="edit_gym.jsp" method="post">
-                                <input type="hidden" name="gymID" value="<%= gymID %>">
-                                <input type="hidden" name="action" value="deleteMachine">
-                                <input type="hidden" name="machineNumber" value="<%= machineNumber %>">
-                                <button type="button" class="delete-machine-btn" onclick="deleteMachine(this)">
-                                    <i class="fas fa-trash"></i> Delete Machine
-                                </button>
-                            </form>
+                            <button type="button" class="delete-machine-btn" onclick="deleteMachineById('<%= machineNumber %>', '<%= gymID %>')">
+                                <i class="fas fa-trash"></i> Delete Machine
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -522,10 +563,8 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                         out.println("SQLException: " + e.getMessage());
                     }
                 %>
-                <form action="edit_gym.jsp" method="post">
-                    <input type="hidden" name="gymID" value="<%= gymID %>">
-                    <input type="hidden" name="action" value="saveMachines">
-                    <button type="submit" class="save-button" onclick="saveMachines()">Save</button>
+                
+                    <button type="submit" class="save-button">Save All Changes</button>
                 </form>
             </div>
 
@@ -536,7 +575,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                     String uploadError = request.getParameter("uploadError");
                     if (uploadError != null) {
                 %>
-                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                <div class="alert-error">
                     <strong>Error!</strong> Could not upload photo. Please ensure your server configuration is correct.
                 </div>
                 <%
@@ -544,18 +583,18 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                     String successParam = request.getParameter("success");
                     if ("true".equals(successParam)) {
                 %>
-                <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                <div class="alert-success">
                     <strong>Success!</strong> Photo uploaded successfully.
                 </div>
                 <%
                     }
                 %>
                 
-                <form action="edit_gym.jsp" method="post" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; margin-top: 20px;">
+                <form action="edit_gym.jsp" method="post" enctype="multipart/form-data" class="photo-upload-form">
                     <input type="hidden" name="gymID" value="<%= gymID %>">
                     <input type="hidden" name="action" value="uploadPhotos">
-                    <div style="margin-bottom: 15px;">
-                        <label for="photo" style="font-weight: bold; display: block; margin-bottom: 5px;">Select Photo to Upload:</label>
+                    <div class="form-group">
+                        <label for="photo" class="form-label">Select Photo to Upload:</label>
                         <input type="file" id="photo" name="photo" accept="image/*" required>
                     </div>
                     <button type="submit" class="save-button">Upload Photo</button>
@@ -585,7 +624,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                                     if (photoPath != null && !photoPath.isEmpty()) {
                         %>
                         <div class="photo-container">
-                            <img src="<%= request.getContextPath() %>/<%= photoPath %>" alt="Gym Photo" class="gym-photo" style="max-width: 200px; max-height: 150px; margin: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <img src="<%= request.getContextPath() %>/<%= photoPath %>" alt="Gym Photo" class="gym-photo">
                         </div>
                         <%
                                     }
@@ -628,6 +667,10 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                     </div>
                 </form>
 
+                <form action="edit_gym.jsp" method="post">
+                    <input type="hidden" name="gymID" value="<%= gymID %>">
+                    <input type="hidden" name="action" value="saveFeatures">
+
                 <%
                     String featureNameDisplay = "";
 
@@ -644,25 +687,22 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
 
                         while(rsFeatures.next()) {
                             featureNameDisplay = rsFeatures.getString("Feature_Name");
+                            String safeFeatureName = featureNameDisplay.replaceAll("[^a-zA-Z0-9]", "_");
 
                 %>
+                    <input type="hidden" name="originalFeatureName" value="<%= featureNameDisplay %>">
 
                 <div class="edit-feature">
                     <div class="feature-input-row">
                         <div class="input-group">
-                            <label for="featureName">Name:</label>
-                            <input type="text" id="featureName" name="featureName" value="<%= featureNameDisplay %>" required>
+                            <label for="featureName_<%= safeFeatureName %>">Name:</label>
+                            <input type="text" id="featureName_<%= safeFeatureName %>" name="featureName_<%= safeFeatureName %>" value="<%= featureNameDisplay %>" required>
                         </div>
 
                         <div class="input-group">
-                            <form action="edit_gym.jsp" method="post">
-                                <input type="hidden" name="action" value="deleteFeature">
-                                <input type="hidden" name="gymID" value="<%= gymID %>">
-                                <input type="hidden" name="featureName" value="<%= featureNameDisplay %>">
-                                <button type="submit" class="delete-feature-btn" onclick="deleteFeature(this)">
-                                    <i class="fas fa-trash"></i> Delete Feature
-                                </button>
-                            </form>
+                            <button type="button" class="delete-feature-btn" onclick="deleteFeatureById('<%= featureNameDisplay %>', '<%= gymID %>')">
+                                <i class="fas fa-trash"></i> Delete Feature
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -676,6 +716,9 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                         out.println("SQLException: " + e.getMessage());
                     }
                 %>
+                
+                    <button type="submit" class="save-button">Save All Changes</button>
+                </form>
             </div>
         </div>
     </div>
@@ -724,6 +767,35 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
         }
     }
 
+    function deleteMachineById(machineNumber, gymId) {
+        if (confirm("Are you sure you want to delete this machine?")) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'edit_gym.jsp';
+            
+            const gymIdInput = document.createElement('input');
+            gymIdInput.type = 'hidden';
+            gymIdInput.name = 'gymID';
+            gymIdInput.value = gymId;
+            form.appendChild(gymIdInput);
+            
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'deleteMachine';
+            form.appendChild(actionInput);
+            
+            const machineInput = document.createElement('input');
+            machineInput.type = 'hidden';
+            machineInput.name = 'machineNumber';
+            machineInput.value = machineNumber;
+            form.appendChild(machineInput);
+            
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
     function updateMachine() {
         var machineType = document.getElementById("machineType").value;
         var machineStatus = document.getElementById("machineStatus").value;
@@ -753,6 +825,38 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
             } else {
                 alert("Error: Could not find form to submit");
             }
+        }
+    }
+
+    function deleteFeatureById(featureName, gymId) {
+        console.log("deleteFeatureById called with:", featureName, gymId);
+        if (confirm("Are you sure you want to delete this feature?")) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'edit_gym.jsp';
+            
+            const gymIdInput = document.createElement('input');
+            gymIdInput.type = 'hidden';
+            gymIdInput.name = 'gymID';
+            gymIdInput.value = gymId;
+            form.appendChild(gymIdInput);
+            
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'deleteFeature';
+            form.appendChild(actionInput);
+            
+            const featureInput = document.createElement('input');
+            featureInput.type = 'hidden';
+            featureInput.name = 'featureName';
+            featureInput.value = featureName;
+            form.appendChild(featureInput);
+            
+            console.log("Form created with gymID:", gymId, "featureName:", featureName);
+            document.body.appendChild(form);
+            console.log("About to submit form");
+            form.submit();
         }
     }
 

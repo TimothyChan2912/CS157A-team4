@@ -223,30 +223,3 @@ form input:focus, form textarea:focus {
   font-weight: 600;
   font-size: 1.2rem;
 }
-
-@media (max-width: 1300px) {
-  .gyms-container {
-    max-width: 850px;
-  }
-}
-
-@media (max-width: 900px) {
-  .gyms-container {
-    max-width: 450px;
-  }
-}
-
-@media (max-width: 500px) {
-  .gym-container {
-    width: 100%;
-    flex: 1 1 auto;
-  }
-  
-  .gyms-container {
-    padding: 0 10px;
-  }
-  
-  .back-button {
-    left: 10px;
-  }
-}

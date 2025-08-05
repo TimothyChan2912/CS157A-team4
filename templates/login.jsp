@@ -107,12 +107,13 @@
                         response.sendRedirect("host_dashboard.jsp");
                     }
 
-                    
+
+                    String updateStatus = "UPDATE Bookings SET Status = 'Completed' WHERE Booking_Date < CURDATE() AND Status <>  'Cancelled';";
+                    stmt.execute(updateStatus);
+
                     rs.close();
                     stmt.close();
                     con.close();
-                    
-                
                 } 
                 else {
                     rs.close();

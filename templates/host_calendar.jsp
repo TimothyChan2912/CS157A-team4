@@ -101,7 +101,7 @@
 
                                 String bookingTime = startTimeStr + " - " + endTimeStr;
                                 String bookingDetails = "Booking with " + guestFirstName + " " + guestLastName + " at " + gymName;
-                                String bookingStatus = status.equals("booked") ? "Booked" : "Available";
+                                String bookingStatus = status.equals("Completed") ? "Completed" : "Cancelled";
                     %>
                                 <div class="booking-item">
                                     <div class="booking-date"><%= bookingDateStr %></div>

@@ -1,4 +1,5 @@
 <%@ page import="java.sql.*"%>
+<%@ page import="java.util.Properties,java.io.InputStream,java.io.FileInputStream,java.util.Scanner,java.io.File" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -270,9 +271,85 @@
 
     </script>
     
-    <!-- Google Maps API -->
+    <%
+    String apiKey = "";
+    boolean configLoaded = false;
+    StringBuilder debugOutput = new StringBuilder();
+    
+    try {
+        String[] possiblePaths = {
+            "../WEB-INF/config.properties",
+            "WEB-INF/config.properties",
+            "./WEB-INF/config.properties",
+            "../../WEB-INF/config.properties",
+            "../config.properties",
+            "config.properties",
+            "./config.properties"
+        };
+        
+        debugOutput.append("=== CONFIG LOADING DEBUG ===\\n");
+        debugOutput.append("Attempting to load config.properties...\\n");
+        
+        for (String path : possiblePaths) {
+            try {
+                File testFile = new File(path);
+                debugOutput.append("Trying path: " + path + "\\n");
+                debugOutput.append("  Absolute path: " + testFile.getAbsolutePath() + "\\n");
+                debugOutput.append("  Exists: " + testFile.exists() + "\\n");
+                debugOutput.append("  Can read: " + testFile.canRead() + "\\n");
+                
+                if (testFile.exists() && testFile.canRead()) {
+                    debugOutput.append("  SUCCESS - File found and readable!\\n");
+                    Scanner scanner = new Scanner(testFile);
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine().trim();
+                        if (line.startsWith("GOOGLE_API_KEY=")) {
+                            apiKey = line.substring("GOOGLE_API_KEY=".length()).trim();
+                            configLoaded = true;
+                            debugOutput.append("  API key extracted: " + (apiKey.length() > 10 ? apiKey.substring(0, 10) + "..." : apiKey) + "\\n");
+                            break;
+                        }
+                    }
+                    scanner.close();
+                    if (configLoaded) {
+                        debugOutput.append("  Config loaded successfully from: " + path + "\\n");
+                        break;
+                    }
+                } else {
+                    debugOutput.append("  FAILED - File not found or not readable\\n");
+                }
+            } catch (Exception fileEx) {
+                debugOutput.append("  ERROR - Exception: " + fileEx.getMessage() + "\\n");
+                continue;
+            }
+        }
+        
+        if (!configLoaded || apiKey == null || apiKey.trim().isEmpty()) {
+            debugOutput.append("Config file loading failed - using fallback API key\\n");
+            apiKey = "AIzaSyA0p3sg1m_1WdxkfDQv9G-jV_OwKqMLeFk";
+        }
+        
+        debugOutput.append("Final API key length: " + apiKey.length() + "\\n");
+        debugOutput.append("=== CONFIG LOADING COMPLETE ===");
+        
+    } catch (Exception e) {
+        debugOutput.append("Exception in config loading: " + e.getMessage() + "\\n");
+        apiKey = "AIzaSyA0p3sg1m_1WdxkfDQv9G-jV_OwKqMLeFk";
+    }
+    %>
+
+    <script>
+        var apiKey = "<%= apiKey %>";
+        var debugOutput = "<%= debugOutput.toString() %>";
+        
+        console.log('=== CONFIG DEBUG OUTPUT ===');
+        console.log(debugOutput);
+        
+        console.log('API key loaded:', apiKey ? 'Yes (length: ' + apiKey.length + ')' : 'No');
+        console.log('API key preview:', apiKey ? apiKey.substring(0, 10) + '...' : 'null');
+    </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyz2U0Egt1TDV9my43jNN_JqnKRQ2VGCo&libraries=geometry&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=<%= apiKey %>&libraries=geometry&callback=initMap">
     </script>
     
     <script>

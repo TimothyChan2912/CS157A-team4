@@ -1,24 +1,44 @@
 
-.header-container {
-    margin-bottom: 10px;
+.main-content {
+    padding-top: 55px;
+    padding-bottom: 20px;
 }
 
-.gym-details-wrapper {
+.header-container {
+    margin-bottom: 1px;
+}
+
+    .gym-details-wrapper {
+    display: flex;              
+    flex-direction: row;        
+    align-items: flex-start;
+    gap: 30px;
+    margin: 10px auto 20px;
+    max-width: 1200px;
+    padding: 0 20px;
+    flex-wrap: nowrap;
+  }
+
+.gym-details-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  margin: 40px auto;
+  margin: 10px auto 20px;
   max-width: 1200px;
-  padding: 0 20px;
   flex-wrap: nowrap;
+}
+
+.recent-reviews-container {
+  flex-direction: column;
 }
 
 .gym-details-container,
 .recent-reviews-container {
   flex: 1;
-  min-width: 300px;
-  max-width: 500px;
+  min-width: 450px;
+}
+
+.recent-reviews-container {
+  order: -1; 
 }
 
 .recent-reviews-container h2 {
@@ -35,7 +55,7 @@
   border-radius: 16px;
   border: 1px solid rgba(255, 60, 56, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.03);
-  padding: 20px;
+  padding: 12px;
   margin-bottom: 20px;
 }
 

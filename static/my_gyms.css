@@ -136,7 +136,6 @@ form input:focus, form textarea:focus {
   box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
 }
 
-/* Gym Container Styles for my_gyms.jsp */
 .gym-container {
   max-width: 600px;
   margin: 20px auto;

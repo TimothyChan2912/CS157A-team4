@@ -75,14 +75,16 @@
                     Double price = rs.getDouble("Price");
                     
                  	// Fetch average rating
-                    PreparedStatement avgStmt = con.prepareStatement("SELECT AVG(Rating) AS avg_rating FROM Reviews WHERE Gym_ID = ?");
+                    PreparedStatement avgStmt = con.prepareStatement("SELECT AVG(Stars) AS Avg_Stars " + 
+                                                                    "FROM Reviews JOIN Receives USING (Review_ID) JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) " +
+                                                                    "WHERE Gym_ID = ? ");
                     avgStmt.setInt(1, gymID);
                     ResultSet avgRs = avgStmt.executeQuery();
 
                     double avgRating = 0.0;
                     boolean hasRating = false;
-                    if (avgRs.next() && avgRs.getDouble("avg_rating") > 0) {
-                        avgRating = avgRs.getDouble("avg_rating");
+                    if (avgRs.next() && avgRs.getDouble("Avg_Stars") > 0) {
+                        avgRating = avgRs.getDouble("Avg_Stars");
                         hasRating = true;
                     }
 
@@ -92,14 +94,8 @@
                     <div class="gym-container" onclick="viewGymDetails(<%= gymID %>)" style="cursor: pointer; border-color: #FF3C38;">
                         <div class="gym-header">
                             <h2><%= gymName %></h2>
-                        </div>
-
-                        <div class="gym-details">
-                            <p><strong>Description:</strong> <%= description %></p>
-                            <p><strong>Address:</strong> <%= address %></p>
-                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) %></p>
-                            <p><strong>Rating:</strong>
-							<% if (hasRating) { 
+                            <p>
+                                <% if (hasRating) { 
     							int fullStars = (int) Math.floor(avgRating);
     							for (int i = 1; i <= 5; i++) {
         							if (i <= fullStars) { %>
@@ -108,12 +104,22 @@
             							<i class="far fa-star" style="color: #ccc;"></i>
         							<% }
     							} 
-							%>
-    							(<%= String.format("%.1f ", avgRating) %>/ 5.0)
-							<% } else { %>
-    							<span style="color: #999; font-style: italic;">No reviews yet</span>
+							 } else { %>
+    							<span style="color: #999; font-style: italic;">
+                                    <%
+    							for (int i = 1; i <= 5; i++) { %>
+            							<i class="far fa-star" style="color: #ccc;"></i>
+    							   <% }    
+                                    %>
+                                </span>
 							<% } %>
-							</p>
+                            </p>
+                        </div>
+
+                        <div class="gym-details">
+                            <p><strong>Description:</strong> <%= description %></p>
+                            <p><strong>Address:</strong> <%= address %></p>
+                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) %></p>							
                         </div>
                     </div>
         <%  

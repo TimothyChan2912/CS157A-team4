@@ -8,6 +8,7 @@
         return;
     }
 
+    String firstName = (String) session.getAttribute("firstName");
     Integer userID = (Integer) session.getAttribute("userID");
     int gymID = Integer.parseInt(request.getParameter("gymID"));
     String gymName = "";
@@ -45,7 +46,7 @@
             <a class="navbar-brand" href="../home.jsp">Gym Share</a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link">Welcome!</a></li>
+                    <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
@@ -60,12 +61,12 @@
         </div>
 
         <%
-            try {
+            try {   
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4", "root", "GymShare");
                 PreparedStatement stmt = con.prepareStatement(
-                    "SELECT R.Review_ID, U.First_Name, U.Last_Name, R.Rating, R.Comment, R.Timestamp " +
-                    "FROM Reviews R JOIN Users U ON R.User_ID = U.User_ID " +
-                    "WHERE R.Gym_ID = ? ORDER BY R.Timestamp DESC"
+                    "SELECT R.Review_ID, R.Stars, R.Description, R.Date_Posted, User_ID " +
+                    "FROM Reviews R JOIN Receives USING (Review_ID) JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Makes USING (Booking_ID) JOIN Guests USING (User_ID) " +
+                    "WHERE Gym_ID = ? ORDER BY R.Date_Posted DESC"
                 );
                 stmt.setInt(1, gymID);
                 ResultSet rs = stmt.executeQuery();
@@ -76,19 +77,26 @@
                 while (rs.next()) {
                     hasReviews = true;
                     int reviewID = rs.getInt("Review_ID");
-                    String reviewer = rs.getString("First_Name") + " " + rs.getString("Last_Name");
-                    int rating = rs.getInt("Rating");
-                    String comment = rs.getString("Comment");
-                    String date = sdf.format(rs.getTimestamp("Timestamp"));
+                    int rating = rs.getInt("Stars");
+                    String comment = rs.getString("Description");
+                    String date = sdf.format(rs.getTimestamp("Date_Posted"));
+                    int guestUserID = rs.getInt("User_ID");
+
+                    PreparedStatement userStmt = con.prepareStatement("SELECT First_Name, Last_Name FROM Users WHERE User_ID = ?");
+                    userStmt.setInt(1, guestUserID);
+                    ResultSet userRs = userStmt.executeQuery();
+
+                    String reviewer = "";
+                    if (userRs.next()) {
+                        reviewer = userRs.getString("First_Name") + " " + userRs.getString("Last_Name");
+                    }
+
+                    userRs.close();
+                    userStmt.close();
         %>
                 <div class="gym-container">
                     <div class="gym-header">
                         <h2><%= reviewer %></h2>
-                        <form method="get" action="delete_review.jsp">
-                            <input type="hidden" name="reviewID" value="<%= reviewID %>">
-                            <input type="hidden" name="gymID" value="<%= gymID %>">
-                            <button class="delete-button" type="submit">Delete Review</button>
-                        </form>
                     </div>
 
                     <div class="gym-details">
