@@ -30,12 +30,6 @@ body {
   text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-@media (min-width: 1200px) {
-  .title-section h1 {
-    font-size: 2.5rem;
-  }
-}
-
 .content-layout {
   display: flex;
   gap: 30px;

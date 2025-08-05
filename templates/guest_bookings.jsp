@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../static/home.css">
     <link rel="stylesheet" type="text/css" href="../static/navbar.css">
-    <link rel="stylesheet" type="text/css" href="../static/guest_bookings.css">
+    <link rel="stylesheet" type="text/css" href="../static/guest_listings.css">
     <title>Dashboard - Gym Share</title>
 </head>
 
@@ -39,9 +39,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
             <a class="navbar-brand" href="home.jsp">Gym Share</a>
-            <div class="navbar-title">
-                <h1>My Bookings</h1>
-            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -54,6 +51,10 @@
 
     <div class="main-content">
         <button class="back-button" onclick="location.href='guest_dashboard.jsp'">Back to Dashboard</button>
+        <div class="header-container">
+            <h1>My Bookings</h1>
+        </div>
+
         <div class="listings-container">
             <%
                 try {
@@ -119,42 +120,33 @@
                         if (!status.equals("Cancelled")) {      
                 %>
                 <div class="listing-container">
-                <div class="listing-header">
-                    <h2><%= gymName %></h2>
-                </div>
-                <div class="listing-details">
-                    <p><strong>Status:</strong> <%= status %></p>
-                    <p><strong>Price Offered:</strong> $<%= String.format("%.2f", priceOffered) %></p>
-                    <p><strong>Payment Method:</strong> <%= paymentMethod %></p>
-                    <p><strong>Booking Date:</strong> <%= bookingDateStr %></p>
-                    <p><strong>Start Time:</strong> <%= startTimeStr %></p>
-                    <p><strong>End Time:</strong> <%= endTimeStr %></p>
-                    
-                    <% if (status.equals("Completed")) { %>
-                        <div class="booking-actions">
-                            <button class="review-button" onclick="location.href='add_review.jsp?bookingID=<%= bookingID %>&gymName=<%= gymName %>'">
-                                <i class="fas fa-star"></i> Leave Review
-                            </button>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-            <%  
-                    } 
-                    rsGym.close();
-                    stmtGym.close();
-                    rsListings.close();
-                    stmtListings.close();
-                } 
+                    <div class="listing-header">
+                        <h2><%= gymName %></h2>
+                    </div>
 
+                    <div class="listing-details">
+                        <p><strong>Status:</strong> <%= status %></p>
+                        <p><strong>Price Offered:</strong> $<%= String.format("%.2f", priceOffered) %></p>
+                        <p><strong>Payment Method:</strong> <%= paymentMethod %></p>
+                        <p><strong>Booking Date:</strong> <%= bookingDateStr %></p>
+                        <p><strong>Start Time:</strong> <%= startTimeStr %></p>
+                        <p><strong>End Time:</strong> <%= endTimeStr %></p>
+                    </div>
+                </div>
+            <%  
+                        }
+                        rsListings.close();
+                        rsGym.close();
+                        stmtGym.close();
+                        stmtListings.close();
+                }
+                
                 rsListingID.close();
                 stmtListingID.close();
                 con.close();
             } 
-            catch (Exception e) { 
+            catch (SQLException e) {
                 out.println("SQLException: " + e.getMessage());
             }
-        %>
-    </div> 
-</div> 
-</body>
+            %>
+

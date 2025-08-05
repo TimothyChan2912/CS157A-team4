@@ -89,7 +89,6 @@
                     </div>
 
                     <div class="gym-details-wrapper">
-                    	<!-- Left: Details -->
                         <div class="gym-container gym-details-container">
                             <div class="gym-details">
                                 <div class="detail-section">
@@ -159,7 +158,6 @@
                             </div>
                         </div>
                         
-                        <!-- Right: Reviews -->
     					<div class="gym-container recent-reviews-container">
         					<h2>Recent Reviews</h2>
         					<%

@@ -7,7 +7,7 @@ body {
 }
 
 .main-content {
-  padding-top: 150px;
+  padding-top: 160px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -90,7 +90,7 @@ body {
 
 .search-input {
   flex: 1;
-  padding: 10px 20px;
+  padding: 1px 20px;
   border: none;
   outline: none;
   font-size: 1rem;
@@ -187,7 +187,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
   position: relative;
 }
 

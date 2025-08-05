@@ -38,9 +38,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
             <a class="navbar-brand" href="home.jsp">Gym Share</a>
-            <div class="navbar-title">
-                <h1>Requested Bookings</h1>
-            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -54,6 +51,7 @@
     <div class="main-content">
         <button class="back-button" onclick="location.href='host_dashboard.jsp?gymID=<%= request.getParameter("gymID") %>'">Back to Dashboard</button>
         <div class="header-container">
+            <h1>Requested Bookings</h1>
             <p>Click <i class="fas fa-check"></i> to accept. Click <i class="fas fa-times"></i> to decline.</p>
         </div>
 
@@ -65,7 +63,7 @@
 
                 String retrieveRequestedBookings = "SELECT Guests.User_ID, Booking_ID, Price_Offered, Payment_Method, Status, Booking_Date, Start_Time, End_Time, Gym_Name" +
                                                 " FROM Guests JOIN Makes ON Guests.User_ID = Makes.User_ID JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID) JOIN Hosts ON Owns.User_ID = Hosts.User_ID" +
-                                                " WHERE Hosts.User_ID = " + userID + " AND Status = 'Pending'";
+                                                " WHERE Hosts.User_ID = " + userID;
                 Statement stmtRequestedBookings = con.createStatement();
                 ResultSet rsRequestedBookings = stmtRequestedBookings.executeQuery(retrieveRequestedBookings);
 
@@ -95,6 +93,7 @@
                     rsGuest.close();
                     stmtGuest.close();
 
+                    if(status.equals("Pending")) {
             %>
                     <div class="booking-container">
                         <div class="booking-header">
@@ -124,6 +123,7 @@
                         </div>
                 </div>
             <%
+                    }
                 }
                 rsRequestedBookings.close();
                 stmtRequestedBookings.close();
@@ -145,7 +145,7 @@
                 if (request.getParameter("action").equals("accept")) {
                     String acceptBooking = "UPDATE Bookings SET Status = 'Confirmed' WHERE Booking_ID = " + request.getParameter("bookingID");
                     Statement stmtAccept = con.createStatement();
-                    stmtAccept.execute(acceptBooking);
+                    stmtAccept.executeUpdate(acceptBooking);
 
                     stmtAccept.close();
                     con.close();
@@ -153,7 +153,7 @@
                 else if (request.getParameter("action").equals("decline")) {
                     String declineBooking = "UPDATE Bookings SET Status = 'Rejected' WHERE Booking_ID = " + request.getParameter("bookingID");
                     Statement stmtDecline = con.createStatement();
-                    stmtDecline.execute(declineBooking);
+                    stmtDecline.executeUpdate(declineBooking);
 
                     stmtDecline.close();
                     con.close();

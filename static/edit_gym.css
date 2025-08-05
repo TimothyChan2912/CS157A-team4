@@ -873,7 +873,6 @@ form input:focus, form textarea:focus, form select:focus {
     margin-bottom: 0;
 }
 
-/* Alert message styles */
 .alert-error {
     background: #f8d7da;
     border: 1px solid #f5c6cb;
@@ -892,7 +891,6 @@ form input:focus, form textarea:focus, form select:focus {
     border-radius: 5px;
 }
 
-/* Photo upload form styles */
 .photo-upload-form {
     border: 1px solid #ccc;
     padding: 20px;
@@ -910,7 +908,6 @@ form input:focus, form textarea:focus, form select:focus {
     margin-bottom: 5px;
 }
 
-/* Gym photo styles */
 .gym-photo {
     max-width: 200px;
     max-height: 150px;

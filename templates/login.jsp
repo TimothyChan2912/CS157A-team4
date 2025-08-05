@@ -108,7 +108,7 @@
                     }
 
 
-                    String updateStatus = "UPDATE Bookings SET Status = 'Completed' WHERE Booking_Date < CURDATE() AND Status <>  'Cancelled';";
+                    String updateStatus = "UPDATE Bookings SET Status = 'Completed' WHERE Booking_Date < CURDATE() AND Status <>  'Cancelled'";
                     stmt.execute(updateStatus);
 
                     rs.close();

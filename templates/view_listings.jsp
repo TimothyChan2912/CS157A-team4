@@ -109,62 +109,40 @@
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                // Get search and filter parameters
                 String searchQuery = request.getParameter("search");
                 String priceRange = request.getParameter("priceRange");
                 String minRating = request.getParameter("rating");
-                
-                // Build dynamic SQL query
-                StringBuilder sql = new StringBuilder("SELECT DISTINCT g.Gym_ID, g.Gym_Name, g.Description, g.Address, g.Price ");
-                sql.append("FROM Gyms g ");
-                
-                // Add rating join if needed
-                if (minRating != null && !minRating.isEmpty()) {
-                    sql.append("LEFT JOIN Has h ON g.Gym_ID = h.Gym_ID ");
-                    sql.append("LEFT JOIN Bookings b ON h.Booking_ID = b.Booking_ID ");
-                    sql.append("LEFT JOIN Receives r ON b.Booking_ID = r.Booking_ID ");
-                    sql.append("LEFT JOIN Reviews rev ON r.Review_ID = rev.Review_ID ");
-                }
-                
-                sql.append("WHERE 1=1 ");
-                
-                // Add search condition
-                if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                    sql.append("AND (g.Gym_Name LIKE ? OR g.Address LIKE ? OR g.Description LIKE ?) ");
-                }
-                
-                // Add price filter
-                if (priceRange != null && !priceRange.isEmpty()) {
-                    sql.append("AND g.Price <= ? ");
-                }
-                
-                // Add rating filter
-                if (minRating != null && !minRating.isEmpty()) {
-                    sql.append("GROUP BY g.Gym_ID ");
-                    sql.append("HAVING AVG(rev.Stars) >= ? OR AVG(rev.Stars) IS NULL ");
-                }
-                
-                PreparedStatement stmt = con.prepareStatement(sql.toString());
-                int paramIndex = 1;
-                
-                // Set search parameters
+
+                String filter = "SELECT g.Gym_ID, g.Gym_Name, g.Description, g.Address, g.Price, AVG(rev.Stars) AS Avg_Stars " +
+                             "FROM Gyms g LEFT JOIN Has h ON g.Gym_ID = h.Gym_ID LEFT JOIN Bookings b ON h.Booking_ID = b.Booking_ID LEFT JOIN Receives r ON b.Booking_ID = r.Booking_ID LEFT JOIN Reviews rev ON r.Review_ID = rev.Review_ID " +
+                             "WHERE g.Gym_Name LIKE ? OR g.Address LIKE ? OR g.Description LIKE ? AND g.Price <= ? " +
+                             "GROUP BY g.Gym_ID HAVING AVG(rev.Stars) >= ? OR AVG(rev.Stars) IS NULL ";
+
+                PreparedStatement stmt = con.prepareStatement(filter);
+
                 if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                     String searchPattern = "%" + searchQuery.trim() + "%";
-                    stmt.setString(paramIndex++, searchPattern);
-                    stmt.setString(paramIndex++, searchPattern);
-                    stmt.setString(paramIndex++, searchPattern);
+                    stmt.setString(1, searchPattern);
+                    stmt.setString(2, searchPattern);
+                    stmt.setString(3, searchPattern);
+                } else {
+                    stmt.setString(1, "%");
+                    stmt.setString(2, "%");
+                    stmt.setString(3, "%");
                 }
-                
-                // Set price parameter
+
                 if (priceRange != null && !priceRange.isEmpty()) {
-                    stmt.setDouble(paramIndex++, Double.parseDouble(priceRange));
+                    stmt.setDouble(4, Double.parseDouble(priceRange));
+                } else {
+                    stmt.setDouble(4, 999999.99);
                 }
-                
-                // Set rating parameter
+
                 if (minRating != null && !minRating.isEmpty()) {
-                    stmt.setDouble(paramIndex++, Double.parseDouble(minRating));
+                    stmt.setDouble(5, Double.parseDouble(minRating));
+                } else {
+                    stmt.setDouble(5, 0);
                 }
-                
+
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
