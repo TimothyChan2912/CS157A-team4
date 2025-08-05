@@ -87,7 +87,6 @@
                     <div class="header-container">
                         <h1><%= gymName %></h1>
                     </div>
-
                     <div class="gym-details-wrapper">
                     	<!-- Left: Details -->
                         <div class="gym-container gym-details-container">
@@ -167,9 +166,12 @@
             						Class.forName("com.mysql.cj.jdbc.Driver");
                 					Connection reviewCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4", "root", "GymShare");
                 					PreparedStatement reviewStmt = con.prepareStatement(
-                    					"SELECT User_ID, R.Stars, R.Description, R.Date_Posted " +
-                    					"FROM Reviews R JOIN Receives USING (Review_ID) JOIN Bookings USING (Booking_ID) JOIN Makes USING (Booking_ID) JOIN Guests USING (User_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) " +
-                    					"WHERE Gym_ID = ? ORDER BY R.Date_Posted DESC LIMIT 5"
+                    					"SELECT First_Name, Last_Name, Rating, Comment, Timestamp " +
+                    					"FROM Reviews JOIN Receives USING (Review_ID) " +
+                    					"JOIN Makes USING (Booking_ID) " +
+                    					"JOIN Has USING (Booking_ID)" +
+                    					"JOIN Users USING (User_ID) " +
+                    					"WHERE Gym_ID = ? ORDER BY Timestamp DESC LIMIT 5"
                 					);
                 					reviewStmt.setInt(1, gymID);
                 					ResultSet rs = reviewStmt.executeQuery();
@@ -179,18 +181,10 @@
                 					boolean hasReviews = false;
                 					while (rs.next()) {
                     					hasReviews = true;
-                    					int rating = rs.getInt("Stars");
-                    					String comment = rs.getString("Description");
-                    					String date = sdf.format(rs.getTimestamp("Date_Posted"));
-                                        int guestUserID = rs.getInt("User_ID");
-                                        String name = "";
-                                        try (PreparedStatement userStmt = reviewCon.prepareStatement("SELECT First_Name, Last_Name FROM Users WHERE User_ID = ?")) {
-                                            userStmt.setInt(1, guestUserID);
-                                            ResultSet userRs = userStmt.executeQuery();
-                                            if (userRs.next()) {
-                                                name = userRs.getString("First_Name") + " " + userRs.getString("Last_Name");
-                                            }
-                                            userRs.close();
+                    					String name = rs.getString("First_Name") + " " + rs.getString("Last_Name");
+                    					int rating = rs.getInt("Rating");
+                    					String comment = rs.getString("Comment");
+                    					String date = sdf.format(rs.getTimestamp("Timestamp"));
         					%>
             					<div class="gym-container review-box">
     								<div class="review-header">
@@ -214,7 +208,6 @@
             					<p class="no-reviews-text">No reviews yet for this gym.</p>
         					<%
                 					}
-                                }
 
                 					rs.close();
                 					reviewStmt.close();
@@ -225,7 +218,6 @@
         					%>
     					</div>
                     </div>
-
         <%      
                 }
                 rsGym.close();
