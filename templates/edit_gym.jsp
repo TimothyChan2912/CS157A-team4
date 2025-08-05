@@ -129,8 +129,8 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                             String uniqueName = "gym_" + gymID + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().replaceAll("-", "") + extension;
                             
                             String appRoot = application.getRealPath("/");
-                            String uploadDir = appRoot + "gym_photos" + File.separator + "img";
-                            
+                            String uploadDir = appRoot + "GymShare/" + "gym_photos" + File.separator + "img";
+
                             File dir = new File(uploadDir);
                             if (!dir.exists()) {
                                 boolean created = dir.mkdirs();
@@ -295,20 +295,22 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                 redirectURL = "edit_gym.jsp?gymID=" + gymID + "&tab=features";
             } else if (action.equals("deleteFeature")) {
                 String featureName = request.getParameter("featureName");
-                System.out.println("DEBUG: deleteFeature action called with featureName: " + featureName);
                 String getFeatureID = "SELECT Feature_ID FROM Features WHERE Feature_Name = ?";
+
                 PreparedStatement pstmt_get = con.prepareStatement(getFeatureID);
                 pstmt_get.setString(1, featureName);
                 ResultSet rsFeatureID = pstmt_get.executeQuery();
+
                 if (rsFeatureID.next()) {
                     int featureID = rsFeatureID.getInt("Feature_ID");
-                    System.out.println("DEBUG: Found feature ID: " + featureID + " for gym: " + gymID);
                     String deletePossesses = "DELETE FROM Possesses WHERE Gym_ID = ? AND Feature_ID = ?";
+
                     PreparedStatement pstmt_delete = con.prepareStatement(deletePossesses);
                     pstmt_delete.setInt(1, gymID);
                     pstmt_delete.setInt(2, featureID);
+
                     int rowsDeleted = pstmt_delete.executeUpdate();
-                    System.out.println("DEBUG: Deleted " + rowsDeleted + " rows from Possesses table");
+
                     pstmt_delete.close();
                 } else {
                     System.out.println("DEBUG: No feature found with name: " + featureName);
@@ -624,7 +626,7 @@ private FileItem getFileItem(List<FileItem> items, String fieldName) {
                                     if (photoPath != null && !photoPath.isEmpty()) {
                         %>
                         <div class="photo-container">
-                            <img src="<%= request.getContextPath() %>/<%= photoPath %>" alt="Gym Photo" class="gym-photo">
+                            <img src="..<%= request.getContextPath() %>/<%= photoPath %>" alt="Gym Photo" class="gym-photo">
                         </div>
                         <%
                                     }

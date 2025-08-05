@@ -7,7 +7,7 @@ body {
 }
 
 .main-content {
-  padding-top: 100px;
+  padding-top: 160px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -161,8 +161,8 @@ form input:focus, form textarea:focus {
 
 .gym-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 20px;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 15px;
@@ -172,7 +172,7 @@ form input:focus, form textarea:focus {
   color: #2c3e50;
   font-size: 1.8rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 10px 0;
   font-family: "Catamaran", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -222,4 +222,79 @@ form input:focus, form textarea:focus {
   color: #FF3C38;
   font-weight: 600;
   font-size: 1.2rem;
+}
+
+.gym-container {
+  cursor: pointer;
+  border-color: #FF3C38;
+}
+
+.star-filled {
+  color: #FFD700;
+}
+
+.star-empty {
+  color: #ccc;
+}
+
+.no-rating-text {
+  color: #999;
+  font-style: italic;
+}
+
+.gym-card {
+  width: 650px;
+  flex: 0 0 650px;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06);
+  border: 2px solid #FF3C38;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gym-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(255, 60, 56, 0.2);
+  border-color: #FFD100;
+}
+
+.gym-image-container {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gym-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gym-card:hover .gym-image {
+  transform: scale(1.05);
+}
+
+.gym-content {
+  flex: 1;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rating-stars {
+  margin: 0;
+  display: flex;
+  align-items: center;
 }

@@ -52,6 +52,7 @@
 
      <div class="main-content">
         <button class="back-button" onclick="location.href='guest_dashboard.jsp'">Back to Dashboard</button>
+        
         <div class="header-container">
         </div>
 
@@ -74,7 +75,6 @@
                     String address = rs.getString("Address");
                     Double price = rs.getDouble("Price");
                     
-                 	// Fetch average rating
                     PreparedStatement avgStmt = con.prepareStatement("SELECT AVG(Stars) AS Avg_Stars " + 
                                                                     "FROM Reviews JOIN Receives USING (Review_ID) JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) " +
                                                                     "WHERE Gym_ID = ? ");
@@ -91,35 +91,54 @@
                     avgRs.close();
                     avgStmt.close();
         %>
-                    <div class="gym-container" onclick="viewGymDetails(<%= gymID %>)" style="cursor: pointer; border-color: #FF3C38;">
-                        <div class="gym-header">
-                            <h2><%= gymName %></h2>
-                            <p>
-                                <% if (hasRating) { 
-    							int fullStars = (int) Math.floor(avgRating);
-    							for (int i = 1; i <= 5; i++) {
-        							if (i <= fullStars) { %>
-            							<i class="fas fa-star" style="color: #FFD700;"></i>
-        							<% } else { %>
-            							<i class="far fa-star" style="color: #ccc;"></i>
-        							<% }
-    							} 
-							 } else { %>
-    							<span style="color: #999; font-style: italic;">
-                                    <%
-    							for (int i = 1; i <= 5; i++) { %>
-            							<i class="far fa-star" style="color: #ccc;"></i>
-    							   <% }    
-                                    %>
-                                </span>
-							<% } %>
-                            </p>
+                    <div class="gym-card" onclick="viewGymDetails(<%= gymID %>)">
+                        <div class="gym-image-container">
+                            <%
+                                String photoPath = "gym_photos/img/GymPhotoDefault.png";
+                                String retrievePath = "SELECT Photo_Path " +
+                                                        "FROM Photos JOIN Displays USING (Photo_ID) " +
+                                                        "WHERE Gym_ID = ? AND Priority = 1 LIMIT 1";
+                                PreparedStatement stmtPath = con.prepareStatement(retrievePath);
+                                stmtPath.setInt(1, gymID);
+                                ResultSet rsPath = stmtPath.executeQuery();
+                                if (rsPath.next()) {
+                                    photoPath = rsPath.getString("Photo_Path");
+                                }
+                                rsPath.close();
+                                stmtPath.close();
+                            %>
+                            <img src="../<%= photoPath %>" alt="<%= gymName %>" class="gym-image">
                         </div>
+                        <div class="gym-content">
+                            <div class="gym-header">
+                                <h2><%= gymName %></h2>
+                                <p class="rating-stars">
+                                    <% if (hasRating) { 
+        							int fullStars = (int) Math.floor(avgRating);
+        							for (int i = 1; i <= 5; i++) {
+            							if (i <= fullStars) { %>
+                							<i class="fas fa-star star-filled"></i>
+            							<% } else { %>
+                							<i class="far fa-star star-empty"></i>
+            							<% }
+        							} 
+    							 } else { %>
+        							<span class="no-rating-text">
+                                        <%
+        							for (int i = 1; i <= 5; i++) { %>
+                							<i class="far fa-star star-empty"></i>
+        							   <% }    
+                                        %>
+                                    </span>
+    							<% } %>
+                                </p>
+                            </div>
 
-                        <div class="gym-details">
-                            <p><strong>Description:</strong> <%= description %></p>
-                            <p><strong>Address:</strong> <%= address %></p>
-                            <p><strong>Price:</strong> $<%= String.format("%.2f", price) %></p>							
+                            <div class="gym-details">
+                                <p><strong>Description:</strong> <%= description %></p>
+                                <p><strong>Address:</strong> <%= address %></p>
+                                <p><strong>Price:</strong> $<%= String.format("%.2f", price) %></p>							
+                            </div>
                         </div>
                     </div>
         <%  
