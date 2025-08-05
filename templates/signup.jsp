@@ -33,7 +33,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="home.jsp">Gym Share</a>
+            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -165,17 +165,32 @@
                                 + "VALUES ('" + firstName + "', '" + lastName + "', '" + email + "', '" + username + "', '" + pass + "', '" + sqlDate + "')";
             stmt.execute(insertUser);
 
+            String getUserID = "SELECT LAST_INSERT_ID() AS User_ID";
+            ResultSet rs = stmt.executeQuery(getUserID);
+            int newUserID = 0;
+            if(rs.next()) {
+                newUserID = rs.getInt("User_ID");
+            }
+            rs.close();
+
             if (request.getParameter("role").equals("host")) {
                 String insertHost = "INSERT INTO Hosts (User_ID) "
-                                    + "VALUES (LAST_INSERT_ID())";
+                                    + "VALUES (" + newUserID + ")";
                 stmt.execute(insertHost);
             }
                                 
             if (request.getParameter("role").equals("guest")) {
                 String insertGuest = "INSERT INTO Guests (User_ID) "
-                                    + "VALUES (LAST_INSERT_ID())";
+                                    + "VALUES (" + newUserID + ")";
                 stmt.execute(insertGuest);
             }
+
+            session.setAttribute("userID", newUserID);
+            session.setAttribute("firstName", firstName);
+            session.setAttribute("lastName", lastName);
+            session.setAttribute("username", username);
+            session.setAttribute("email", email);
+            session.setAttribute("isLoggedIn", true);
 
             stmt.close();
             con.close();

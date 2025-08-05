@@ -46,14 +46,17 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="host_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="guest_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="sidebar">
+    <div style="padding-top: 80px;">
+
+    <div class="dashboard-layout">
+        <div class="sidebar">
             <div class="upcoming-bookings">
                 <h2>Upcoming Bookings</h2>
                 	<div class="bookings-list">
@@ -103,7 +106,7 @@
                                 	<div class="booking-actions">
                                     	<div class="booking-status confirmed">Confirmed</div>
                                     	<div class="cancel-booking">
-                                        	<form method="post" action="host_dashboard.jsp">
+                                        	<form method="post" action="guest_dashboard.jsp">
                                             	<input type="hidden" name="action" value="cancel">
                                             	<input type="hidden" name="bookingID" value="<%= bookingID %>">
                                             	<button type="submit" class="cancel-button">Cancel</button>
@@ -129,7 +132,6 @@
             	</div>
             </div>
 
-    <div style="padding-top: 80px;">
         <div class="main-content">
             <div class="guest-actions-container">
                 <h2>Guest's Actions</h2>
@@ -156,7 +158,36 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
+
+    <%
+        try {
+            java.sql.Connection con;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+
+            if(request.getMethod().equalsIgnoreCase("POST")) {
+                String action = request.getParameter("action");
+                if ("cancel".equals(action)) {
+                    Integer bookingID = Integer.parseInt(request.getParameter("bookingID"));
+
+                    String cancelBooking = "UPDATE Bookings SET Status = 'Cancelled' WHERE Booking_ID = " + bookingID;
+                    Statement stmtCancel = con.createStatement();
+
+                    stmtCancel.executeUpdate(cancelBooking);
+                    stmtCancel.close();
+
+                    out.println("<script>alert('Booking cancelled successfully.'); window.location.href='guest_dashboard.jsp';</script>");
+                }
+            }
+            
+            con.close();
+        }
+        catch (SQLException e) {
+            out.println("SQLException: " + e.getMessage());
+        }
+    %>
 
 
 </body>

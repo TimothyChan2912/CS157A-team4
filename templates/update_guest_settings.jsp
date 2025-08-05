@@ -13,23 +13,21 @@
     String newLastName = request.getParameter("lastName");
     String newEmail = request.getParameter("email");
     String newUsername = request.getParameter("username");
-    String newPassword = request.getParameter("password");
     String newBio = request.getParameter("bio");
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", "root", "GymShare");
 
-        String sql = "UPDATE Users SET First_Name=?, Last_Name=?, Email=?, Username=?, Password=?, Bio=? WHERE User_ID=?";
+        String sql = "UPDATE Users SET First_Name=?, Last_Name=?, Email=?, Username=?, Bio=? WHERE User_ID=?";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, newFirstName);
         ps.setString(2, newLastName);
         ps.setString(3, newEmail);
         ps.setString(4, newUsername);
-        ps.setString(5, newPassword);
-        ps.setString(6, newBio);
-        ps.setInt(7, userID);
+        ps.setString(5, newBio);
+        ps.setInt(6, userID);
 
         ps.executeUpdate();
 
@@ -38,7 +36,7 @@
         session.setAttribute("email", newEmail);
         session.setAttribute("username", newUsername);
 
-        response.sendRedirect("settings.jsp");
+        response.sendRedirect("guest_settings.jsp");
         ps.close();
         con.close();
     } catch (Exception e) {

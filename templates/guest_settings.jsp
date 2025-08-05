@@ -238,7 +238,7 @@ String userBio = "";
         <div class="joined-date">Joined <%= joinDate %></div>
     </div>
 
-    <form class="settings-form" method="post" action="update_settings.jsp">
+    <form class="settings-form" method="post" action="update_guest_settings.jsp">
         <label for="firstName">First Name:</label>
         <input type="text" name="firstName" id="firstName" value="<%= firstName %>" readonly>
 
@@ -250,12 +250,6 @@ String userBio = "";
 
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" value="<%= username %>" readonly>
-
-        <label for="password">Password:</label>
-        <div class="password-field">
-            <input type="password" name="password" id="password" value="<%= passwordHidden %>" readonly>
-            <button type="button" class="toggle-password" onclick="togglePassword()">Show</button>
-        </div>
 
         <label for="bio">Profile Bio:</label>
         <textarea name="bio" id="bio" readonly placeholder="Write a short bio about yourself..."><%= userBio %></textarea>
