@@ -1,4 +1,6 @@
 <%@ page import="java.sql.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.Date"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +17,10 @@
     String username = (String) session.getAttribute("username");
     String email = (String) session.getAttribute("email");
     Integer userID = (Integer) session.getAttribute("userID");
+
+    String db = "team4";
+    String user = "root"; //assumes database name is the same as username
+    String password = "GymShare"; //Replace with your MySQL password
 %>
 <head>
     <meta charset="UTF-8">
@@ -40,20 +46,116 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
-                    <li class="nav-item">
-                    	<a class="nav-link" href="guest_settings.jsp"">
-                    		<i class="fas fa-cog"></i> Settings
-                    	</a>
+                    <li class="nav-item"> <a class="nav-link" href="host_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div style="padding-top: 80px;"></div>
-    <div class="guest-buttons">
-        <button class="listings-button" onclick="location.href='view_listings.jsp'">View Listings</button>
-        <button class="guest-listings-button" onclick="location.href='guest_bookings.jsp'">My Bookings</button>
+    <div class="sidebar">
+            <div class="upcoming-bookings">
+                <h2>Upcoming Bookings</h2>
+                	<div class="bookings-list">
+                    	<%
+                    	try {
+                        	java.sql.Connection con;
+                        	Class.forName("com.mysql.cj.jdbc.Driver");
+                        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
+
+                        	String gymName = "";
+                        	Integer bookingID = 0;
+                        	Date bookingDate = null;
+                        	Time startTime = null;
+                        	Time endTime = null;
+                        	String bookingDateStr = "";
+                        	String startTimeStr = "";
+                        	String endTimeStr = "";
+                        	Boolean hasBookings = false;
+
+                        	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+                        	SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	                        Statement stmtAccepted = con.createStatement();
+
+                        String retrieveAcceptedBookings = "SELECT Gym_Name, Booking_ID,Booking_Date, Start_Time, End_Time" +
+                                                            " FROM Bookings JOIN Makes USING (Booking_ID) JOIN Guests USING (User_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID)" +
+                                                            " WHERE User_ID = " + userID + " AND status = 'Confirmed' AND Booking_Date > CURDATE()" +
+                                                            "ORDER BY Booking_Date, Start_Time";
+                        ResultSet rsAcceptedBookings = stmtAccepted.executeQuery(retrieveAcceptedBookings);
+
+                        	while (rsAcceptedBookings.next()) {
+                            	gymName = rsAcceptedBookings.getString("Gym_Name");
+                            	bookingID = rsAcceptedBookings.getInt("Booking_ID");
+                            	bookingDate = rsAcceptedBookings.getDate("Booking_Date");
+                            	startTime = rsAcceptedBookings.getTime("Start_Time");
+                            	endTime = rsAcceptedBookings.getTime("End_Time");
+
+                            	bookingDateStr = dateFormat.format(bookingDate);
+                            	startTimeStr = timeFormat.format(startTime);
+                            	endTimeStr = timeFormat.format(endTime);
+                            	hasBookings = true;
+                    	%>
+                            	<div class="booking-item">
+                                	<div class="booking-gym"><%= gymName %></div>
+                                	<div class="booking-date"><%= bookingDateStr %></div>
+                                	<div class="booking-time"><%= startTimeStr %> - <%= endTimeStr %></div>
+                                	<div class="booking-actions">
+                                    	<div class="booking-status confirmed">Confirmed</div>
+                                    	<div class="cancel-booking">
+                                        	<form method="post" action="host_dashboard.jsp">
+                                            	<input type="hidden" name="action" value="cancel">
+                                            	<input type="hidden" name="bookingID" value="<%= bookingID %>">
+                                            	<button type="submit" class="cancel-button">Cancel</button>
+                                        	</form>
+                                    	</div>
+                                	</div>
+                            	</div>
+                    	<%  
+                        	}
+                        	if(hasBookings == false) {
+                    	%>
+                            	<div class="booking-item no-bookings">No upcoming bookings</div>
+                    	<%
+                        	}
+                        	rsAcceptedBookings.close();
+                        	stmtAccepted.close();
+                    	}
+                    	catch (SQLException e) {
+                        	out.println("SQLException: " + e.getMessage());
+                    	}
+                    	%>
+                	</div>
+            	</div>
+            </div>
+
+    <div style="padding-top: 80px;">
+        <div class="main-content">
+            <div class="guest-actions-container">
+                <h2>Guest's Actions</h2>
+                <div class="actions-buttons-container vertical">                    
+                    <button class="listings-button" onclick="location.href='view_listings.jsp'">
+                        <i class="fas fa-list"></i>
+                        View Listings
+                    </button>
+                    
+                    <button class="bookings-button" onclick="location.href='guest_bookings.jsp'">
+                        <i class="fas fa-calendar-check"></i>
+                        My Bookings
+                    </button>
+                    
+                    <button class="map-button" onclick="location.href='map_search.jsp'">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Map Search
+                    </button>
+
+                    <button class="calendar-button" onclick="location.href='guest_calendar.jsp'">
+                        <i class="fas fa-calendar-alt"></i>
+                        Calendar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 

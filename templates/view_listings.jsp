@@ -44,6 +44,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="host_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
@@ -115,7 +116,7 @@
 
                 String filter = "SELECT g.Gym_ID, g.Gym_Name, g.Description, g.Address, g.Price, AVG(rev.Stars) AS Avg_Stars " +
                              "FROM Gyms g LEFT JOIN Has h ON g.Gym_ID = h.Gym_ID LEFT JOIN Bookings b ON h.Booking_ID = b.Booking_ID LEFT JOIN Receives r ON b.Booking_ID = r.Booking_ID LEFT JOIN Reviews rev ON r.Review_ID = rev.Review_ID " +
-                             "WHERE g.Gym_Name LIKE ? OR g.Address LIKE ? OR g.Description LIKE ? AND g.Price <= ? " +
+                             "WHERE (g.Gym_Name LIKE ? OR g.Address LIKE ? OR g.Description LIKE ?) AND g.Price <= ? " +
                              "GROUP BY g.Gym_ID HAVING AVG(rev.Stars) >= ? OR AVG(rev.Stars) IS NULL ";
 
                 PreparedStatement stmt = con.prepareStatement(filter);
@@ -160,8 +161,8 @@
 
                     double avgRating = 0.0;
                     boolean hasRating = false;
-                    if (avgRs.next() && avgRs.getDouble("avg_rating") > 0) {
-                        avgRating = avgRs.getDouble("avg_rating");
+                    if (avgRs.next() && avgRs.getDouble("Avg_Stars") > 0) {
+                        avgRating = avgRs.getDouble("Avg_Stars");
                         hasRating = true;
                     }
 

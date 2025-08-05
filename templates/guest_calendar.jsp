@@ -45,7 +45,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="host_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="guest_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
     </nav>
 
     <div style="padding-top: 80px;">
-        <button class="back-button" onclick="location.href='host_dashboard.jsp'">Back to Dashboard</button>
+        <button class="back-button" onclick="location.href='guest_dashboard.jsp'">Back to Dashboard</button>
     </div>
     
     <div class="main-layout">
@@ -66,20 +66,23 @@
                             Class.forName("com.mysql.cj.jdbc.Driver");
                             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                            String retrievePreviousBookings = "SELECT Booking_Date, Start_Time, End_Time, Status, Gym_Name, Guests.User_ID" +
+                            String retrievePreviousBookings = "SELECT Booking_Date, Start_Time, End_Time, Status, Gym_Name, Hosts.User_ID" +
                                                                 " FROM Guests JOIN Makes ON Guests.User_ID = Makes.User_ID JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID) JOIN Hosts ON Hosts.User_ID = Owns.User_ID" +
-                                                                " WHERE Hosts.User_ID = " + userID + " AND Booking_Date < CURDATE() AND Status = 'Completed'" +
+                                                                " WHERE Guests.User_ID = " + userID + " AND Booking_Date < CURDATE() AND Status = 'Completed'" +
                                                                 " ORDER BY Booking_Date DESC, Start_Time";
                             Statement stmtPreviousBookings = con.createStatement();
                             ResultSet rsPreviousBookings = stmtPreviousBookings.executeQuery(retrievePreviousBookings);
+
+                            boolean previousBookingsExist = false;
 
                             while (rsPreviousBookings.next()) {
                                 Date bookingDate = rsPreviousBookings.getDate("Booking_Date");
                                 Time startTime = rsPreviousBookings.getTime("Start_Time");
                                 Time endTime = rsPreviousBookings.getTime("End_Time");
                                 String status = rsPreviousBookings.getString("Status");
-                                Integer guestID = rsPreviousBookings.getInt("User_ID");
+                                Integer hostID = rsPreviousBookings.getInt("User_ID");
                                 String gymName = rsPreviousBookings.getString("Gym_Name");
+                                previousBookingsExist = true;
 
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
                                 SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -88,20 +91,20 @@
                                 String startTimeStr = timeFormat.format(startTime);
                                 String endTimeStr = timeFormat.format(endTime);
 
-                                String retrieveGuestName = "SELECT First_Name, Last_Name FROM Users WHERE User_ID = " + guestID;
-                                Statement stmtGuest = con.createStatement();
-                                ResultSet rsGuest = stmtGuest.executeQuery(retrieveGuestName);
+                                String retrieveHostName = "SELECT First_Name, Last_Name FROM Users WHERE User_ID = " + hostID;
+                                Statement stmtHost = con.createStatement();
+                                ResultSet rsHost = stmtHost.executeQuery(retrieveHostName);
 
-                                String guestFirstName = "";
-                                String guestLastName = "";
+                                String hostFirstName = "";
+                                String hostLastName = "";
 
-                                if(rsGuest.next()) {
-                                    guestFirstName = rsGuest.getString("First_Name");
-                                    guestLastName = rsGuest.getString("Last_Name");
+                                if(rsHost.next()) {
+                                    hostFirstName = rsHost.getString("First_Name");
+                                    hostLastName = rsHost.getString("Last_Name");
                                 }
 
                                 String bookingTime = startTimeStr + " - " + endTimeStr;
-                                String bookingDetails = "Booking with " + guestFirstName + " " + guestLastName + " at " + gymName;
+                                String bookingDetails = "Booking with " + hostFirstName + " " + hostLastName + " at " + gymName;
                                 String bookingStatus = status.equals("Completed") ? "Completed" : "Cancelled";
                     %>
                                 <div class="booking-item">
@@ -112,7 +115,7 @@
                                 </div>
                     <%
                             } 
-                            if (rsPreviousBookings.isBeforeFirst() == false) {
+                            if (!previousBookingsExist) {
                                 %>
                                 <div class="no-bookings">No previous bookings</div>
                                 <%
@@ -174,9 +177,9 @@
                             Class.forName("com.mysql.cj.jdbc.Driver");
                             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                            String retrieveSelectedBookings = "SELECT Booking_Date, Start_Time, End_Time, Status, Gym_Name, Guests.User_ID" +
+                            String retrieveSelectedBookings = "SELECT Booking_Date, Start_Time, End_Time, Status, Gym_Name, Hosts.User_ID" +
                                                                 " FROM Guests JOIN Makes ON Guests.User_ID = Makes.User_ID JOIN Bookings USING (Booking_ID) JOIN Has USING (Booking_ID) JOIN Gyms USING (Gym_ID) JOIN Owns USING (Gym_ID) JOIN Hosts ON Hosts.User_ID = Owns.User_ID" +
-                                                                " WHERE Hosts.User_ID = " + userID + " AND Status <> 'Cancelled' AND DATE(Booking_Date) = '" + selectedDate + "'" +
+                                                                " WHERE Guests.User_ID = " + userID + " AND Status <> 'Cancelled' AND DATE(Booking_Date) = '" + selectedDate + "'" +
                                                                 " ORDER BY Start_Time";
                             Statement stmtSelectedBookings = con.createStatement();
                             ResultSet rsSelectedBookings = stmtSelectedBookings.executeQuery(retrieveSelectedBookings);
@@ -188,7 +191,7 @@
                                 Time startTime = rsSelectedBookings.getTime("Start_Time");
                                 Time endTime = rsSelectedBookings.getTime("End_Time");
                                 String status = rsSelectedBookings.getString("Status");
-                                Integer guestID = rsSelectedBookings.getInt("User_ID");
+                                Integer hostID = rsSelectedBookings.getInt("User_ID");
                                 String gymName = rsSelectedBookings.getString("Gym_Name");
                                 hasBookings = true;
 
@@ -199,20 +202,20 @@
                                 String startTimeStr = timeFormat.format(startTime);
                                 String endTimeStr = timeFormat.format(endTime);
 
-                                String retrieveGuestName = "SELECT First_Name, Last_Name FROM Users WHERE User_ID = " + guestID;
-                                Statement stmtGuest = con.createStatement();
-                                ResultSet rsGuest = stmtGuest.executeQuery(retrieveGuestName);
+                                String retrieveHostName = "SELECT First_Name, Last_Name FROM Users WHERE User_ID = " + hostID;
+                                Statement stmtHost = con.createStatement();
+                                ResultSet rsHost = stmtHost.executeQuery(retrieveHostName);
 
-                                String guestFirstName = "";
-                                String guestLastName = "";
+                                String hostFirstName = "";
+                                String hostLastName = "";
 
-                                if(rsGuest.next()) {
-                                    guestFirstName = rsGuest.getString("First_Name");
-                                    guestLastName = rsGuest.getString("Last_Name");
+                                if(rsHost.next()) {
+                                    hostFirstName = rsHost.getString("First_Name");
+                                    hostLastName = rsHost.getString("Last_Name");
                                 }
 
                                 String bookingTime = startTimeStr + " - " + endTimeStr;
-                                String bookingDetails = "Booking with " + guestFirstName + " " + guestLastName + " at " + gymName;
+                                String bookingDetails = "Booking with " + hostFirstName + " " + hostLastName + " at " + gymName;
                                 String bookingStatus = status;
                     %>
                                 <div class="booking-item">
@@ -222,8 +225,8 @@
                                     <div class="booking-status <%= bookingStatus.toLowerCase() %>"><%= bookingStatus %></div>
                                 </div>
                     <%
-                                rsGuest.close();
-                                stmtGuest.close();
+                                rsHost.close();
+                                stmtHost.close();
                             }
                             
                             if (!hasBookings) {
@@ -326,7 +329,7 @@
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         document.getElementById('selectedDayTitle').textContent = monthNames[month] + " " + day + ", " + year + " Bookings";
         
-        window.location.href = 'host_calendar.jsp?selectedDate=' + year + '-' + (month + 1).toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+        window.location.href = 'guest_calendar.jsp?selectedDate=' + year + '-' + (month + 1).toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
     }
 
     document.addEventListener('DOMContentLoaded', function() {

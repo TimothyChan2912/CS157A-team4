@@ -45,6 +45,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link">Welcome <%= firstName %>!</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="host_settings.jsp"> <i class="fas fa-cog"></i> Settings </a> </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp">Log Out</a></li>
                 </ul>
             </div>
@@ -349,7 +350,7 @@
         console.log('API key preview:', apiKey ? apiKey.substring(0, 10) + '...' : 'null');
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZyeX6Q9VemF4O5cb2dLNBgzSrTK8DrJk&libraries=geometry&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1DZZkHXayL6_KRYPYoZJfzX9e_TnWHec&libraries=geometry&callback=initMap">
     </script>
     
     <script>

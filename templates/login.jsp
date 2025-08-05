@@ -1,4 +1,8 @@
 <%@ page import="java.sql.*"%>
+<%@ page import="java.security.spec.KeySpec" %>
+<%@ page import="java.util.Base64" %>
+<%@ page import="javax.crypto.SecretKeyFactory" %>
+<%@ page import="javax.crypto.spec.PBEKeySpec" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +11,10 @@
     String db = "team4";
     String user = "root"; //assumes database name is the same as username
     String password = "GymShare"; //Replace with your MySQL password
+
+    int ITERATIONS = 100000;
+    int KEY_LENGTH = 256;
+    byte[] salt = "hello".getBytes(); 
 %>
 
 <head>
@@ -23,7 +31,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container px-5">
-            <a class="navbar-brand" href="../home.jsp">Gym Share</a>
+            <a class="navbar-brand" href="home.jsp">Gym Share</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -53,18 +61,7 @@
 
         <input type="submit" value="Login">
     </form>
-    </div>
-    <%-- Account deletion success message --%>
-	<%
-    	String deletedMsg = request.getParameter("accountDeleted");
-    	if ("true".equals(deletedMsg)) {
-	%>
-    	<div style="text-align:center; margin-top: 20px; color: green; font-weight: bold; font-size: 1.1rem;">
-        	Your account has been successfully deleted.
-    	</div>
-	<%
-    	}
-	%>
+    </div> 
     
     <%
     if(request.getMethod().equalsIgnoreCase("POST")) {
@@ -75,6 +72,18 @@
 
                 String email = request.getParameter("email");
                 String pass = request.getParameter("password");
+
+                KeySpec spec = new PBEKeySpec(pass.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
+                SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+                byte[] hash = factory.generateSecret(spec).getEncoded();
+                pass = Base64.getEncoder().encodeToString(hash);
+            
+
+                %>
+                    <script>
+                        console.log("<%= pass %>");
+                    </script>
+                <%
 
                 java.sql.Statement stmt = con.createStatement();
                 String getUser = "SELECT User_ID, First_Name, Last_Name, Username, Email FROM Users WHERE Email = '" + email + "' AND Password = '" + pass + "'";
@@ -105,8 +114,6 @@
                     rs.close();
                     stmt.close();
                     con.close();
-                    
-                
                 } 
                 else {
                     rs.close();
@@ -143,6 +150,7 @@
                 alert('Login Failed!\n\nIncorrect email or password.\nPlease try again.');
             }
         }
+
     </script>
 </body>
 </html>

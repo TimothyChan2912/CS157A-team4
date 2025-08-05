@@ -27,7 +27,10 @@ DROP TABLE IF EXISTS `Answers`;
 CREATE TABLE `Answers` (
   `User_ID` int NOT NULL,
   `Message_ID` int NOT NULL,
-  PRIMARY KEY (`User_ID`,`Message_ID`)
+  PRIMARY KEY (`User_ID`,`Message_ID`),
+  KEY `fk_answers_message` (`Message_ID`),
+  CONSTRAINT `fk_answers_message` FOREIGN KEY (`Message_ID`) REFERENCES `Messages` (`Message_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_answers_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,7 +40,7 @@ CREATE TABLE `Answers` (
 
 LOCK TABLES `Answers` WRITE;
 /*!40000 ALTER TABLE `Answers` DISABLE KEYS */;
-INSERT INTO `Answers` VALUES (11,12),(12,13),(13,11),(14,15),(15,16),(16,14),(17,20),(18,17),(19,18),(20,19);
+INSERT INTO `Answers` VALUES (13,11),(11,12),(12,13),(16,14),(14,15),(15,16),(18,17),(19,18),(20,19),(17,20);
 /*!40000 ALTER TABLE `Answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,7 +54,10 @@ DROP TABLE IF EXISTS `Asks`;
 CREATE TABLE `Asks` (
   `User_ID` int NOT NULL,
   `Message_ID` int NOT NULL,
-  PRIMARY KEY (`User_ID`,`Message_ID`)
+  PRIMARY KEY (`User_ID`,`Message_ID`),
+  KEY `fk_asks_message` (`Message_ID`),
+  CONSTRAINT `fk_asks_message` FOREIGN KEY (`Message_ID`) REFERENCES `Messages` (`Message_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_asks_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,7 +67,7 @@ CREATE TABLE `Asks` (
 
 LOCK TABLES `Asks` WRITE;
 /*!40000 ALTER TABLE `Asks` DISABLE KEYS */;
-INSERT INTO `Asks` VALUES (1,8),(2,2),(3,4),(4,1),(5,3),(6,5),(7,6),(8,7),(9,9),(10,10);
+INSERT INTO `Asks` VALUES (4,1),(2,2),(5,3),(3,4),(6,5),(7,6),(8,7),(1,8),(9,9),(10,10);
 /*!40000 ALTER TABLE `Asks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +88,7 @@ CREATE TABLE `Bookings` (
   `Start_Time` datetime NOT NULL,
   `End_Time` datetime NOT NULL,
   PRIMARY KEY (`Booking_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +97,7 @@ CREATE TABLE `Bookings` (
 
 LOCK TABLES `Bookings` WRITE;
 /*!40000 ALTER TABLE `Bookings` DISABLE KEYS */;
-INSERT INTO `Bookings` VALUES (1,'Completed','2024-09-10 21:30:00',25.00,'Credit Card','2024-09-20 09:00:00','2024-09-20 09:00:00','2024-09-20 11:00:00'),(2,'Completed','2024-03-05 18:11:00',18.50,'PayPal','2024-03-12 18:00:00','2024-03-12 18:00:00','2024-03-12 19:30:00'),(3,'Confirmed','2024-07-21 03:05:15',30.00,'Zelle','2024-08-05 07:00:00','2024-08-05 07:00:00','2024-08-05 08:00:00'),(4,'Cancelled','2024-09-15 20:00:00',22.00,'Credit Card','2024-10-01 15:00:00','2024-10-01 15:00:00','2024-10-01 16:00:00'),(5,'Completed','2024-11-02 18:45:00',45.00,'Credit Card','2024-11-10 10:00:00','2024-11-10 10:00:00','2024-11-10 13:00:00'),(6,'Completed','2025-01-18 16:00:49',20.00,'Apple Pay','2025-01-25 19:00:00','2025-01-25 19:00:00','2025-01-25 20:00:00'),(7,'Confirmed','2025-03-02 00:21:30',25.00,'PayPal','2025-03-25 12:00:00','2025-03-25 12:00:00','2025-03-25 13:00:00'),(8,'Confirmed','2025-04-01 16:00:00',15.00,'Credit Card','2025-04-10 14:00:00','2025-04-10 14:00:00','2025-04-10 15:00:00'),(9,'Completed','2025-06-11 01:10:00',20.00,'Zelle','2025-06-15 06:00:00','2025-06-15 06:00:00','2025-06-15 07:30:00'),(10,'Confirmed','2025-07-28 19:34:56',50.00,'Credit Card','2025-08-05 11:00:00','2025-08-05 11:00:00','2025-08-05 12:00:00'),(11,'Confirmed','2025-07-23 07:00:00',151.50,'Credit Card','2025-07-24 00:00:00','2025-07-24 11:30:00','2025-07-24 13:00:00');
+INSERT INTO `Bookings` VALUES (1,'Completed','2024-09-10 21:30:00',25.00,'Credit Card','2024-09-20 09:00:00','2024-09-20 09:00:00','2024-09-20 11:00:00'),(2,'Completed','2024-03-05 18:11:00',18.50,'PayPal','2024-03-12 18:00:00','2024-03-12 18:00:00','2024-03-12 19:30:00'),(3,'Completed','2024-07-21 03:05:15',30.00,'Zelle','2024-08-05 07:00:00','2024-08-05 07:00:00','2024-08-05 08:00:00'),(4,'Cancelled','2024-09-15 20:00:00',22.00,'Credit Card','2024-10-01 15:00:00','2024-10-01 15:00:00','2024-10-01 16:00:00'),(5,'Completed','2024-11-02 18:45:00',45.00,'Credit Card','2024-11-10 10:00:00','2024-11-10 10:00:00','2024-11-10 13:00:00'),(6,'Completed','2025-01-18 16:00:49',20.00,'Apple Pay','2025-01-25 19:00:00','2025-01-25 19:00:00','2025-01-25 20:00:00'),(7,'Completed','2025-03-02 00:21:30',25.00,'PayPal','2025-03-25 12:00:00','2025-03-25 12:00:00','2025-03-25 13:00:00'),(8,'Completed','2025-04-01 16:00:00',15.00,'Credit Card','2025-04-10 14:00:00','2025-04-10 14:00:00','2025-04-10 15:00:00'),(9,'Completed','2025-06-11 01:10:00',20.00,'Zelle','2025-06-15 06:00:00','2025-06-15 06:00:00','2025-06-15 07:30:00'),(10,'Confirmed','2025-07-28 19:34:56',50.00,'Credit Card','2025-08-05 11:00:00','2025-08-05 11:00:00','2025-08-05 12:00:00'),(16,'Completed','2025-08-04 07:00:00',14.57,'Credit Card','2025-08-03 00:00:00','2025-08-10 11:59:00','2025-08-10 12:37:00');
 /*!40000 ALTER TABLE `Bookings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +111,10 @@ DROP TABLE IF EXISTS `Displays`;
 CREATE TABLE `Displays` (
   `Gym_ID` int NOT NULL,
   `Photo_ID` int NOT NULL,
-  PRIMARY KEY (`Gym_ID`,`Photo_ID`)
+  PRIMARY KEY (`Gym_ID`,`Photo_ID`),
+  KEY `fk_displays_photo` (`Photo_ID`),
+  CONSTRAINT `fk_displays_gym` FOREIGN KEY (`Gym_ID`) REFERENCES `Gyms` (`Gym_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_displays_photo` FOREIGN KEY (`Photo_ID`) REFERENCES `Photos` (`Photo_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,7 +124,7 @@ CREATE TABLE `Displays` (
 
 LOCK TABLES `Displays` WRITE;
 /*!40000 ALTER TABLE `Displays` DISABLE KEYS */;
-INSERT INTO `Displays` VALUES (1,1),(1,10),(2,3),(2,7),(2,8),(3,5),(4,4),(5,9),(7,6),(8,2);
+INSERT INTO `Displays` VALUES (1,1),(8,2),(2,3),(4,4),(3,5),(7,6),(2,7),(2,8),(5,9),(1,10),(6,17),(9,18),(10,19),(16,24);
 /*!40000 ALTER TABLE `Displays` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +139,7 @@ CREATE TABLE `Features` (
   `Feature_ID` int NOT NULL AUTO_INCREMENT,
   `Feature_Name` varchar(100) NOT NULL,
   PRIMARY KEY (`Feature_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +148,7 @@ CREATE TABLE `Features` (
 
 LOCK TABLES `Features` WRITE;
 /*!40000 ALTER TABLE `Features` DISABLE KEYS */;
-INSERT INTO `Features` VALUES (1,'Air Conditioning'),(2,'Speaker'),(3,'Swimming Pool'),(4,'TV'),(5,'Towels'),(6,'Personal Training'),(7,'First Aid Kit'),(8,'Wipes'),(9,'Drinks'),(10,'Driveway Parking');
+INSERT INTO `Features` VALUES (1,'Air '),(2,'Air '),(3,'Swimming Pool'),(4,'TV'),(5,'Towels'),(6,'Personal Training'),(7,'First Aid Kit'),(8,'Wipes'),(9,'Drinks'),(10,'Driveway Parking'),(11,'Air '),(12,'Blender'),(13,'Air'),(14,'Air Conditioning'),(15,'Free Snacks');
 /*!40000 ALTER TABLE `Features` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +162,8 @@ DROP TABLE IF EXISTS `Guests`;
 CREATE TABLE `Guests` (
   `User_ID` int NOT NULL AUTO_INCREMENT,
   `Current_Location` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`User_ID`)
+  PRIMARY KEY (`User_ID`),
+  CONSTRAINT `fk_guest_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,7 +173,7 @@ CREATE TABLE `Guests` (
 
 LOCK TABLES `Guests` WRITE;
 /*!40000 ALTER TABLE `Guests` DISABLE KEYS */;
-INSERT INTO `Guests` VALUES (1,'San Jose, CA'),(2,'San Francisco, CA'),(3,'Miami, FL'),(4,'Seattle, WA'),(5,'Chicago, IL'),(6,'Toronto, Canada'),(7,'Los Angeles, CA'),(8,'Boston, MA'),(9,'Atlanta, GA'),(10,'Cupertino, CA'),(21,NULL);
+INSERT INTO `Guests` VALUES (1,'San Jose, CA'),(2,'San Francisco, CA'),(3,'Miami, FL'),(4,'Seattle, WA'),(5,'Chicago, IL'),(6,'Toronto, Canada'),(7,'Los Angeles, CA'),(8,'Boston, MA'),(9,'Atlanta, GA'),(10,'Cupertino, CA');
 /*!40000 ALTER TABLE `Guests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,10 +188,10 @@ CREATE TABLE `Gyms` (
   `Gym_ID` int NOT NULL AUTO_INCREMENT,
   `Gym_Name` varchar(100) NOT NULL,
   `Description` text,
-  `Address` varchar(255) NOT NULL,
+  `Address` varchar(500) NOT NULL,
   `Price` varchar(45) NOT NULL,
   PRIMARY KEY (`Gym_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +200,7 @@ CREATE TABLE `Gyms` (
 
 LOCK TABLES `Gyms` WRITE;
 /*!40000 ALTER TABLE `Gyms` DISABLE KEYS */;
-INSERT INTO `Gyms` VALUES (1,'Giants Gathering','Old-School Bodybuilding','24 Willie Mays Plaza, San Francisco, CA 94107','22.00'),(2,'Dodger District','Luxury Fitness','1000 Vin Scully Avenue, Los Angeles, CA 90012','31.50'),(3,'Angel Arms','Specializes in Cross Fit Equipment','2000 Gene Autry Way, Anaheim, CA 92806','7.99'),(4,'Rockie Range','Premier Equipment','2001 Blake Street, Denver, CO 80205','89.00'),(5,'Padre Porter','Yoga Mats Provided','100 Park Blvd, San Diego, CA 92101','32.00'),(6,'Diamondback District','Modern Gym with Exceptional Equipment','401 E. Jefferson St., Phoenix, AZ 85004','25.00'),(7,'Marlin Machine','Intended for Heavy Lifters','501 Marlins Way, Miami, FL 33125','16.00'),(8,'Yankee Yard','24/7 Gym','161st Street Bronx, NY 10451','11.00'),(9,'Mets Meetup','Specializes in Powerlifting','41 Seaver Way, Queens, NY 11368','19.00'),(10,'Phillie Porch','Great for all Fitness Levels','One Citizens Bank Way, Philadelphia, PA 19148','44.00'),(11,'Tim Gym','The Gym is great','333 Jackson Street','101.00');
+INSERT INTO `Gyms` VALUES (1,'Giants Gathering','Old-School Bodybuilding','24 Willie Mays Plaza, San Francisco, CA 94107','22.00'),(2,'Dodger District','Luxury Fitness','1000 Vin Scully Avenue, Los Angeles, CA 90012','31.50'),(3,'Angel Arms','Specializes in Cross Fit Equipment','2000 Gene Autry Way, Anaheim, CA 92806','7.99'),(4,'Rockie Range','Premier Equipment','2001 Blake Street, Denver, CO 80205','89.00'),(5,'Padre Porter','Yoga Mats Provided','100 Park Blvd, San Diego, CA 92101','32.00'),(6,'Diamondback District','Modern Gym with Exceptional Equipment','401 E. Jefferson St., Phoenix, AZ 85004','25.00'),(7,'Marlin Machine','Intended for Heavy Lifters','501 Marlins Way, Miami, FL 33125','16.00'),(8,'Yankee Yard','24/7 Gym','161st Street Bronx, NY 10451','11.00'),(9,'Mets Meetup','Specializes in Powerlifting','41 Seaver Way, Queens, NY 11368','19.00'),(10,'Phillie Porch','Great for all Fitness Levels','One Citizens Bank Way, Philadelphia, PA 19148','44.00'),(16,'Great Gym','Has great equipment!!!','2334 City View Dr, Cleveland, OH 44113\n','23.00');
 /*!40000 ALTER TABLE `Gyms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +214,10 @@ DROP TABLE IF EXISTS `Has`;
 CREATE TABLE `Has` (
   `Booking_ID` int NOT NULL,
   `Gym_ID` int NOT NULL,
-  PRIMARY KEY (`Booking_ID`,`Gym_ID`)
+  PRIMARY KEY (`Booking_ID`,`Gym_ID`),
+  KEY `fk_has_gym` (`Gym_ID`),
+  CONSTRAINT `fk_has_booking` FOREIGN KEY (`Booking_ID`) REFERENCES `Bookings` (`Booking_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_has_gym` FOREIGN KEY (`Gym_ID`) REFERENCES `Gyms` (`Gym_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -214,7 +227,7 @@ CREATE TABLE `Has` (
 
 LOCK TABLES `Has` WRITE;
 /*!40000 ALTER TABLE `Has` DISABLE KEYS */;
-INSERT INTO `Has` VALUES (1,2),(2,5),(3,3),(4,7),(5,5),(6,9),(7,1),(8,4),(9,3),(10,8),(11,11);
+INSERT INTO `Has` VALUES (7,1),(1,2),(3,3),(9,3),(8,4),(2,5),(5,5),(4,7),(10,8),(6,9),(16,16);
 /*!40000 ALTER TABLE `Has` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +241,8 @@ DROP TABLE IF EXISTS `Hosts`;
 CREATE TABLE `Hosts` (
   `User_ID` int NOT NULL AUTO_INCREMENT,
   `Preferred_Currency` varchar(3) DEFAULT 'USD',
-  PRIMARY KEY (`User_ID`)
+  PRIMARY KEY (`User_ID`),
+  CONSTRAINT `fk_host_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -254,7 +268,8 @@ CREATE TABLE `Machines` (
   `Machine_Number` int NOT NULL,
   `Status` varchar(20) DEFAULT NULL,
   `Type` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`Gym_ID`,`Machine_Number`)
+  PRIMARY KEY (`Gym_ID`,`Machine_Number`),
+  CONSTRAINT `fk_machines_gym` FOREIGN KEY (`Gym_ID`) REFERENCES `Gyms` (`Gym_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -264,7 +279,7 @@ CREATE TABLE `Machines` (
 
 LOCK TABLES `Machines` WRITE;
 /*!40000 ALTER TABLE `Machines` DISABLE KEYS */;
-INSERT INTO `Machines` VALUES (1,1,'Available','Hammer Strength ISO-Lateral Row'),(1,2,'Shipping','Leg Press'),(2,1,'Available','Treadmill'),(3,1,'Maintenance','Bench Press'),(5,1,'Available','StairMaster'),(7,1,'Maintenance','Smith Machine'),(7,2,'Available','Hack Squat'),(8,1,'Available','Cables'),(9,1,'Available','Lateral Rows'),(10,1,'Available','Lat Pulldown'),(11,1,'Available','Yogs'),(11,2,'Available','Treadmill');
+INSERT INTO `Machines` VALUES (1,1,'Available','Hammer Strength ISO-Lateral Row'),(1,2,'Maintenance','Leg Press'),(2,1,'Available','Treadmill'),(3,1,'Maintenance','Bench Press'),(5,1,'Available','StairMaster'),(7,1,'Maintenance','Smith Machine'),(7,2,'Available','Hack Squat'),(8,1,'Available','Cables'),(9,1,'Available','Lateral Rows'),(10,1,'Available','Lat Pulldown'),(16,1,'Available','Bench Press'),(16,2,'Available','Lat Pull Down'),(16,3,'Unavailable','Incline Bench');
 /*!40000 ALTER TABLE `Machines` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +293,8 @@ DROP TABLE IF EXISTS `Makes`;
 CREATE TABLE `Makes` (
   `User_ID` int NOT NULL,
   `Booking_ID` int NOT NULL,
-  PRIMARY KEY (`User_ID`,`Booking_ID`)
+  PRIMARY KEY (`User_ID`,`Booking_ID`),
+  CONSTRAINT `fk_makes_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -288,7 +304,7 @@ CREATE TABLE `Makes` (
 
 LOCK TABLES `Makes` WRITE;
 /*!40000 ALTER TABLE `Makes` DISABLE KEYS */;
-INSERT INTO `Makes` VALUES (1,7),(1,11),(2,1),(3,2),(3,5),(4,3),(4,9),(5,4),(6,6),(7,8),(8,10);
+INSERT INTO `Makes` VALUES (1,7),(1,16),(2,1),(3,2),(3,5),(4,3),(4,9),(5,4),(6,6),(7,8),(8,10);
 /*!40000 ALTER TABLE `Makes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,7 +342,10 @@ DROP TABLE IF EXISTS `Owns`;
 CREATE TABLE `Owns` (
   `User_ID` int NOT NULL,
   `Gym_ID` int NOT NULL,
-  PRIMARY KEY (`User_ID`,`Gym_ID`)
+  PRIMARY KEY (`User_ID`,`Gym_ID`),
+  KEY `fk_owns_gym` (`Gym_ID`),
+  CONSTRAINT `fk_owns_gym` FOREIGN KEY (`Gym_ID`) REFERENCES `Gyms` (`Gym_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_owns_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -336,7 +355,7 @@ CREATE TABLE `Owns` (
 
 LOCK TABLES `Owns` WRITE;
 /*!40000 ALTER TABLE `Owns` DISABLE KEYS */;
-INSERT INTO `Owns` VALUES (11,1),(12,2),(13,3),(14,4),(14,6),(15,8),(16,5),(16,9),(17,10),(18,7),(20,11);
+INSERT INTO `Owns` VALUES (11,1),(12,2),(13,3),(14,4),(16,5),(14,6),(18,7),(15,8),(16,9),(17,10),(20,16);
 /*!40000 ALTER TABLE `Owns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,11 +368,10 @@ DROP TABLE IF EXISTS `Photos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Photos` (
   `Photo_ID` int NOT NULL AUTO_INCREMENT,
-  `Caption` varchar(255) DEFAULT NULL,
   `Priority` int DEFAULT '0',
-  `Photo_Path` varchar(500) DEFAULT NULL,
+  `Photo_Path` varchar(500) NOT NULL DEFAULT 'gym_photos/img/GymPhotoDefault.png',
   PRIMARY KEY (`Photo_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -362,7 +380,7 @@ CREATE TABLE `Photos` (
 
 LOCK TABLES `Photos` WRITE;
 /*!40000 ALTER TABLE `Photos` DISABLE KEYS */;
-INSERT INTO `Photos` VALUES (1,'The main lifting area with 4 power racks.',1,'gym_photos/img/GymPhotoDefault.png'),(2,'View of the dumbbell rack, goes up to 150lbs.',2,'gym_photos/img/GymPhotoDefault.png'),(3,'Various cables and attachments.',1,'gym_photos/img/GymPhotoDefault.png'),(4,'Dumbells ranging from 5 lbs to 60 lbs.',1,'gym_photos/img/GymPhotoDefault.png'),(5,'Medicine balls and other equipment for stretching.',3,'gym_photos/img/GymPhotoDefault.png'),(6,'Yoga mats.',5,'gym_photos/img/GymPhotoDefault.png'),(7,'Fridge with offered drinks.',4,'gym_photos/img/GymPhotoDefault.png'),(8,'Massage chairs for recovery.',2,'gym_photos/img/GymPhotoDefault.png'),(9,'Juice bar near the entrance',4,'gym_photos/img/GymPhotoDefault.png'),(10,'Dedlift platforms with a range of plates.',2,'gym_photos/img/GymPhotoDefault.png');
+INSERT INTO `Photos` VALUES (1,1,'gym_photos/img/Oracle_Park_2021.jpg'),(2,1,'gym_photos/img/960px-Yankee_Stadium_overhead_2010.jpg'),(3,1,'gym_photos/img/dodger_stadium.jpg'),(4,1,'gym_photos/img/coors23main.jpg'),(5,1,'gym_photos/img/angel_stadium.jpg'),(6,1,'gym_photos/img/220303-loanDepot-park-003_6F2033F9-58C2-48EB-928F803A89DEEA73_976248f9-12f7-40de-b88a9ae1ea20b712.jpg'),(7,4,'gym_photos/img/Oracle_Park_2021.jpg'),(8,2,'gym_photos/img/Oracle_Park_2021.jpg'),(9,1,'gym_photos/img/cxokitadxulv7zdq92qf.jpg'),(10,2,'gym_photos/img/Oracle_Park_2021.jpg'),(11,1,'gym_photos/img/gym_11_1754265398797_b99dfab22fa541ac96e1b1196fb89593.jpg'),(15,2,'gym_photos/img/gym_11_1754292792448_25d7cd3d353843d48cc060c455d6722d.png'),(16,3,'gym_photos/img/gym_11_1754292872861_999278a55b5a4a9f989388bfb45ae3c5.png'),(17,1,'gym_photos/img/uhhsnqu1aurjkzokwxze.jpg'),(18,1,'gym_photos/img/CitiField_Populous.jpeg'),(19,1,'gym_photos/img/VH3SR6OFKNERFIZK52BNLRPR6M.jpg'),(24,1,'gym_photos/img/gym_16_1754375620253_dc48a5232d82454d91aa00af3b91ff31.jpg');
 /*!40000 ALTER TABLE `Photos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +394,10 @@ DROP TABLE IF EXISTS `Possesses`;
 CREATE TABLE `Possesses` (
   `Gym_ID` int NOT NULL,
   `Feature_ID` int NOT NULL,
-  PRIMARY KEY (`Gym_ID`,`Feature_ID`)
+  PRIMARY KEY (`Gym_ID`,`Feature_ID`),
+  KEY `fk_possesses_feature` (`Feature_ID`),
+  CONSTRAINT `fk_possesses_feature` FOREIGN KEY (`Feature_ID`) REFERENCES `Features` (`Feature_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_possesses_gym` FOREIGN KEY (`Gym_ID`) REFERENCES `Gyms` (`Gym_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -386,7 +407,7 @@ CREATE TABLE `Possesses` (
 
 LOCK TABLES `Possesses` WRITE;
 /*!40000 ALTER TABLE `Possesses` DISABLE KEYS */;
-INSERT INTO `Possesses` VALUES (1,1),(2,4),(2,6),(2,7),(3,1),(3,7),(5,5),(5,9),(8,10),(10,6);
+INSERT INTO `Possesses` VALUES (1,1),(3,1),(2,4),(5,5),(2,6),(10,6),(2,7),(3,7),(5,9),(8,10),(16,14),(16,15);
 /*!40000 ALTER TABLE `Possesses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,7 +421,10 @@ DROP TABLE IF EXISTS `Receives`;
 CREATE TABLE `Receives` (
   `Booking_ID` int NOT NULL,
   `Review_ID` int NOT NULL,
-  PRIMARY KEY (`Booking_ID`,`Review_ID`)
+  PRIMARY KEY (`Booking_ID`,`Review_ID`),
+  KEY `fk_receives_review` (`Review_ID`),
+  CONSTRAINT `fk_receives_booking` FOREIGN KEY (`Booking_ID`) REFERENCES `Bookings` (`Booking_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_receives_review` FOREIGN KEY (`Review_ID`) REFERENCES `Reviews` (`Review_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -410,7 +434,7 @@ CREATE TABLE `Receives` (
 
 LOCK TABLES `Receives` WRITE;
 /*!40000 ALTER TABLE `Receives` DISABLE KEYS */;
-INSERT INTO `Receives` VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,10),(8,7),(9,9),(10,8);
+INSERT INTO `Receives` VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(8,7),(10,8),(9,9),(7,10),(16,12);
 /*!40000 ALTER TABLE `Receives` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -421,19 +445,14 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `Reviews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-
 CREATE TABLE `Reviews` (
-  `Review_ID` INT NOT NULL AUTO_INCREMENT,
-  `User_ID` INT NOT NULL,
-  `Gym_ID` INT NOT NULL,
-  `Rating` DECIMAL(2,1) NOT NULL CHECK (Rating >= 0.5 AND Rating <= 5.0),
-  `Comment` TEXT,
-  `Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `Review_ID` int NOT NULL AUTO_INCREMENT,
+  `Stars` int NOT NULL,
+  `Description` text,
+  `Date_Posted` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Review_ID`),
-  UNIQUE (`User_ID`, `Gym_ID`),
-  FOREIGN KEY (`User_ID`) REFERENCES Users(User_ID),
-  FOREIGN KEY (`Gym_ID`) REFERENCES Gyms(Gym_ID)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `reviews_chk_1` CHECK (((`Stars` >= 1) and (`Stars` <= 5)))
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -442,26 +461,9 @@ CREATE TABLE `Reviews` (
 
 LOCK TABLES `Reviews` WRITE;
 /*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
-INSERT INTO `Reviews` (User_ID, Gym_ID, Rating, Comment) VALUES 
-(2, 2, 5.0,'Incredible atmosphere. The equipment is top-tier.'),
-(2, 3, 5.0,'It was fine, but way too compact.'),
-(4, 3, 5.0,'The best drop-in. I will be back!'),
-(4, 7, 1.0,'Cancelled my booking but was still charged'),
-(3, 5, 5.0,'Excellent equipment which was exactly what I needed for a good workout.'),
-(6, 9, 4.0,'Great gym, awesome vibe. '),
-(7, 4, 5.0,'I loved the extra amenities.'),
-(8, 8, 4.0,'Clean, has everything you need. A bit small.'),
-(1, 1, 2.0,'The gym was dirty.');
+INSERT INTO `Reviews` VALUES (1,5,'Incredible atmosphere. The equipment is top-tier.','2025-08-04 00:53:53'),(2,3,'It was fine, but way too compact.','2025-08-04 00:53:53'),(3,5,'The best drop-in. I\'ll be back!','2025-08-04 00:53:53'),(4,1,'Cancelled my booking but was still charged','2025-08-04 00:53:53'),(5,5,'Excellent equipment which was exactly what I needed for a good workout.','2025-08-04 00:53:53'),(6,4,'Great gym, awesome vibe. ','2025-08-04 00:53:53'),(7,5,'I loved the extra amenities.','2025-08-04 00:53:53'),(8,4,'Clean, has everything you need. A bit small.','2025-08-04 00:53:53'),(9,5,'This place is a powerlifter\'s dream.','2025-08-04 00:53:53'),(10,2,'The gym was dirty.','2025-08-04 00:53:53'),(11,4,'Good','2025-08-04 14:55:59'),(12,5,'Very Good Gym!!!','2025-08-04 23:45:38');
 /*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
 UNLOCK TABLES;
-
--- CREATE TABLE Deleted_Reviews (
---    ID INT AUTO_INCREMENT PRIMARY KEY,
---    Review_ID INT,
---    Reason VARCHAR(255),
---    Comment TEXT,
---    Deleted_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
---);
 
 --
 -- Table structure for table `Users`
@@ -478,6 +480,7 @@ CREATE TABLE `Users` (
   `Username` varchar(50) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Date_Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Bio` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`User_ID`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Username` (`Username`)
@@ -490,7 +493,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','hashpass1','2024-04-05 17:20:00'),(2,'David','Chen','chen.david@gmail.com','davechen','hashpass2','2024-02-15 19:00:00'),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','hashpass3','2024-01-26 02:30:00'),(4,'Liam','Patel','liam.patel@outlook.com','liamp','hashpass4','2024-06-11 19:00:00'),(5,'Aisha','Khan','a.khan@icloud.com','aishak','hashpass5','2024-08-01 16:00:00'),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','hashpass6','2024-12-10 22:45:00'),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','hashpass7','2025-02-21 00:00:00'),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hashpass8','2025-05-16 03:10:00'),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','hashpass9','2025-07-01 17:00:00'),(10,'Olga','Porta','olga.p@gmail.com','olgap','hashpass10','2025-07-20 20:00:00'),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','hashpass11','2024-01-15 17:30:00'),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','hashpass12','2024-01-20 19:00:00'),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','hashpass13','2024-02-01 22:15:00'),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','hashpass14','2024-02-06 02:00:00'),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','hashpass15','2024-03-10 17:45:00'),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','hashpass16','2024-04-22 20:00:00'),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','hashpass17','2024-05-19 00:30:00'),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','hashpass18','2024-06-03 15:00:00'),(19,'Alex','Inky','a.inky@gmail.com','inky12','hashpass19','2024-07-12 02:00:00'),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','hashpass20','2024-08-30 19:00:00'),(22,'Timothy','Chan','tc@gmail.com','tc','Password123#','2025-07-20 07:00:00');
+INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','oUL+TOWb5bOwADp0Dwf4OycQjFrX4Jb9Wz+X9zxa7Hg=','2024-04-05 17:20:00',NULL),(2,'David','Chen','chen.david@gmail.com','davechen','cgo6RGtpYLeDwlWfdGoHfcPljdydg7nEkWrmKeGyiY8=','2024-02-15 19:00:00',NULL),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','BQA16d4mN8H1qFFvWz6Cnpq+8axwJdIuUeTf6C+XQdk=','2024-01-26 02:30:00',NULL),(4,'Liam','Patel','liam.patel@outlook.com','liamp','tbK+BLyeiK83CgKVh0S2YagqQ5jVBqurNWXEP6WbKrw=','2024-06-11 19:00:00',NULL),(5,'Aisha','Khan','a.khan@icloud.com','aishak','amywoANf74X077Gj/FvC++4UYfNhcgzkICB/J4AN//4=','2024-08-01 16:00:00',NULL),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','9Bkru/Cogffb0igCZtcqz8pdWWksnPSK9jILdXJ71BQ=','2024-12-10 22:45:00',NULL),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','R1TE5emwwMLvt3YK5ezlUiDbV1XJ9d5ZI3AOdETHkXk=','2025-02-21 00:00:00',NULL),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hLldMyXhmRyUK8CmsrqElnOElioav5y5buJzwhVIENs=','2025-05-16 03:10:00',NULL),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','+iFiI5A+9WGV/rzeuL3xWAvrtbbShL5ZgZ99gO7jTuI=','2025-07-01 17:00:00',NULL),(10,'Olga','Porta','olga.p@gmail.com','olgap','xQcuprqe+Qc5GiK4WqEjL2TWuflr6Y0arwc8TTL8wU4=','2025-07-20 20:00:00',NULL),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','yLamzpcC6B98/oAFo21litfRTHcuhUAL9XyKHY0VvIY=','2024-01-15 17:30:00',NULL),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','H+oXwqiokyqvJtnZraNTSw94umAz0QcxhtAU/SqIVWU=','2024-01-20 19:00:00',NULL),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','ZQd4zeWHcLks0YlpCo80nBphQFSmkfkzrbLurZ50mgg=','2024-02-01 22:15:00',NULL),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','1jkLCXUcwmU7bPJuIRzVeXxEVFGtiCqzoxMVYzGdVNs=','2024-02-06 02:00:00',NULL),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','iD3uHVpAS0XSli0EI9q6I1RTAbnlWVw1el2j+UX7cBk=','2024-03-10 17:45:00',NULL),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','rl3QbW25+TGF13Yh6Kjm/mkqE36WmfBeawqa5XV/beo=','2024-04-22 20:00:00',NULL),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','FTWQn3rJyc5tWM5nOVoWsQ5VvNmlOb1XzJpdKOKJCRk=','2024-05-19 00:30:00',NULL),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','+iERJMVwX13SpE3466HA6ivDIZlUMSOP0KTuuDfUsBc=','2024-06-03 15:00:00',NULL),(19,'Alex','Inky','a.inky@gmail.com','inky12','5KV5wRb+3q0+jcKkzP05s4p75duM+72DlNXV+o9gA/s=','2024-07-12 02:00:00',NULL),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','8aHpmQp9ZbJ4oE7PypP+6mHlVpwIZcC4cdX1ffEf5C4=','2024-08-30 19:00:00',NULL),(22,'Timothy','Chan','tc@gmail.com','tc','QofkbvojfmXcLQHg0IYb9V+vd/fOTIoUcWLpitvwEN0=','2025-07-20 07:00:00',NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -503,4 +506,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-28 14:07:44
+-- Dump completed on 2025-08-05 10:12:49
