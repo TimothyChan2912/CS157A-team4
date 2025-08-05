@@ -53,6 +53,52 @@
      <div class="main-content">
         <button class="back-button" onclick="location.href='guest_dashboard.jsp'">Back to Dashboard</button>
         
+        <div class="search-filter-container">
+            <div class="search-section">
+                <form method="GET" action="view_listings.jsp" class="search-form">
+                    <div class="search-input-group">
+                        <input type="text" name="search" placeholder="Search gyms by name or location..." 
+                               value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>" 
+                               class="search-input">
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="filter-section">
+                <form method="GET" action="view_listings.jsp" class="filter-form">
+                    <input type="hidden" name="search" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>">
+                    
+                    <div class="filter-group">
+                        <label for="priceRange">Max Price:</label>
+                        <select name="priceRange" id="priceRange" onchange="this.form.submit()">
+                            <option value="">Any Price</option>
+                            <option value="10" <%= "10".equals(request.getParameter("priceRange")) ? "selected" : "" %>>Under $10</option>
+                            <option value="25" <%= "25".equals(request.getParameter("priceRange")) ? "selected" : "" %>>Under $25</option>
+                            <option value="50" <%= "50".equals(request.getParameter("priceRange")) ? "selected" : "" %>>Under $50</option>
+                            <option value="100" <%= "100".equals(request.getParameter("priceRange")) ? "selected" : "" %>>Under $100</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="rating">Min Rating:</label>
+                        <select name="rating" id="rating" onchange="this.form.submit()">
+                            <option value="">Any Rating</option>
+                            <option value="1" <%= "1".equals(request.getParameter("rating")) ? "selected" : "" %>>1+ Stars</option>
+                            <option value="2" <%= "2".equals(request.getParameter("rating")) ? "selected" : "" %>>2+ Stars</option>
+                            <option value="3" <%= "3".equals(request.getParameter("rating")) ? "selected" : "" %>>3+ Stars</option>
+                            <option value="4" <%= "4".equals(request.getParameter("rating")) ? "selected" : "" %>>4+ Stars</option>
+                            <option value="5" <%= "5".equals(request.getParameter("rating")) ? "selected" : "" %>>5 Stars</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>
+                </form>
+            </div>
+        </div>
+        
         <div class="header-container">
         </div>
 
@@ -63,10 +109,63 @@
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", user, password);
 
-                Statement stmt = con.createStatement();
-                String retrieveGyms = "SELECT Gym_ID, Gym_Name, Description, Address, Price " +
-                                        "FROM Gyms";
-                ResultSet rs = stmt.executeQuery(retrieveGyms);
+                // Get search and filter parameters
+                String searchQuery = request.getParameter("search");
+                String priceRange = request.getParameter("priceRange");
+                String minRating = request.getParameter("rating");
+                
+                // Build dynamic SQL query
+                StringBuilder sql = new StringBuilder("SELECT DISTINCT g.Gym_ID, g.Gym_Name, g.Description, g.Address, g.Price ");
+                sql.append("FROM Gyms g ");
+                
+                // Add rating join if needed
+                if (minRating != null && !minRating.isEmpty()) {
+                    sql.append("LEFT JOIN Has h ON g.Gym_ID = h.Gym_ID ");
+                    sql.append("LEFT JOIN Bookings b ON h.Booking_ID = b.Booking_ID ");
+                    sql.append("LEFT JOIN Receives r ON b.Booking_ID = r.Booking_ID ");
+                    sql.append("LEFT JOIN Reviews rev ON r.Review_ID = rev.Review_ID ");
+                }
+                
+                sql.append("WHERE 1=1 ");
+                
+                // Add search condition
+                if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                    sql.append("AND (g.Gym_Name LIKE ? OR g.Address LIKE ? OR g.Description LIKE ?) ");
+                }
+                
+                // Add price filter
+                if (priceRange != null && !priceRange.isEmpty()) {
+                    sql.append("AND g.Price <= ? ");
+                }
+                
+                // Add rating filter
+                if (minRating != null && !minRating.isEmpty()) {
+                    sql.append("GROUP BY g.Gym_ID ");
+                    sql.append("HAVING AVG(rev.Stars) >= ? OR AVG(rev.Stars) IS NULL ");
+                }
+                
+                PreparedStatement stmt = con.prepareStatement(sql.toString());
+                int paramIndex = 1;
+                
+                // Set search parameters
+                if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                    String searchPattern = "%" + searchQuery.trim() + "%";
+                    stmt.setString(paramIndex++, searchPattern);
+                    stmt.setString(paramIndex++, searchPattern);
+                    stmt.setString(paramIndex++, searchPattern);
+                }
+                
+                // Set price parameter
+                if (priceRange != null && !priceRange.isEmpty()) {
+                    stmt.setDouble(paramIndex++, Double.parseDouble(priceRange));
+                }
+                
+                // Set rating parameter
+                if (minRating != null && !minRating.isEmpty()) {
+                    stmt.setDouble(paramIndex++, Double.parseDouble(minRating));
+                }
+                
+                ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()) {
                     int gymID = rs.getInt("Gym_ID");
@@ -158,6 +257,10 @@
     <script>
         function viewGymDetails(gymID) {
             window.location.href = 'gym_details.jsp?gymID=' + gymID;
+        }
+        
+        function clearFilters() {
+            window.location.href = 'view_listings.jsp';
         }
     </script>
 </body>
