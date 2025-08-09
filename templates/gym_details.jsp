@@ -223,8 +223,34 @@
             					}
         					%>
     					</div>
-                    </div>
+    					<%
+    						// Get the host ID (owner of this gym)
+    						int hostID = -1;
+    						try {
+        						PreparedStatement getHost = con.prepareStatement("SELECT User_ID FROM Owns WHERE Gym_ID = ?");
+        						getHost.setInt(1, gymID);
+        						ResultSet hostRs = getHost.executeQuery();
+        						if (hostRs.next()) {
+            						hostID = hostRs.getInt("User_ID");
+        						}
+        						hostRs.close();
+        						getHost.close();
+    						} catch (Exception e) {
+        						out.println("<p>Error retrieving host ID: " + e.getMessage() + "</p>");
+    						}
 
+    						if (hostID != -1 && hostID != userID) { // Don't message yourself
+						%>
+    						<div style="margin-top: 20px;">
+        						<form action="guest_messages.jsp" method="get">
+            						<input type="hidden" name="recipientID" value="<%= hostID %>">
+            						<button class="booking-button" type="submit">Ask Question</button>
+        						</form>
+    						</div>
+						<%
+    						}
+						%>
+                    </div>
         <%      
                 }
                 rsGym.close();

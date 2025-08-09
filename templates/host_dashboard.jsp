@@ -152,6 +152,10 @@
                         <i class="fas fa-calendar-alt"></i>
                         Calendar
                     </button>
+                    <button class="messages-button" onclick="location.href='host_messages.jsp'">
+    					<i class="fas fa-envelope"></i>
+    					Messages
+					</button>
                 </div>
             </div>
         </div>
