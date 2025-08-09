@@ -61,157 +61,15 @@ String userBio = "";
     <link rel="stylesheet" href="../static/home.css">
     <link rel="stylesheet" href="../static/navbar.css">
     <link rel="stylesheet" href="../static/dashboard.css">
-    <style>
-    	.back-button {
-    		position: absolute;
-    		top: 110px;
-    		left: 20px;
-    		background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
-    		color: white;
-    		border: none;
-    		padding: 10px 20px;
-    		border-radius: 8px;
-    		cursor: pointer;
-    		font-weight: 600;
-    		font-size: 0.9rem;
-    		text-transform: uppercase;
-    		letter-spacing: 0.5px;
-    		transition: all 0.3s ease;
-    		box-shadow: 0 4px 15px rgba(255, 60, 56, 0.3);
-    		z-index: 1000;
-		}
-
-		.back-button:hover {
-    		background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
-    		color: #2c3e50;
-    		transform: translateY(-2px);
-    		box-shadow: 0 6px 20px rgba(255, 209, 0, 0.4);
-		}
-    	
-        .settings-container {
-            max-width: 600px;
-            margin: 100px auto;
-            padding: 30px;
-            background: linear-gradient(145deg, #ffffff, #f9f9f9);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .settings-form input,
-        .settings-form textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px 16px;
-            font-size: 1rem;
-            border: 2px solid #e8ecef;
-            border-radius: 8px;
-            background-color: #f0f0f0;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-        }
-
-        .settings-form textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .profile-display {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .profile-display img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid #ddd;
-        }
-
-        .profile-display .joined-date {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .edit-button, .save-button {
-            background: linear-gradient(135deg, #FF3C38 0%, #e74c3c 100%);
-            color: white;
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            flex: 1;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .edit-button:hover, .save-button:hover {
-            background: linear-gradient(135deg, #FFD100 0%, #f39c12 100%);
-            color: #2c3e50;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 209, 0, 0.4);
-        }
-
-        .password-field {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .toggle-password {
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border: none;
-            background-color: #ccc;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        
-        .delete-account-button {
-    		background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    		color: white;
-    		border: none;
-    		padding: 12px 24px;
-    		font-size: 1rem;
-    		font-weight: 600;
-    		border-radius: 8px;
-    		cursor: pointer;
-    		text-transform: uppercase;
-    		transition: all 0.3s ease;
-    		box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-		}
-
-		.delete-account-button:hover {
-   			background: linear-gradient(135deg, #a71e2a 0%, #941a26 100%);
-    		transform: translateY(-2px);
-    		box-shadow: 0 6px 20px rgba(167, 30, 42, 0.4);
-		}     
-    </style>
+    <link rel="stylesheet" href="../static/settings.css">
     <script>
-        function toggleEdit() {
+    function toggleEdit() {
     const fields = document.querySelectorAll('.settings-form input, .settings-form textarea');
     fields.forEach(field => {
         field.removeAttribute('readonly');
         field.style.backgroundColor = '#ffffff';
     });
 }
-
-        function togglePassword() {
-            const pwd = document.getElementById('password');
-            pwd.type = pwd.type === 'password' ? 'text' : 'password';
-        }
     </script>
 </head>
 
@@ -234,9 +92,14 @@ String userBio = "";
     <h2>Account Settings</h2>
 
     <div class="profile-display">
-        <img src="<%= profilePicture %>" alt="Profile Picture">
-        <div class="joined-date">Joined <%= joinDate %></div>
-    </div>
+    <form method="post" action="upload_profile_picture.jsp" enctype="multipart/form-data">
+	    <label for="profilePictureInput">
+	        <img src="<%= profilePicture %>" alt="Profile Picture" style="cursor: pointer;" title="Click to upload a new profile picture" />
+	    </label>
+	    <input type="file" name="profilePicture" id="profilePictureInput" accept="image/*" style="display: none;" onchange="this.form.submit()" />
+	    </form>
+	    <div class="joined-date">Joined <%= joinDate %></div>
+	</div>
 
     <form class="settings-form" method="post" action="update_guest_settings.jsp">
         <label for="firstName">First Name:</label>

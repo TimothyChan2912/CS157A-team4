@@ -1,4 +1,5 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*, java.nio.file.*, java.sql.*" %>
+<%@ page import="javax.servlet.http.Part" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     request.setCharacterEncoding("UTF-8");
@@ -14,12 +15,35 @@
     String newEmail = request.getParameter("email");
     String newUsername = request.getParameter("username");
     String newBio = request.getParameter("bio");
+    
+    String uploadedFilePath = null;
+    
+    try {
+        Part filePart = request.getPart("profilePicture");
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = "user_" + userID + "_" + System.currentTimeMillis() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName();
+            String uploadDir = application.getRealPath("") + File.separator + "uploads";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            String savePath = uploadDir + File.separator + fileName;
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            uploadedFilePath = "uploads/" + fileName; // relative path to access later
+        }
+    } catch (Exception e) {
+        out.println("<p>Error saving profile picture: " + e.getMessage() + "</p>");
+    }
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/team4?autoReconnect=true&useSSL=false", "root", "GymShare");
 
-        String sql = "UPDATE Users SET First_Name=?, Last_Name=?, Email=?, Username=?, Bio=? WHERE User_ID=?";
+        String sql = "UPDATE Users SET First_Name=?, Last_Name=?, Email=?, Username=?, Bio=?" + 
+        			(uploadedFilePath != null ? ", Profile_Picture=?" : "") +
+        			" WHERE User_ID=?";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, newFirstName);
@@ -27,7 +51,13 @@
         ps.setString(3, newEmail);
         ps.setString(4, newUsername);
         ps.setString(5, newBio);
-        ps.setInt(6, userID);
+        
+        if (uploadedFilePath != null) {
+            ps.setString(6, uploadedFilePath);
+            ps.setInt(7, userID);
+        } else {
+            ps.setInt(6, userID);
+        }
 
         ps.executeUpdate();
 
@@ -37,6 +67,7 @@
         session.setAttribute("username", newUsername);
 
         response.sendRedirect("guest_settings.jsp");
+        
         ps.close();
         con.close();
     } catch (Exception e) {
