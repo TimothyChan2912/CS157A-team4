@@ -18,6 +18,31 @@ USE `team4`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Admin`
+--
+
+DROP TABLE IF EXISTS `Admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Admin` (
+  `Admin_ID` int NOT NULL AUTO_INCREMENT,
+  `User_ID` int NOT NULL,
+  PRIMARY KEY (`Admin_ID`),
+  CONSTRAINT `fk_admin_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Admin`
+--
+
+LOCK TABLES `Admin` WRITE;
+/*!40000 ALTER TABLE `Admin` DISABLE KEYS */;
+INSERT INTO `Admin` (`Admin_ID`, `User_ID`) VALUES (1, 23);
+/*!40000 ALTER TABLE `Admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Answers`
 --
 
@@ -40,7 +65,7 @@ CREATE TABLE `Answers` (
 
 LOCK TABLES `Answers` WRITE;
 /*!40000 ALTER TABLE `Answers` DISABLE KEYS */;
-INSERT INTO `Answers` VALUES (13,11),(11,12),(12,13),(16,14),(14,15),(15,16),(18,17),(19,18),(20,19),(17,20);
+INSERT INTO `Answers` VALUES (13,1),(11,2),(12,3),(16,4),(14,5),(15,6),(18,7),(19,8),(20,9),(17,10),(4,11),(2,12),(5,13),(3,14),(6,15),(7,16),(8,17),(1,18),(9,19),(10,20);
 /*!40000 ALTER TABLE `Answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +92,7 @@ CREATE TABLE `Asks` (
 
 LOCK TABLES `Asks` WRITE;
 /*!40000 ALTER TABLE `Asks` DISABLE KEYS */;
-INSERT INTO `Asks` VALUES (4,1),(2,2),(5,3),(3,4),(6,5),(7,6),(8,7),(1,8),(9,9),(10,10);
+INSERT INTO `Asks` VALUES (4,1),(2,2),(5,3),(3,4),(6,5),(7,6),(8,7),(1,8),(9,9),(10,10),(13,11),(11,12),(12,13),(16,14),(14,15),(15,16),(18,17),(19,18),(20,19),(17,20);
 /*!40000 ALTER TABLE `Asks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,6 +465,76 @@ INSERT INTO `Receives` VALUES (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(8,7),(10,8),(
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Reports`
+--
+
+DROP TABLE IF EXISTS `Reports`;
+CREATE TABLE `Reports` (
+  `Ticket_ID` INT NOT NULL,
+  `User_ID` INT NOT NULL,
+  PRIMARY KEY (Ticket_ID),
+  CONSTRAINT fk_reports_ticket UNIQUE (Ticket_ID),
+  CONSTRAINT fk_reports_ticket_ref FOREIGN KEY (Ticket_ID) REFERENCES Tickets(Ticket_ID) ON DELETE CASCADE,
+  CONSTRAINT fk_reports_user FOREIGN KEY (User_ID) REFERENCES Users (User_ID) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Reports`
+--
+
+LOCK TABLES `Reports` WRITE;
+/*!40000 ALTER TABLE `Reports` DISABLE KEYS */;
+INSERT INTO `Reports` VALUES (1,5),(2,1);
+/*!40000 ALTER TABLE `Reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Reported`
+--
+
+DROP TABLE IF EXISTS `Reported`;
+CREATE TABLE `Reported` (
+  `Ticket_ID` INT NOT NULL,
+  `Gym_ID` INT NOT NULL,
+  PRIMARY KEY (Ticket_ID),
+  CONSTRAINT fk_reported_ticket FOREIGN KEY (Ticket_ID) REFERENCES Tickets (Ticket_ID) ON DELETE CASCADE,
+  CONSTRAINT fk_reported_gym FOREIGN KEY (Gym_ID) REFERENCES Gyms (Gym_ID) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Reported`
+--
+
+LOCK TABLES `Reported` WRITE;
+/*!40000 ALTER TABLE `Reported` DISABLE KEYS */;
+INSERT INTO `Reported` VALUES (1,7),(2,1);
+/*!40000 ALTER TABLE `Reported` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table: Resolved
+--
+
+DROP TABLE IF EXISTS Resolved;
+CREATE TABLE Resolved (
+    `Ticket_ID` INT NOT NULL,
+    `Admin_ID` INT NOT NULL,
+    PRIMARY KEY (Ticket_ID),
+    CONSTRAINT fk_resolved_ticket FOREIGN KEY (Ticket_ID) REFERENCES Tickets (Ticket_ID) ON DELETE CASCADE,
+    CONSTRAINT fk_resolved_admin FOREIGN KEY (Admin_ID) REFERENCES Admin (Admin_ID) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Resolved`
+--
+
+LOCK TABLES `Resolved` WRITE;
+/*!40000 ALTER TABLE `Resolved` DISABLE KEYS */;
+INSERT INTO `Resolved` VALUES (1,1),(2,1);
+/*!40000 ALTER TABLE `Resolved` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Reviews`
 --
 
@@ -464,6 +559,29 @@ LOCK TABLES `Reviews` WRITE;
 /*!40000 ALTER TABLE `Reviews` DISABLE KEYS */;
 INSERT INTO `Reviews` VALUES (1,5,'Incredible atmosphere. The equipment is top-tier.','2025-08-04 00:53:53'),(2,3,'It was fine, but way too compact.','2025-08-04 00:53:53'),(3,5,'The best drop-in. I\'ll be back!','2025-08-04 00:53:53'),(4,1,'Cancelled my booking but was still charged','2025-08-04 00:53:53'),(5,5,'Excellent equipment which was exactly what I needed for a good workout.','2025-08-04 00:53:53'),(6,4,'Great gym, awesome vibe. ','2025-08-04 00:53:53'),(7,5,'I loved the extra amenities.','2025-08-04 00:53:53'),(8,4,'Clean, has everything you need. A bit small.','2025-08-04 00:53:53'),(9,5,'This place is a powerlifter\'s dream.','2025-08-04 00:53:53'),(10,2,'The gym was dirty.','2025-08-04 00:53:53'),(11,4,'Good','2025-08-04 14:55:59'),(12,5,'Very Good Gym!!!','2025-08-04 23:45:38');
 /*!40000 ALTER TABLE `Reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Tickets`
+--
+
+DROP TABLE IF EXISTS `Tickets`;
+CREATE TABLE `Tickets` (
+  `Ticket_ID` INT NOT NULL AUTO_INCREMENT,
+  `Status` ENUM('Open', 'Closed') NOT NULL DEFAULT 'Open',
+  `Content` TEXT NOT NULL,
+  `Time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (Ticket_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Tickets`
+--
+
+LOCK TABLES `Tickets` WRITE;
+/*!40000 ALTER TABLE `Tickets` DISABLE KEYS */;
+INSERT INTO `Tickets` VALUES (1,'Open','I didn\'t get my money back, can you please help me?','2025-08-04 00:53:53'),(2,'Open','This place was lowkey a hazard. Please investigate.','2025-08-04 00:53:53');
+/*!40000 ALTER TABLE `Tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -495,7 +613,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','oUL+TOWb5bOwADp0Dwf4OycQjFrX4Jb9Wz+X9zxa7Hg=','2024-04-05 17:20:00',NULL,NULL),(2,'David','Chen','chen.david@gmail.com','davechen','cgo6RGtpYLeDwlWfdGoHfcPljdydg7nEkWrmKeGyiY8=','2024-02-15 19:00:00',NULL,NULL),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','BQA16d4mN8H1qFFvWz6Cnpq+8axwJdIuUeTf6C+XQdk=','2024-01-26 02:30:00',NULL,NULL),(4,'Liam','Patel','liam.patel@outlook.com','liamp','tbK+BLyeiK83CgKVh0S2YagqQ5jVBqurNWXEP6WbKrw=','2024-06-11 19:00:00',NULL,NULL),(5,'Aisha','Khan','a.khan@icloud.com','aishak','amywoANf74X077Gj/FvC++4UYfNhcgzkICB/J4AN//4=','2024-08-01 16:00:00',NULL,NULL),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','9Bkru/Cogffb0igCZtcqz8pdWWksnPSK9jILdXJ71BQ=','2024-12-10 22:45:00',NULL,NULL),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','R1TE5emwwMLvt3YK5ezlUiDbV1XJ9d5ZI3AOdETHkXk=','2025-02-21 00:00:00',NULL,NULL),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hLldMyXhmRyUK8CmsrqElnOElioav5y5buJzwhVIENs=','2025-05-16 03:10:00',NULL,NULL),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','+iFiI5A+9WGV/rzeuL3xWAvrtbbShL5ZgZ99gO7jTuI=','2025-07-01 17:00:00',NULL,NULL),(10,'Olga','Porta','olga.p@gmail.com','olgap','xQcuprqe+Qc5GiK4WqEjL2TWuflr6Y0arwc8TTL8wU4=','2025-07-20 20:00:00',NULL,NULL),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','yLamzpcC6B98/oAFo21litfRTHcuhUAL9XyKHY0VvIY=','2024-01-15 17:30:00',NULL,NULL),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','H+oXwqiokyqvJtnZraNTSw94umAz0QcxhtAU/SqIVWU=','2024-01-20 19:00:00',NULL,NULL),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','ZQd4zeWHcLks0YlpCo80nBphQFSmkfkzrbLurZ50mgg=','2024-02-01 22:15:00',NULL,NULL),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','1jkLCXUcwmU7bPJuIRzVeXxEVFGtiCqzoxMVYzGdVNs=','2024-02-06 02:00:00',NULL,NULL),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','iD3uHVpAS0XSli0EI9q6I1RTAbnlWVw1el2j+UX7cBk=','2024-03-10 17:45:00',NULL,NULL),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','rl3QbW25+TGF13Yh6Kjm/mkqE36WmfBeawqa5XV/beo=','2024-04-22 20:00:00',NULL,NULL),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','FTWQn3rJyc5tWM5nOVoWsQ5VvNmlOb1XzJpdKOKJCRk=','2024-05-19 00:30:00',NULL,NULL),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','+iERJMVwX13SpE3466HA6ivDIZlUMSOP0KTuuDfUsBc=','2024-06-03 15:00:00',NULL,NULL),(19,'Alex','Inky','a.inky@gmail.com','inky12','5KV5wRb+3q0+jcKkzP05s4p75duM+72DlNXV+o9gA/s=','2024-07-12 02:00:00',NULL,NULL),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','8aHpmQp9ZbJ4oE7PypP+6mHlVpwIZcC4cdX1ffEf5C4=','2024-08-30 19:00:00',NULL,NULL),(22,'Timothy','Chan','tc@gmail.com','tc','QofkbvojfmXcLQHg0IYb9V+vd/fOTIoUcWLpitvwEN0=','2025-07-20 07:00:00',NULL,NULL);
+INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','oUL+TOWb5bOwADp0Dwf4OycQjFrX4Jb9Wz+X9zxa7Hg=','2024-04-05 17:20:00',NULL,NULL),(2,'David','Chen','chen.david@gmail.com','davechen','cgo6RGtpYLeDwlWfdGoHfcPljdydg7nEkWrmKeGyiY8=','2024-02-15 19:00:00',NULL,NULL),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','BQA16d4mN8H1qFFvWz6Cnpq+8axwJdIuUeTf6C+XQdk=','2024-01-26 02:30:00',NULL,NULL),(4,'Liam','Patel','liam.patel@outlook.com','liamp','tbK+BLyeiK83CgKVh0S2YagqQ5jVBqurNWXEP6WbKrw=','2024-06-11 19:00:00',NULL,NULL),(5,'Aisha','Khan','a.khan@icloud.com','aishak','amywoANf74X077Gj/FvC++4UYfNhcgzkICB/J4AN//4=','2024-08-01 16:00:00',NULL,NULL),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','9Bkru/Cogffb0igCZtcqz8pdWWksnPSK9jILdXJ71BQ=','2024-12-10 22:45:00',NULL,NULL),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','R1TE5emwwMLvt3YK5ezlUiDbV1XJ9d5ZI3AOdETHkXk=','2025-02-21 00:00:00',NULL,NULL),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hLldMyXhmRyUK8CmsrqElnOElioav5y5buJzwhVIENs=','2025-05-16 03:10:00',NULL,NULL),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','+iFiI5A+9WGV/rzeuL3xWAvrtbbShL5ZgZ99gO7jTuI=','2025-07-01 17:00:00',NULL,NULL),(10,'Olga','Porta','olga.p@gmail.com','olgap','xQcuprqe+Qc5GiK4WqEjL2TWuflr6Y0arwc8TTL8wU4=','2025-07-20 20:00:00',NULL,NULL),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','yLamzpcC6B98/oAFo21litfRTHcuhUAL9XyKHY0VvIY=','2024-01-15 17:30:00',NULL,NULL),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','H+oXwqiokyqvJtnZraNTSw94umAz0QcxhtAU/SqIVWU=','2024-01-20 19:00:00',NULL,NULL),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','ZQd4zeWHcLks0YlpCo80nBphQFSmkfkzrbLurZ50mgg=','2024-02-01 22:15:00',NULL,NULL),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','1jkLCXUcwmU7bPJuIRzVeXxEVFGtiCqzoxMVYzGdVNs=','2024-02-06 02:00:00',NULL,NULL),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','iD3uHVpAS0XSli0EI9q6I1RTAbnlWVw1el2j+UX7cBk=','2024-03-10 17:45:00',NULL,NULL),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','rl3QbW25+TGF13Yh6Kjm/mkqE36WmfBeawqa5XV/beo=','2024-04-22 20:00:00',NULL,NULL),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','FTWQn3rJyc5tWM5nOVoWsQ5VvNmlOb1XzJpdKOKJCRk=','2024-05-19 00:30:00',NULL,NULL),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','+iERJMVwX13SpE3466HA6ivDIZlUMSOP0KTuuDfUsBc=','2024-06-03 15:00:00',NULL,NULL),(19,'Alex','Inky','a.inky@gmail.com','inky12','5KV5wRb+3q0+jcKkzP05s4p75duM+72DlNXV+o9gA/s=','2024-07-12 02:00:00',NULL,NULL),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','8aHpmQp9ZbJ4oE7PypP+6mHlVpwIZcC4cdX1ffEf5C4=','2024-08-30 19:00:00',NULL,NULL),(22,'Timothy','Chan','tc@gmail.com','tc','QofkbvojfmXcLQHg0IYb9V+vd/fOTIoUcWLpitvwEN0=','2025-07-20 07:00:00',NULL,NULL),(23,'Admin','Admin','admin@gmail.com,'admin1','ZHD6Ua30bVZhZFVBdKZGPNGuv7xqudFQi6wH0A=','2025-08-09 00:00:00',NULL,NULL);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
