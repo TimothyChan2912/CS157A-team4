@@ -101,12 +101,12 @@
 	            rs.close();
 	            userStmt.close();
 	
-	            // Check if admin
-	            PreparedStatement adminStmt = con.prepareStatement("SELECT Admin_ID FROM Admin WHERE User_ID = ?");
+	         // Check if admin using Is_Admin column
+	            PreparedStatement adminStmt = con.prepareStatement("SELECT Is_Admin FROM Users WHERE User_ID = ?");
 	            adminStmt.setInt(1, userID);
 	            ResultSet adminCheck = adminStmt.executeQuery();
-	
-	            if (adminCheck.next()) {
+
+	            if (adminCheck.next() && adminCheck.getInt("Is_Admin") == 1) {
 	                adminCheck.close();
 	                adminStmt.close();
 	                con.close();
