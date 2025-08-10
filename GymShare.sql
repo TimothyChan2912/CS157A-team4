@@ -18,31 +18,6 @@ USE `team4`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Admin`
---
-
-DROP TABLE IF EXISTS `Admin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Admin` (
-  `Admin_ID` int NOT NULL AUTO_INCREMENT,
-  `User_ID` int NOT NULL,
-  PRIMARY KEY (`Admin_ID`),
-  CONSTRAINT `fk_admin_user` FOREIGN KEY (`User_ID`) REFERENCES `Users` (`User_ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Admin`
---
-
-LOCK TABLES `Admin` WRITE;
-/*!40000 ALTER TABLE `Admin` DISABLE KEYS */;
-INSERT INTO `Admin` (`Admin_ID`, `User_ID`) VALUES (1, 23);
-/*!40000 ALTER TABLE `Admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Answers`
 --
 
@@ -512,29 +487,6 @@ INSERT INTO `Reported` VALUES (1,7),(2,1);
 UNLOCK TABLES;
 
 --
--- Table: Resolved
---
-
-DROP TABLE IF EXISTS Resolved;
-CREATE TABLE Resolved (
-    `Ticket_ID` INT NOT NULL,
-    `Admin_ID` INT NOT NULL,
-    PRIMARY KEY (Ticket_ID),
-    CONSTRAINT fk_resolved_ticket FOREIGN KEY (Ticket_ID) REFERENCES Tickets (Ticket_ID) ON DELETE CASCADE,
-    CONSTRAINT fk_resolved_admin FOREIGN KEY (Admin_ID) REFERENCES Admin (Admin_ID) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `Resolved`
---
-
-LOCK TABLES `Resolved` WRITE;
-/*!40000 ALTER TABLE `Resolved` DISABLE KEYS */;
-INSERT INTO `Resolved` VALUES (1,1),(2,1);
-/*!40000 ALTER TABLE `Resolved` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Reviews`
 --
 
@@ -601,6 +553,7 @@ CREATE TABLE `Users` (
   `Date_Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Bio` varchar(45) DEFAULT NULL,
   `Profile_Picture` varchar(255) DEFAULT NULL,
+  `Is_Admin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`User_ID`),
   UNIQUE KEY `Email` (`Email`),
   UNIQUE KEY `Username` (`Username`)
@@ -613,7 +566,29 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Carla','Vega','c.vega@gmail.com','c_vega88','oUL+TOWb5bOwADp0Dwf4OycQjFrX4Jb9Wz+X9zxa7Hg=','2024-04-05 17:20:00',NULL,NULL),(2,'David','Chen','chen.david@gmail.com','davechen','cgo6RGtpYLeDwlWfdGoHfcPljdydg7nEkWrmKeGyiY8=','2024-02-15 19:00:00',NULL,NULL),(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','BQA16d4mN8H1qFFvWz6Cnpq+8axwJdIuUeTf6C+XQdk=','2024-01-26 02:30:00',NULL,NULL),(4,'Liam','Patel','liam.patel@outlook.com','liamp','tbK+BLyeiK83CgKVh0S2YagqQ5jVBqurNWXEP6WbKrw=','2024-06-11 19:00:00',NULL,NULL),(5,'Aisha','Khan','a.khan@icloud.com','aishak','amywoANf74X077Gj/FvC++4UYfNhcgzkICB/J4AN//4=','2024-08-01 16:00:00',NULL,NULL),(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','9Bkru/Cogffb0igCZtcqz8pdWWksnPSK9jILdXJ71BQ=','2024-12-10 22:45:00',NULL,NULL),(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','R1TE5emwwMLvt3YK5ezlUiDbV1XJ9d5ZI3AOdETHkXk=','2025-02-21 00:00:00',NULL,NULL),(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hLldMyXhmRyUK8CmsrqElnOElioav5y5buJzwhVIENs=','2025-05-16 03:10:00',NULL,NULL),(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','+iFiI5A+9WGV/rzeuL3xWAvrtbbShL5ZgZ99gO7jTuI=','2025-07-01 17:00:00',NULL,NULL),(10,'Olga','Porta','olga.p@gmail.com','olgap','xQcuprqe+Qc5GiK4WqEjL2TWuflr6Y0arwc8TTL8wU4=','2025-07-20 20:00:00',NULL,NULL),(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','yLamzpcC6B98/oAFo21litfRTHcuhUAL9XyKHY0VvIY=','2024-01-15 17:30:00',NULL,NULL),(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','H+oXwqiokyqvJtnZraNTSw94umAz0QcxhtAU/SqIVWU=','2024-01-20 19:00:00',NULL,NULL),(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','ZQd4zeWHcLks0YlpCo80nBphQFSmkfkzrbLurZ50mgg=','2024-02-01 22:15:00',NULL,NULL),(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','1jkLCXUcwmU7bPJuIRzVeXxEVFGtiCqzoxMVYzGdVNs=','2024-02-06 02:00:00',NULL,NULL),(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','iD3uHVpAS0XSli0EI9q6I1RTAbnlWVw1el2j+UX7cBk=','2024-03-10 17:45:00',NULL,NULL),(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','rl3QbW25+TGF13Yh6Kjm/mkqE36WmfBeawqa5XV/beo=','2024-04-22 20:00:00',NULL,NULL),(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','FTWQn3rJyc5tWM5nOVoWsQ5VvNmlOb1XzJpdKOKJCRk=','2024-05-19 00:30:00',NULL,NULL),(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','+iERJMVwX13SpE3466HA6ivDIZlUMSOP0KTuuDfUsBc=','2024-06-03 15:00:00',NULL,NULL),(19,'Alex','Inky','a.inky@gmail.com','inky12','5KV5wRb+3q0+jcKkzP05s4p75duM+72DlNXV+o9gA/s=','2024-07-12 02:00:00',NULL,NULL),(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','8aHpmQp9ZbJ4oE7PypP+6mHlVpwIZcC4cdX1ffEf5C4=','2024-08-30 19:00:00',NULL,NULL),(22,'Timothy','Chan','tc@gmail.com','tc','QofkbvojfmXcLQHg0IYb9V+vd/fOTIoUcWLpitvwEN0=','2025-07-20 07:00:00',NULL,NULL),(23,'Admin','Admin','admin@gmail.com','admin1','ZHD6Ua30bVZhZFVBdKZGPNGuv7xqudFQi6wH0A=','2025-08-09 00:00:00',NULL,NULL);
+INSERT INTO `Users` (`User_ID`, `First_Name`, `Last_Name`, `Email`, `Username`, `Password`, `Date_Created`, `Bio`, `Profile_Picture`, `Is_Admin`) VALUES
+(1,'Carla','Vega','c.vega@gmail.com','c_vega88','oUL+TOWb5bOwADp0Dwf4OycQjFrX4Jb9Wz+X9zxa7Hg=','2024-04-05 17:20:00',NULL,NULL,0),
+(2,'David','Chen','chen.david@gmail.com','davechen','cgo6RGtpYLeDwlWfdGoHfcPljdydg7nEkWrmKeGyiY8=','2024-02-15 19:00:00',NULL,NULL,0),
+(3,'Sofia','Rodriguez','sofiar@yahoo.com','sofia_r','BQA16d4mN8H1qFFvWz6Cnpq+8axwJdIuUeTf6C+XQdk=','2024-01-26 02:30:00',NULL,NULL,0),
+(4,'Liam','Patel','liam.patel@outlook.com','liamp','tbK+BLyeiK83CgKVh0S2YagqQ5jVBqurNWXEP6WbKrw=','2024-06-11 19:00:00',NULL,NULL,0),
+(5,'Aisha','Khan','a.khan@icloud.com','aishak','amywoANf74X077Gj/FvC++4UYfNhcgzkICB/J4AN//4=','2024-08-01 16:00:00',NULL,NULL,0),
+(6,'Marco','Rossi','marco.rossi@gmail.com','m_rossi','9Bkru/Cogffb0igCZtcqz8pdWWksnPSK9jILdXJ71BQ=','2024-12-10 22:45:00',NULL,NULL,0),
+(7,'Chloe','Nguyen','chloe.n@gmail.com','chloe_fit','R1TE5emwwMLvt3YK5ezlUiDbV1XJ9d5ZI3AOdETHkXk=','2025-02-21 00:00:00',NULL,NULL,0),
+(8,'Wei','Lau','lau.wei@sjsu.edu','lau_wei_fit','hLldMyXhmRyUK8CmsrqElnOElioav5y5buJzwhVIENs=','2025-05-16 03:10:00',NULL,NULL,0),
+(9,'Jamal','Williams','jwilliams@sjsu.edu','jamal_w','+iFiI5A+9WGV/rzeuL3xWAvrtbbShL5ZgZ99gO7jTuI=','2025-07-01 17:00:00',NULL,NULL,0),
+(10,'Olga','Porta','olga.p@gmail.com','olgap','xQcuprqe+Qc5GiK4WqEjL2TWuflr6Y0arwc8TTL8wU4=','2025-07-20 20:00:00',NULL,NULL,0),
+(11,'Frank','Miller','frank.miller@gmail.com','fmiller_host','yLamzpcC6B98/oAFo21litfRTHcuhUAL9XyKHY0VvIY=','2024-01-15 17:30:00',NULL,NULL,0),
+(12,'Grace','Lee','grace.lee@gmail.com','gracelee_host','H+oXwqiokyqvJtnZraNTSw94umAz0QcxhtAU/SqIVWU=','2024-01-20 19:00:00',NULL,NULL,0),
+(13,'Ben','Carter','b.carter@yahoo.com','bencarter_host','ZQd4zeWHcLks0YlpCo80nBphQFSmkfkzrbLurZ50mgg=','2024-02-01 22:15:00',NULL,NULL,0),
+(14,'Isabelle','Donky','isabelle.d@yahoo.com','isadonkey_host','1jkLCXUcwmU7bPJuIRzVeXxEVFGtiCqzoxMVYzGdVNs=','2024-02-06 02:00:00',NULL,NULL,0),
+(15,'Kenji','Tanaka','kenji@outlook.com','kenji_host','iD3uHVpAS0XSli0EI9q6I1RTAbnlWVw1el2j+UX7cBk=','2024-03-10 17:45:00',NULL,NULL,0),
+(16,'Maria','Garcia','maria.g@sjsu.edu','mgarcia_host','rl3QbW25+TGF13Yh6Kjm/mkqE36WmfBeawqa5XV/beo=','2024-04-22 20:00:00',NULL,NULL,0),
+(17,'Sam','Ortiz','sam.o@sjsu.edu','sam_o_host','FTWQn3rJyc5tWM5nOVoWsQ5VvNmlOb1XzJpdKOKJCRk=','2024-05-19 00:30:00',NULL,NULL,0),
+(18,'Heidi','Schmidt','heidi@gmail.com','heidi_s_host','+iERJMVwX13SpE3466HA6ivDIZlUMSOP0KTuuDfUsBc=','2024-06-03 15:00:00',NULL,NULL,0),
+(19,'Alex','Inky','a.inky@gmail.com','inky12','5KV5wRb+3q0+jcKkzP05s4p75duM+72DlNXV+o9gA/s=','2024-07-12 02:00:00',NULL,NULL,0),
+(20,'Fatima','Alberts','fatima@gmail.com','fatima_alberts_host','8aHpmQp9ZbJ4oE7PypP+6mHlVpwIZcC4cdX1ffEf5C4=','2024-08-30 19:00:00',NULL,NULL,0),
+(22,'Timothy','Chan','tc@gmail.com','tc','QofkbvojfmXcLQHg0IYb9V+vd/fOTIoUcWLpitvwEN0=','2025-07-20 07:00:00',NULL,NULL,0),
+(23,'Admin','Admin','admin@gmail.com','admin1','ZHD6Ua30bVZhZFVBdKZGPNGuv7xqudFQi6wH0A=','2025-08-09 00:00:00',NULL,NULL,1);
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
