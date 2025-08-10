@@ -350,7 +350,7 @@
         console.log('API key preview:', apiKey ? apiKey.substring(0, 10) + '...' : 'null');
     </script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoW7dj15Pfg0RK95HedLxJpBXh-v4rROs&libraries=geometry&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6ALFLQytNeiLEt3U9vGsijN8La9WIbI0&libraries=geometry&callback=initMap">
     </script>
     
     <script>
