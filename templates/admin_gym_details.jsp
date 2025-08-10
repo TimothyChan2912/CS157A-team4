@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="booking-section" style="margin: 40px auto 0; text-align: center;">
-								    <form action="delete_gym.jsp" method="post" onsubmit="return confirm('Are you sure you want to delete this gym listing? This action cannot be undone.');">
+								    <form action="admin_delete_gym.jsp" method="post" onsubmit="return confirm('Are you sure you want to delete this gym listing? This action cannot be undone.');">
 								        <input type="hidden" name="gymID" value="<%= gymID %>">
 								        <button type="submit" class="booking-button danger">
 										    Delete Gym

@@ -29,7 +29,7 @@
         stmt.close();
         con.close();
 
-        response.sendRedirect("admin_view_listings.jsp");
+        response.sendRedirect("my_gyms.jsp");
         return;
     }
     catch (SQLException e) {
